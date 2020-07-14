@@ -23,9 +23,9 @@ Web is not supported until the stable version is released.
      <td>Value picker</td>
   </tr>
   <tr>
-    <td><img src="screenshots/wheel_picker.png" width=270 height=480></td>
-    <td><img src="screenshots/palette_picker.png" width=270 height=480></td>
-    <td><img src="screenshots/value_picker.png" width=270 height=480></td>
+    <td><img src="screenshots/wheel_picker.png" width=300 height=480></td>
+    <td><img src="screenshots/palette_picker.png" width=300 height=480></td>
+    <td><img src="screenshots/value_picker.png" width=300 height=480></td>
   </tr>
 </table>
 <table>
@@ -35,9 +35,9 @@ Web is not supported until the stable version is released.
     <td>Favorite colors</td>
   </tr>
   <tr>
-    <td><img src="screenshots/named_picker.png" width=270 height=480></td>
-    <td><img src="screenshots/image_picker.png" width=270 height=480></td>
-    <td><img src="screenshots/favorite_colors.png" width=270 height=480></td>
+    <td><img src="screenshots/named_picker.png" width=300 height=480></td>
+    <td><img src="screenshots/image_picker.png" width=300 height=480></td>
+    <td><img src="screenshots/favorite_colors.png" width=300 height=480></td>
   </tr>
 </table>
 <table>
@@ -45,7 +45,7 @@ Web is not supported until the stable version is released.
     <td>Settings</td>
   </tr>
   <tr>
-    <td><img src="screenshots/settings.png" width=270 height=480></td>
+    <td><img src="screenshots/settings.png" width=300 height=480></td>
   </tr>
 </table>
 
