@@ -40,6 +40,14 @@ Web is not supported until the stable version is released.
     <td><img src="screenshots/favorite_colors.png" width=270 height=480></td>
   </tr>
 </table>
+<table>
+  <tr>
+    <td>Settings</td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/settings.png" width=270 height=480></td>
+  </tr>
+</table>
 
 #
 
