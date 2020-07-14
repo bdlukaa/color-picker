@@ -14,5 +14,34 @@ Support for English and Portuguese.
 The app was only tested on Android, but it's supposed to work in Ios too.
 Web is not supported until the stable version is released.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td>Wheel picker</td>
+     <td>Palette picker</td>
+     <td>Value picker</td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/wheel_picker.png" width=270 height=480></td>
+    <td><img src="screenshots/palette_picker.png" width=270 height=480></td>
+    <td><img src="screenshots/value_picker.png" width=270 height=480></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>Named picker</td>
+    <td>Image picker</td>
+    <td>Favorite colors</td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/named_picker.png" width=270 height=480></td>
+    <td><img src="screenshots/image_picker.png" width=270 height=480></td>
+    <td><img src="screenshots/favorite_colors.png" width=270 height=480></td>
+  </tr>
+</table>
+
+#
+
 Feel free to open an issue if you find an error or make pull requests.
 All images are from google images.
