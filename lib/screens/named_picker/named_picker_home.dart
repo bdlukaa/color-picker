@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+
+import 'colors.dart';
+import 'named_picker_extend.dart';
+
+class NamedPickerHome extends StatelessWidget {
+  NamedPickerHome({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var colors = primaries(context);
+    return Scaffold(
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: colors.length,
+          padding: EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 20,
+            bottom: 35,
+          ),
+          itemBuilder: (context, index) {
+            String name = colors.keys.toList()[index];
+            Color color = colors.values.toList()[index];
+            return NamedPickerTile(
+              color: color,
+              title: name,
+              first: index == 0,
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
