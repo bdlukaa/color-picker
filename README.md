@@ -52,4 +52,3 @@ Web is not supported until the stable version is released.
 #
 
 Feel free to open an issue if you find an error or make pull requests.
-All images are from google images.
