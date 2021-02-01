@@ -46,32 +46,29 @@ class _LABValuePickerState extends State<LABValuePicker>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Field(
-                value: lightness,
-                onChanged: (value) => setState(() => lightness = value),
-                color: Colors.redAccent,
-                label: 'Lightness',
-                max: 100,
-              ),
-              TextField(
-                controller: _aController,
-                color: Colors.green,
-                label: 'A',
-              ),
-              TextField(
-                controller: _bController,
-                color: Colors.blue,
-                label: 'B',
-              ),
-            ],
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                Field(
+                  value: lightness,
+                  onChanged: (value) => setState(() => lightness = value),
+                  color: Colors.redAccent,
+                  label: 'Lightness',
+                  max: 100,
+                ),
+                TextField(
+                  controller: _aController,
+                  color: Colors.green,
+                  label: 'A',
+                ),
+                TextField(
+                  controller: _bController,
+                  color: Colors.blue,
+                  label: 'B',
+                ),
+              ],
+            ),
           ),
-          MediaQuery.of(context).orientation == Orientation.portrait
-              ? Spacer()
-              : Container(),
           Divider(),
           ColorInfo(
             color: color,

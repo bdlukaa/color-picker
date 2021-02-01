@@ -1,43 +1,42 @@
-import 'package:color_picker/theme_manager.dart';
-import 'package:color_picker/utils.dart' as utils;
-import 'package:color_picker/widgets/opacity_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:provider/provider.dart';
 
 import 'lang/lang.dart';
-import 'screens/color_info/color_info.dart';
-import 'main.dart';
 import 'widgets/button.dart';
+import 'widgets/opacity_slider.dart';
+import 'screens/color_info/color_info.dart';
+
+import 'utils.dart';
+import 'main.dart';
+import 'theme_manager.dart';
 
 showColorInfoDialog(
   BuildContext context,
   String title,
   Color color,
-) {
-  showDialog(
-    context: context,
-    child: SimpleDialog(
-      title: Center(child: Text(title)),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20),
-        topRight: Radius.circular(20),
-      )),
-      // backgroundColor: Colors.grey[50],
-      contentPadding: EdgeInsets.only(top: 20),
-      children: <Widget>[ColorInfo(color: color)],
-    ),
-  );
-}
+) =>
+    showDialog(
+      context: context,
+      child: SimpleDialog(
+        title: Center(child: Text(title)),
+        contentPadding: EdgeInsets.only(top: 20),
+        children: <Widget>[
+          ColorInfo(
+            color: color,
+            // clipBehavior: Clip.none,
+            background: Colors.transparent,
+          )
+        ],
+      ),
+    );
 
 class ThemeDialog extends StatelessWidget {
   const ThemeDialog({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ThemeManager theme = Provider.of<ThemeManager>(context);
-    Language lang = Language.of(context);
+    final theme = ThemeManager.of(context);
+    final lang = Language.of(context);
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       title: Center(
@@ -112,7 +111,7 @@ class InitialColorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Language lang = Language.of(context);
+    final lang = Language.of(context);
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       title: Center(
@@ -122,9 +121,7 @@ class InitialColorDialog extends StatelessWidget {
         ),
       ),
       contentPadding: EdgeInsets.only(top: 20),
-      children: <Widget>[
-        RGBIntialColorChanger(),
-      ],
+      children: <Widget>[RGBIntialColorChanger()],
     );
   }
 }
@@ -140,6 +137,8 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
   int red, green, blue;
+
+  Color color = initialColor;
 
   @override
   void initState() {
@@ -182,7 +181,7 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
           ],
         ),
         ColorInfo(
-          clip: false,
+          clipBehavior: Clip.none,
           background: Colors.transparent,
           color: Color.fromARGB(
             255,
@@ -203,16 +202,18 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
           shadowEnabled: false,
           radius: BorderRadius.circular(25),
           onTap: () async {
-            initialColor =
-                Color.fromARGB(255, red, green, blue).withOpacity(opacity);
-            Provider.of<ThemeManager>(context).notify();
-            showToast(
-              lang.initialColorUpdated,
-              context: context,
-            );
+            showToast(lang.initialColorUpdated, context: context);
             Navigator.pop(context);
             await preferences.setString(
-                'initialColor', utils.encodedInitialColor);
+              'initialColor',
+              Color.fromARGB(
+                255,
+                red,
+                green,
+                blue,
+              ).withOpacity(opacity).encoded,
+            );
+            AppBuilder.state.update();
           },
         ),
       ],
@@ -239,27 +240,25 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Slider(
-              value: value,
-              onChanged: onChanged,
-              max: 255,
-              min: 0,
-              label: label,
-              activeColor: color,
-              inactiveColor: color.withOpacity(0.2),
-            ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Slider(
+            value: value,
+            onChanged: onChanged,
+            max: 255,
+            min: 0,
+            label: label,
+            activeColor: color,
+            inactiveColor: color.withOpacity(0.2),
           ),
-          Text(
-            value.toInt().toString(),
-            style: DefaultTextStyle.of(context).style,
-          ),
-          SizedBox(width: 10),
-        ],
-      ),
+        ),
+        Text(
+          value.toInt().toString(),
+          style: DefaultTextStyle.of(context).style,
+        ),
+        SizedBox(width: 10),
+      ],
     );
   }
 }

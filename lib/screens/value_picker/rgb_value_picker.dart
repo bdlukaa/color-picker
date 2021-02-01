@@ -1,10 +1,7 @@
 import 'package:color_picker/lang/lang.dart';
 import 'package:color_picker/screens/color_info/color_info.dart';
 import 'package:color_picker/widgets/opacity_slider.dart';
-import 'package:color_picker/widgets/scroll_initial.dart';
 import 'package:flutter/material.dart';
-
-import 'value_home.dart';
 
 class RGBValuePicker extends StatefulWidget {
   RGBValuePicker({Key key}) : super(key: key);
@@ -28,15 +25,12 @@ class _RGBValuePickerState extends State<RGBValuePicker>
   Widget build(BuildContext context) {
     super.build(context);
     Language lang = Language.of(context);
-    return ScrollInitial(
-      initialHeight: initialHeight,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          // Spacer(),
-          ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        // Spacer(),
+        Expanded(
+          child: Column(
             children: <Widget>[
               Field(
                 value: red.toDouble(),
@@ -58,24 +52,21 @@ class _RGBValuePickerState extends State<RGBValuePicker>
               ),
             ],
           ),
-          MediaQuery.of(context).orientation == Orientation.portrait
-              ? Spacer()
-              : Container(),
-          Divider(),
-          ColorInfo(
-            color: Color.fromARGB(
-              255,
-              red,
-              green,
-              blue,
-            ).withOpacity(opacity),
-            slider: OpacitySlider(
-              onChanged: (value) => setState(() => opacity = value),
-              value: opacity,
-            ),
+        ),
+        Divider(),
+        ColorInfo(
+          color: Color.fromARGB(
+            255,
+            red,
+            green,
+            blue,
+          ).withOpacity(opacity),
+          slider: OpacitySlider(
+            onChanged: (value) => setState(() => opacity = value),
+            value: opacity,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

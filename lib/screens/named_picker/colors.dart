@@ -2,7 +2,7 @@ import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
 
 Map<String, MaterialColor> primaries(BuildContext context) {
-  Language lang = Language.of(context);
+  final lang = Language.of(context);
   return {
     lang.redColor: Colors.red,
     lang.pink: Colors.pink,

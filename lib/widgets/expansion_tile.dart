@@ -47,6 +47,8 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
 
   bool _isExpanded = false;
 
+  ControllableExpansionTileController controller;
+
   @override
   void initState() {
     super.initState();
@@ -65,9 +67,8 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
         PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
     if (_isExpanded) _controller.value = 1.0;
 
-    (widget.controller ?? ControllableExpansionTileController())
-        .stream
-        .listen((event) {
+    controller = widget.controller ?? ControllableExpansionTileController();
+    controller.stream.listen((event) {
       if (event)
         expand();
       else
@@ -78,6 +79,7 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
   @override
   void dispose() {
     _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -193,4 +195,8 @@ class ControllableExpansionTileController {
 
   close() => _str.add(false);
   open() => _str.add(true);
+
+  void dispose() {
+    _str.close();
+  }
 }

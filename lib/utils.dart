@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'main.dart' as main;
 
-Color initialColor(String iColorMap) {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+SharedPreferences preferences;
+
+Color get initialColor => _initialColor(preferences.getString('initialColor'));
+Color _initialColor(String iColorMap) {
   if (iColorMap == null) return Colors.blue;
   Map<String, dynamic> map = jsonDecode(iColorMap);
   int red = map['red'];
@@ -12,12 +16,12 @@ Color initialColor(String iColorMap) {
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-String get encodedInitialColor {
-  Color color = main.initialColor;
-  return jsonEncode({
-    'red': color.red,
-    'green': color.green,
-    'blue': color.blue,
-    'alpha': color.alpha,
-  });
+extension colorEncode on Color {
+  String get encoded => json.encode({
+        'red': red,
+        'green': green,
+        'blue': blue,
+        'alpha': alpha,
+      });
+
 }

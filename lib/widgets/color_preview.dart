@@ -1,7 +1,7 @@
 import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
+
 import '../db/database_manager.dart' as db;
-import '../db/favorite_colors.dart';
 
 class ColorPreview extends StatefulWidget {
   ColorPreview({
@@ -22,7 +22,8 @@ class ColorPreview extends StatefulWidget {
 class _ColorPreviewState extends State<ColorPreview> {
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = FavoriteColors.hasColor(widget.color ?? Colors.transparent);
+    final isFavorite =
+        db.FavoriteColors.hasColor(widget.color ?? Colors.transparent);
     Language lang = Language.of(context);
     return Container(
       // constraints: BoxConstraints.expand(height: widget.size),

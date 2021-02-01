@@ -1,19 +1,25 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
+import '../utils.dart';
 import '../main.dart';
+
 import 'langs/en_lang.dart';
 import 'langs/pt_lang.dart';
 
 abstract class Language {
-
-  static List<Language> get languages => [
-    English(), Portuguese(),
-  ];
+  static List<Language> get languages => [English(), Portuguese()];
 
   static Language of(BuildContext context) {
     Language lang;
-    String locale = preferences.getString('language') ??
-        Localizations.localeOf(context).languageCode;
+    // String locale = preferences.getString('language') ??
+    //     Localizations.localeOf(context).languageCode;
+    String locale = preferences.getString('language');
+    if (context == null)
+      locale = window.locale.languageCode;
+    else
+      locale ??= Localizations.localeOf(context).languageCode;
     switch (locale) {
       case 'pt':
         lang = Portuguese();
@@ -29,7 +35,7 @@ abstract class Language {
 
   static Future<void> set(BuildContext context, Language code) async {
     await preferences.setString('language', code.code);
-    appBuilderKey.currentState.update();
+    AppBuilder.state.update();
   }
 
   String get code;
@@ -76,6 +82,7 @@ abstract class Language {
 
   String get seeColorInfo;
   String get colorInfo;
+  String colorWithOpacity(String name, int opacity);
 
   String get settings;
   String get user;
@@ -87,6 +94,20 @@ abstract class Language {
   String get dark;
   String get light;
   String get system;
+
+  String fromThemeMode(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return light;
+      case ThemeMode.dark:
+        return dark;
+      case ThemeMode.system:
+      default:
+        return system;
+    }
+  }
+
+  String minHeight(int height);
 
   String get update;
   String get initialColorUpdated;

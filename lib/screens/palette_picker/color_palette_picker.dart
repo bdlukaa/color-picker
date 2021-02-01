@@ -2,8 +2,8 @@ import "package:flutter/material.dart";
 
 const double _kBorderRadius = 6;
 const double _kBorderWidth = 0.2;
-const double kSliderHeight = 12;
-const double kThumbSize = kSliderHeight * 2;
+double kSliderHeight = 14;
+double kThumbSize = kSliderHeight * 2;
 
 class PalettePicker extends StatelessWidget {
   final Offset position;
@@ -105,9 +105,8 @@ class PalettePicker extends StatelessWidget {
             ),
           ), // Top bottom
           Positioned(
-            // TODO: animate pan
-            left: size.biggest.width * positionToRatio().dx,
-            top: size.biggest.height * positionToRatio().dy,
+            left: size.biggest.width * positionToRatio().dx - (25 / 2),
+            top: size.biggest.height * positionToRatio().dy - (25 / 2),
             child: Container(
               height: 25,
               width: 25,
@@ -209,46 +208,41 @@ class _SliderPickerState extends State<SliderPicker> {
           onHorizontalDragUpdate: (detail) => onPanUpdate(detail, box),
           onPanDown: (detail) => onPanDown(detail, box),
         );
-        return Container(
-          child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              ConstrainedBox(
-                constraints: BoxConstraints.tightFor(
-                  width: box.maxWidth,
-                  height: kSliderHeight,
-                ),
-                child: DecoratedBox(
+        return Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Container(
+              constraints: BoxConstraints.tightFor(
+                width: box.maxWidth,
+                height: kSliderHeight
+              ),
+              decoration: BoxDecoration(
+                borderRadius: radius,
+                border: Border.all(color: Colors.grey, width: _kBorderWidth),
+                gradient: LinearGradient(colors: widget.colors),
+              ),
+              child: gestureDetector,
+            ),
+            // Thumb
+            Positioned(
+              top: -7,
+              child: Transform(
+                transform: Matrix4.identity()
+                  ..translate(
+                    getWidth(getRatio(), box.maxWidth) - (kThumbSize / 2),
+                  ),
+                child: Container(
+                  height: kThumbSize,
+                  width: kThumbSize,
                   decoration: BoxDecoration(
-                    borderRadius: radius,
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: _kBorderWidth,
-                    ),
-                    gradient: LinearGradient(colors: widget.colors),
+                    color: widget.color.withOpacity(1),
+                    shape: BoxShape.circle,
                   ),
                   child: gestureDetector,
                 ),
               ),
-              Positioned(
-                // TODO: animate pan
-                top: -5,
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..translate(getWidth(getRatio(), box.maxWidth)),
-                  child: Container(
-                    height: kThumbSize,
-                    width: kThumbSize,
-                    decoration: BoxDecoration(
-                      color: widget.color,
-                      shape: BoxShape.circle,
-                    ),
-                    child: gestureDetector,
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         );
       },
     );
@@ -266,15 +260,18 @@ class PaletteHuePicker extends StatelessWidget {
   })  : assert(color != null),
         super(key: key);
 
-  List<Color> get hueColors => [
-        color.withHue(0.0).toColor(),
-        color.withHue(60.0).toColor(),
-        color.withHue(120.0).toColor(),
-        color.withHue(180.0).toColor(),
-        color.withHue(240.0).toColor(),
-        color.withHue(300.0).toColor(),
-        color.withHue(0.0).toColor()
-      ];
+  List<Color> get hueColors {
+    final color = this.color.withSaturation(1).withValue(1);
+    return <Color>[
+      color.withHue(0.0).toColor(),
+      color.withHue(60.0).toColor(),
+      color.withHue(120.0).toColor(),
+      color.withHue(180.0).toColor(),
+      color.withHue(240.0).toColor(),
+      color.withHue(300.0).toColor(),
+      color.withHue(0.0).toColor()
+    ].map((color) => color.withOpacity(1)).toList();
+  }
 
   List<Color> get saturationColors => [
         Colors.white,
@@ -290,8 +287,8 @@ class PaletteHuePicker extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Flexible(
-            fit: FlexFit.loose,
+          Expanded(
+            // fit: FlexFit.loose,
             child: PalettePicker(
               position: Offset(color.saturation, color.value),
               onChanged: (value) => onChanged(
@@ -303,7 +300,7 @@ class PaletteHuePicker extends StatelessWidget {
               topBottomColors: valueColors,
             ),
           ),
-          SizedBox(height: 7),
+          SizedBox(height: 14),
           SliderPicker(
             min: 0.0,
             max: 360.0,

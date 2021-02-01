@@ -1,7 +1,6 @@
 import 'package:color_picker/lang/lang.dart';
 
 class English extends Language {
-
   String get code => 'en';
   String get langName => 'English';
 
@@ -24,8 +23,10 @@ class English extends Language {
   String get clear => 'Clear';
   String get hexCodeMustNotBeEmpty => 'Hex code must not be empty';
   String get hexCodeLengthMustBeSix => 'Hex code length must be 6';
-  String get hexCodeLimitedChars => 'Hex code must only have 0-9 and A-F characters';
-  String get hexCodeOpacity => 'Tip: hex opacity code is computed by the slider below';
+  String get hexCodeLimitedChars =>
+      'Hex code must only have 0-9 and A-F characters';
+  String get hexCodeOpacity =>
+      'Tip: hex opacity code is computed by the slider below';
 
   String get hue => 'Hue';
   String get saturation => 'Saturation';
@@ -39,13 +40,17 @@ class English extends Language {
   String get selectPhoto => 'Select photo';
 
   String get favoriteColorsTitle => 'Favorite colors';
-  String get haventFavoritedAnyBefore => 'You haven\'t favorited any color yet!\nPress ';
-  String get haventFavoritedAnyAfter => ' in a color preview to favorite a color';
+  String get haventFavoritedAnyBefore =>
+      'You haven\'t favorited any color yet!\nPress ';
+  String get haventFavoritedAnyAfter =>
+      ' in a color preview to favorite a color';
   String get favorite => 'Favorite';
   String get unfavorite => 'Unfavorite';
 
   String get seeColorInfo => 'See color info';
   String get colorInfo => 'Color info';
+  String colorWithOpacity(String name, int opacity) =>
+      '$name with $opacity% of opacity';
 
   String get settings => 'Settings';
   String get user => 'User';
@@ -57,6 +62,9 @@ class English extends Language {
   String get dark => 'Dark';
   String get light => 'Light';
   String get system => 'System (default)';
+
+  String minHeight(int height) =>
+      'This is only avaiable on devices with a screen higher than $height pixels';
 
   String get update => 'Update';
   String get initialColorUpdated => 'Initial color updated';
@@ -84,5 +92,4 @@ class English extends Language {
   String get orange => 'Orange';
   String get deepOrange => 'Deep orange';
   String get brown => 'Brown';
-
 }

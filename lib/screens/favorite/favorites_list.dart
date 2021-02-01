@@ -1,27 +1,21 @@
 import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
-import '../../db/favorite_colors.dart';
 
+import '../../db/database_manager.dart';
 import 'favorite_tile.dart';
 
 final favoritesKey = GlobalKey<AnimatedListState>();
 
-class FavoritesList extends StatefulWidget {
+class FavoritesList extends StatelessWidget {
   const FavoritesList({Key key}) : super(key: key);
 
   @override
-  _FavoritesListState createState() => _FavoritesListState();
-}
-
-class _FavoritesListState extends State<FavoritesList> {
-  @override
   Widget build(BuildContext context) {
-    Language lang = Language.of(context);
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(right: 25, left: 130, top: 75),
+    final lang = Language.of(context);
+    return Container(
+      color: Colors.blueGrey,
+      padding: EdgeInsets.only(right: 25, top: 75),
+      child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
@@ -37,64 +31,63 @@ class _FavoritesListState extends State<FavoritesList> {
               Icon(Icons.favorite, color: Colors.white),
             ],
           ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOutBack,
-            height: FavoriteColors.colors.isNotEmpty ? 0 : null,
-            padding: FavoriteColors.colors.isNotEmpty
-                ? EdgeInsets.only(top: 35)
-                : EdgeInsets.only(
-                    /// 23% of the screen
-                    /// minus title font size (22)
-                    /// minus top padding (75)
-                    /// minus text font size size (16)
-                    top:
-                        MediaQuery.of(context).size.height / 2.3 - 22 - 75 - 16,
-                  ),
-            alignment: Alignment.center,
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: lang.haventFavoritedAnyBefore,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  children: [
-                    // TextSpan(text: 'Press '),
-                    WidgetSpan(
-                        child: Icon(
-                      Icons.favorite_border,
-                      color: Colors.white,
-                    )),
-                    TextSpan(text: lang.haventFavoritedAnyAfter),
-                  ]),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 600),
+              transitionBuilder: (child, animation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: Offset(0, 1),
+                    end: Offset(0, 0),
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: FavoriteColors.colors.isEmpty
+                  ? Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(bottom: 42),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: lang.haventFavoritedAnyBefore,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                          children: [
+                            WidgetSpan(
+                              child: Icon(
+                                Icons.favorite_border,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(text: lang.haventFavoritedAnyAfter),
+                          ],
+                        ),
+                      ),
+                    )
+                  : AnimatedList(
+                      key: favoritesKey,
+                      // shrinkWrap: true,
+                      initialItemCount: FavoriteColors.colors.length,
+                      itemBuilder: (context, index, animation) {
+                        var color = FavoriteColors.colors[index];
+                        bool isFavorite = FavoriteColors.hasColor(color);
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(-1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: FavoriteListTile(
+                            color: color,
+                            isFavorite: isFavorite,
+                            animation: animation,
+                          ),
+                        );
+                      },
+                    ),
             ),
-          ),
-          AnimatedList(
-            key: favoritesKey,
-            padding: EdgeInsets.only(top: 15),
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            initialItemCount: FavoriteColors.colors.length,
-            itemBuilder: (context, index, animation) {
-              var color = FavoriteColors.colors[index];
-              bool isFavorite = FavoriteColors.hasColor(color);
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(-1, 0),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.elasticOut,
-                )),
-                child: FavoriteListTile(
-                  color: color,
-                  isFavorite: isFavorite,
-                  animation: animation,
-                ),
-              );
-            },
           ),
         ],
       ),

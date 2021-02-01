@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -6,6 +7,10 @@ class ZoomScaffold extends StatefulWidget {
   final Widget menuScreen;
   final Widget endMenuScreen;
   final Widget contentScreen;
+
+  final Color endMenuColor;
+  final Color menuColor;
+
   final MenuController controller;
   final bool returnWhenPressBack;
 
@@ -13,6 +18,8 @@ class ZoomScaffold extends StatefulWidget {
     @required this.contentScreen,
     this.menuScreen,
     this.endMenuScreen,
+    this.endMenuColor,
+    this.menuColor,
     this.controller,
     this.returnWhenPressBack = true,
   });
@@ -30,8 +37,6 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
 
   MenuController provider;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -40,6 +45,8 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
         setState(() {});
       });
   }
+
+  MediaQueryData get mq => MediaQuery.of(context);
 
   Widget animateContent(Widget content) {
     double slidePercent, scalePercent;
@@ -69,7 +76,7 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
       alignment = Alignment.centerRight;
     }
 
-    final slideAmount = 275.0 * slidePercent;
+    final slideAmount = mq.size.width * 0.8 * slidePercent;
     final contentScale = 1.0 - (0.2 * scalePercent);
     final cornerRadius = 16.0 * provider.percentOpen;
 
@@ -102,136 +109,240 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
     );
   }
 
+  double globalPosition = 0;
+
   Widget _buildGestures(bool dragFromLeft) {
     return GestureDetector(
       onHorizontalDragStart: (detail) {},
       onHorizontalDragUpdate: (details) async {
+        globalPosition = details.globalPosition.dx;
         if (!provider.isOpen) {
           if (dragFromLeft) {
             var globalPosition = details.globalPosition.dx;
             globalPosition = globalPosition < 0 ? 0 : globalPosition;
-            double position =
-                globalPosition / MediaQuery.of(context).size.width;
+            double position = globalPosition / mq.size.width;
             var realPosition = position;
             if (provider.isEndMenu) provider.currentMenu = CurrentMenu.start;
             provider.percentOpen = realPosition;
+            print(realPosition);
           } else {
             List<int> ints = [];
-            for (var i = MediaQuery.of(context).size.width.round(); i > 1; i--)
-              ints.add(i);
-            var realPosition = ints[details.globalPosition.dx.toInt()] /
-                MediaQuery.of(context).size.width;
+            for (var i = mq.size.width.round(); i > 1; i--) ints.add(i);
+            var realPosition =
+                ints[details.globalPosition.dx.toInt()] / mq.size.width;
             if (provider.isStartMenu) provider.currentMenu = CurrentMenu.end;
             provider.percentOpen = realPosition;
           }
         } else {
+          // TODO: ask for help on this on discord
           if (dragFromLeft) {
-            // Closing end
-            print('end');
+            // Closing right
+            print('right');
             // provider.closeEnd();
           } else {
-            // closing right
-            print('right');
-            // provider.close();
+            // closing start
+            print('start');
           }
         }
       },
+      onHorizontalDragDown: (d) => print('down'),
       onHorizontalDragEnd: (detail) {
-        if (dragFromLeft && provider.isEndMenu && provider.isOpen)
-          provider.closeEnd();
-        if (!dragFromLeft && provider.isStartMenu && provider.isOpen)
-          provider.close();
+        // Is End menu AND is closing
+        if (dragFromLeft && provider.isEndMenu && provider.isOpen) {
+          if (globalPosition >= mq.size.width * 0.6)
+            provider.closeEnd();
+          else
+            provider.openEnd();
+        }
 
-        if (dragFromLeft && provider.isStartMenu && !provider.isOpen)
-          provider.open();
-        if (!dragFromLeft && provider.isEndMenu && !provider.isOpen)
-          provider.openEnd();
+        // IS Start menu and is closing
+        if (!dragFromLeft && provider.isStartMenu && provider.isOpen) {
+          if (globalPosition <= 130)
+            provider.close();
+          else
+            provider.open();
+        }
+
+        // Is start menu and is opening
+        if (dragFromLeft && provider.isStartMenu && !provider.isOpen) {
+          if (globalPosition <= 50)
+            provider.close();
+          else
+            provider.open();
+        }
+
+        // Is end menu and is opening
+        if (!dragFromLeft && provider.isEndMenu && !provider.isOpen) {
+          if (globalPosition >= mq.size.width * 0.6)
+            provider.closeEnd();
+          else
+            provider.openEnd();
+        }
+        // print(globalPosition);
 
         print('ended');
       },
     );
   }
 
+  double contentPadding;
+
+  Color get gestureColor => kDebugMode ? null : null;
+
   @override
   Widget build(BuildContext context) {
-    double gestureWidth = MediaQuery.of(context).size.width / 4;
+    double gestureWidth = mq.size.width * 0.15;
     double appBar = 56;
-    return Scaffold(
-      key: scaffoldKey,
-      body: SafeArea(
-        child: WillPopScope(
-          onWillPop: () async {
-            if (provider.isOpen) if (widget.returnWhenPressBack) {
-              await provider.closeOpened();
-              return false;
-            }
-            return true;
-          },
-          child: Stack(
+
+    final paddingFactor = mq.size.width * 0.25;
+    EdgeInsets padding = EdgeInsets.only(right: paddingFactor);
+
+    if (provider.isEndMenu) {
+      padding = EdgeInsets.only(left: paddingFactor);
+    }
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (provider.isOpen && widget.returnWhenPressBack) {
+          await provider.closeOpened();
+          return false;
+        }
+        return true;
+      },
+      child: LayoutBuilder(builder: (context, consts) {
+        final width = consts.biggest.width;
+        Widget Function(Color color, Widget screen, EdgeInsets p) buildMenu =
+            (color, screen, p) {
+          return Material(
+            child: Container(
+              // Use media query instead of SafeArea to abrange the color
+              padding: (p ?? padding) + mq.viewPadding,
+              color: color,
+              child: screen,
+            ),
+          );
+        };
+        Widget w;
+        if (width >= 950) {
+          provider.expanded = true;
+          contentPadding = width / 3;
+          w = Stack(
             children: [
               Container(
-                child: provider.isStartMenu
-                    ? widget.menuScreen ?? Container()
-                    : widget.endMenuScreen ?? Container(),
+                padding: EdgeInsets.only(right: width / 2),
+                child: buildMenu(
+                  widget.menuColor,
+                  widget.menuScreen,
+                  EdgeInsets.only(right: width / 6),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: width / 2),
+                child: buildMenu(
+                  widget.endMenuColor,
+                  widget.endMenuScreen,
+                  EdgeInsets.only(left: width / 6),
+                ),
+              ),
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()..scale(0.9),
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: contentPadding),
+                  // width: contentSize,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: const Offset(0.0, 5.0),
+                          blurRadius: 15.0,
+                          spreadRadius: 10.0,
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: widget.contentScreen,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          provider.expanded = false;
+          w = Stack(
+            children: [
+              buildMenu(
+                provider.isStartMenu ? widget.menuColor : widget.endMenuColor,
+                provider.isStartMenu ? widget.menuScreen : widget.endMenuScreen,
+                null,
               ),
               animateContent(widget.contentScreen),
-              provider.isOpen
-                  ? Positioned(
-                      top: 0,
-                      left: provider.isEndMenu ? 0 : null,
-                      right: provider.isStartMenu ? 0 : null,
-                      child: SizedBox(
-                        height:
-                            MediaQuery.of(context).size.width / 6.4 + appBar,
-                        // height: appBar + tabBar + tabPadding,
-                        width: gestureWidth,
-                        child: _buildGestures(!provider.isStartMenu),
-                      ),
-                    )
-                  : Positioned(
-                      top: 0,
-                      child: SizedBox(
-                        // need a sized box because it will overflow
-                        // bacause its in a stack
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: appBar,
-                              width: gestureWidth,
-                              child: _buildGestures(true),
-                            ),
-                            Spacer(),
-                            SizedBox(
-                              height: appBar,
-                              width: gestureWidth,
-                              child: _buildGestures(false),
-                            ),
-                          ],
-                        ),
-                      ),
+              if (provider.isOpen)
+                Positioned(
+                  top: 0,
+                  left: provider.isEndMenu ? 0 : null,
+                  right: provider.isStartMenu ? 0 : null,
+                  child: SafeArea(
+                    child: Container(
+                      color: gestureColor,
+                      height: (mq.size.height * 0.1) + mq.viewPadding.top,
+                      width: gestureWidth * 1.34,
+                      child: _buildGestures(!provider.isStartMenu),
                     ),
-              provider.isOpen
-                  ? Positioned(
-                      bottom: 0,
-                      left: provider.isEndMenu ? 0 : null,
-                      right: provider.isStartMenu ? 0 : null,
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.width / 6.4,
-                        width: gestureWidth,
-                        child: _buildGestures(!provider.isStartMenu),
-                      ),
-                    )
-                  : SizedBox(),
+                  ),
+                )
+              else
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SafeArea(
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          color: gestureColor,
+                          height: appBar,
+                          width: gestureWidth,
+                          child: _buildGestures(true),
+                        ),
+                        Spacer(),
+                        Container(
+                          color: gestureColor,
+                          height: appBar,
+                          width: gestureWidth,
+                          child: _buildGestures(false),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              if (provider.isOpen)
+                Positioned(
+                  bottom: 0,
+                  left: provider.isEndMenu ? 0 : null,
+                  right: provider.isStartMenu ? 0 : null,
+                  child: Container(
+                    color: gestureColor,
+                    height: mq.size.height * 0.1,
+                    width: gestureWidth * 1.34,
+                    child: _buildGestures(!provider.isStartMenu),
+                  ),
+                ),
             ],
-          ),
-        ),
-      ),
+          );
+        }
+        return w;
+      }),
     );
   }
 }
 
 class MenuController {
+  bool expanded = false;
   final TickerProvider vsync;
   final AnimationController _animationController;
 

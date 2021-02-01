@@ -5,19 +5,20 @@ import '../../db/database_manager.dart' as db;
 import '../../dialogs.dart';
 
 class FavoriteListTile extends StatelessWidget {
-  FavoriteListTile(
-      {Key key,
-      @required this.isFavorite,
-      @required this.color,
-      @required this.animation})
-      : super(key: key);
+  FavoriteListTile({
+    Key key,
+    @required this.isFavorite,
+    @required this.color,
+    @required this.animation,
+  }) : super(key: key);
 
   final bool isFavorite;
   final Color color;
   final Animation<double> animation;
+
   @override
   Widget build(BuildContext context) {
-    Language lang = Language.of(context);
+    final lang = Language.of(context);
     return Container(
       margin: EdgeInsets.only(top: 6),
       decoration: BoxDecoration(

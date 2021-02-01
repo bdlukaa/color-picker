@@ -1,20 +1,27 @@
-import 'package:color_picker/screens/color_info/rgb_color_info.dart';
-import 'package:color_picker/screens/color_info/xyz_color_info.dart';
-import 'package:color_picker/widgets/opacity_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:color/color.dart' hide Color;
+
+import 'package:color_picker/widgets/opacity_slider.dart';
 
 import '../../theme_manager.dart';
-import 'cielab_color_info.dart';
-import 'hex_color_info.dart';
-import 'hsl_color_info.dart';
-import 'hsv_color_info.dart';
+import '../../lang/lang.dart';
+
+import '../../widgets/opacity_slider.dart';
+import '../../widgets/color_preview.dart';
+
+part 'cielab_color_info.dart';
+part 'hex_color_info.dart';
+part 'hsl_color_info.dart';
+part 'hsv_color_info.dart';
+part 'rgb_color_info.dart';
+part 'xyz_color_info.dart';
 
 class ColorInfo extends StatelessWidget {
   const ColorInfo({
     Key key,
     @required this.color,
     this.initial = 0,
-    this.clip = true,
+    this.clipBehavior = Clip.antiAlias,
     this.slider,
     this.background,
   }) : super(key: key);
@@ -23,24 +30,18 @@ class ColorInfo extends StatelessWidget {
   final Color background;
   final int initial;
   final OpacitySlider slider;
-  final bool clip;
+  final Clip clipBehavior;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: !(clip ?? true)
-          ? BorderRadius.zero
-          : BorderRadius.only(
-              topLeft: Radius.circular(25),
-              topRight: Radius.circular(25),
-            ),
+      clipBehavior: clipBehavior,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       child: Container(
-        color: background != null
-            ? background
-            : ThemeManager.isBright(context)
+        color: background ??
+            (ThemeManager.isBright(context)
                 ? Colors.grey[100]
-                : Colors.grey[850],
-        width: MediaQuery.of(context).size.width,
+                : Colors.grey[850]),
         child: DefaultTabController(
           length: 6,
           initialIndex: initial ?? 0,
@@ -86,10 +87,34 @@ class ColorInfo extends StatelessWidget {
                   ),
                 ),
               ),
-              slider ?? Container(),
+              if (slider != null) slider
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ColorName extends StatelessWidget {
+  const ColorName({
+    Key key,
+    @required this.text,
+    @required this.value,
+    @required this.color,
+  }) : super(key: key);
+
+  final String text;
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: text,
+        children: [TextSpan(text: value, style: TextStyle(color: color))],
+        style: DefaultTextStyle.of(context).style,
       ),
     );
   }

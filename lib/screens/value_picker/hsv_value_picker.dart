@@ -1,10 +1,7 @@
 import 'package:color_picker/lang/lang.dart';
 import 'package:color_picker/screens/color_info/color_info.dart';
 import 'package:color_picker/widgets/opacity_slider.dart';
-import 'package:color_picker/widgets/scroll_initial.dart';
 import 'package:flutter/material.dart';
-
-import 'value_home.dart';
 
 class HSVValuePicker extends StatefulWidget {
   HSVValuePicker({Key key}) : super(key: key);
@@ -31,53 +28,48 @@ class _HSVValuePickerState extends State<HSVValuePicker>
         .toColor()
         .withOpacity(opacity);
     Language lang = Language.of(context);
-    return ScrollInitial(
-      initialHeight: initialHeight,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          // Spacer(),
-          ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Field(
-                value: hue,
-                onChanged: (value) => setState(() => hue = value),
-                color: Colors.redAccent,
-                label: lang.hue,
-                max: 360,
-              ),
-              Field(
-                max: 1,
-                value: saturation,
-                onChanged: (value) => setState(() => saturation = value),
-                color: Colors.green,
-                label: lang.saturation,
-              ),
-              Field(
-                max: 1,
-                value: value,
-                onChanged: (value) => setState(() => this.value = value),
-                color: Colors.blue,
-                label: lang.value,
-              ),
-            ],
-          ),
-          MediaQuery.of(context).orientation == Orientation.portrait
-              ? Spacer()
-              : Container(),
-          Divider(),
-          ColorInfo(
-            color: color,
-            initial: 3,
-            slider: OpacitySlider(
-              onChanged: (value) => setState(() => opacity = value),
-              value: opacity,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        // Spacer(),
+        ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            Field(
+              value: hue,
+              onChanged: (value) => setState(() => hue = value),
+              color: Colors.redAccent,
+              label: lang.hue,
+              max: 360,
             ),
+            Field(
+              max: 1,
+              value: saturation,
+              onChanged: (value) => setState(() => saturation = value),
+              color: Colors.green,
+              label: lang.saturation,
+            ),
+            Field(
+              max: 1,
+              value: value,
+              onChanged: (value) => setState(() => this.value = value),
+              color: Colors.blue,
+              label: lang.value,
+            ),
+          ],
+        ),
+        Spacer(),
+        Divider(),
+        ColorInfo(
+          color: color,
+          initial: 3,
+          slider: OpacitySlider(
+            onChanged: (value) => setState(() => opacity = value),
+            value: opacity,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -1,25 +1,18 @@
-import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
+
+import '../../../lang/lang.dart';
 
 import 'local_selector.dart';
 import 'network_selector.dart';
 
-class ImageSelector extends StatefulWidget {
-  ImageSelector({
-    Key key,
-  }) : super(key: key);
+class ImageSelector extends StatelessWidget {
+  ImageSelector({Key key}) : super(key: key);
 
-
-  @override
-  _ImageSelectorState createState() => _ImageSelectorState();
-}
-
-class _ImageSelectorState extends State<ImageSelector> {
   @override
   Widget build(BuildContext context) {
     double tabBarSize = 46;
     return LayoutBuilder(builder: (context, con) {
-      Language lang = Language.of(context);
+      final lang = Language.of(context);
       return SingleChildScrollView(
         child: DefaultTabController(
           length: 2,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Button extends StatefulWidget {
+class Button extends StatelessWidget {
   Button({
     Key key,
     this.text,
@@ -33,38 +33,31 @@ class Button extends StatefulWidget {
   final bool shadowEnabled;
 
   @override
-  _ButtonState createState() => _ButtonState();
-}
-
-class _ButtonState extends State<Button> {
-  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding,
-      child: widget.tooltip == null
-          ? child
-          : Tooltip(message: widget.tooltip, child: child),
+      padding: padding,
+      child: tooltip == null ? child : Tooltip(message: tooltip, child: child),
     );
   }
 
-  BorderRadius get radius => widget.radius ?? BorderRadius.circular(10);
+  BorderRadius get bRadius => radius ?? BorderRadius.circular(10);
 
   Widget get child {
     return InkWell(
-      borderRadius: radius,
-      onTap: widget.onTap,
-      splashColor: widget.splashColor ?? Colors.black45,
+      borderRadius: bRadius,
+      onTap: onTap,
+      splashColor: splashColor ?? Colors.black45,
       child: Ink(
-        height: widget.height,
-        width: widget.width,
-        padding: widget.internalPadding ?? EdgeInsets.zero,
+        height: height,
+        width: width,
+        padding: internalPadding ?? EdgeInsets.zero,
         decoration: BoxDecoration(
-          color: widget.color,
-          borderRadius: radius,
-          boxShadow: widget.shadowEnabled ?? true
+          color: color,
+          borderRadius: bRadius,
+          boxShadow: shadowEnabled ?? true
               ? [
                   BoxShadow(
-                    color: widget.color,
+                    color: color,
                     blurRadius: 2.0,
                     spreadRadius: 0.0,
                     offset: Offset(2.0, 2.0),
@@ -77,27 +70,26 @@ class _ButtonState extends State<Button> {
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,
           children: <Widget>[
-            widget.icon != null
+            icon != null
                 ? IconTheme(
-                    child: widget.icon,
+                    child: icon,
                     data: IconThemeData(color: Colors.white),
                   )
                 : Container(),
-            SizedBox(
-                width: widget.text == null && widget.subText == null ? 0 : 3),
-            widget.subText != null
+            SizedBox(width: text == null && subText == null ? 0 : 3),
+            subText != null
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      widget.text != null
+                      text != null
                           ? Flexible(
                               child: _buildTitle,
                               fit: FlexFit.loose,
                             )
                           : Container(),
-                      widget.subText != null
+                      subText != null
                           ? Flexible(
                               child: _buildSubtitle,
                               fit: FlexFit.loose,
@@ -105,7 +97,9 @@ class _ButtonState extends State<Button> {
                           : Container(),
                     ],
                   )
-                : widget.text != null ? _buildTitle : Container(),
+                : text != null
+                    ? _buildTitle
+                    : Container(),
           ],
         ),
       ),
@@ -113,7 +107,7 @@ class _ButtonState extends State<Button> {
   }
 
   Widget get _buildTitle => DefaultTextStyle(
-        child: widget.text,
+        child: text,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
@@ -124,7 +118,7 @@ class _ButtonState extends State<Button> {
       );
 
   Widget get _buildSubtitle => DefaultTextStyle(
-        child: widget.subText,
+        child: subText,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(

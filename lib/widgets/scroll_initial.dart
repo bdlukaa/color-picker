@@ -17,16 +17,9 @@ class ScrollInitial extends StatelessWidget {
       builder: (context, consts) {
         if (initialHeight == null || consts.biggest.height > initialHeight)
           initialHeight = consts.biggest.height;
-        // print(initialHeight);
-        // print(consts.biggest.height);
-        // print(consts.biggest.longestSide);
         return SingleChildScrollView(
           child: LimitedBox(
-            maxHeight: consts.biggest.longestSide +
-                (MediaQuery.of(context).orientation == Orientation.landscape
-                    ? consts.biggest.height
-                    : 0),
-            // minHeight: consts.biggest.height,
+            maxHeight: initialHeight,
             child: child,
           ),
         );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
+import '../../utils.dart';
 
 class SettingsTile extends StatelessWidget {
   const SettingsTile({
@@ -20,19 +20,11 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        title,
-        textAlign: TextAlign.left,
-      ),
+      title: Text(title, textAlign: TextAlign.left),
       subtitle: subtitle != null
-          ? Text(
-              subtitle,
-            )
+          ? Text(subtitle)
           : subColor
-              ? Container(
-                  height: 10,
-                  color: initialColor,
-                )
+              ? Container(height: 10, color: initialColor)
               : null,
       leading: Icon(icon),
       trailing: Icon(Icons.navigate_next),

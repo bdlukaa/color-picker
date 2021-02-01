@@ -7,20 +7,12 @@ import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 
 // ignore: must_be_immutable
-class ColorPickerWidget extends StatefulWidget {
-  ColorPickerWidget({
-    @required this.onUpdate,
-    @required this.image,
-  });
+class ColorPickerWidget extends StatelessWidget {
+  ColorPickerWidget({@required this.onUpdate, @required this.image});
 
   final Function(Color) onUpdate;
   final ImageProvider image;
 
-  @override
-  _ColorPickerWidgetState createState() => _ColorPickerWidgetState();
-}
-
-class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   GlobalKey paintKey = GlobalKey();
   img.Image photo;
 
@@ -48,7 +40,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
             },
             child: Center(
               child: Image(
-                image: widget.image,
+                image: image,
                 fit: BoxFit.contain,
                 alignment: Alignment.center,
               ),
@@ -56,8 +48,10 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
           ),
         ),
         Positioned(
-          top: position.dy,
-          left: position.dx,
+          // divide by two so the collected color is in the center of the
+          // bubble, not on the right top
+          top: position.dy - (25 / 2),
+          left: position.dx - (25 / 2),
           child: Container(
             height: 25,
             width: 25,
@@ -87,23 +81,11 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
     double px = localPosition.dx;
     double py = localPosition.dy;
 
-    // if (!useSnapshot) {
-    //   double widgetScale = box.size.width / photo.width;
-    //   // print(py);
-    //   px = (px / widgetScale);
-    //   py = (py / widgetScale);
-    // }
-
     int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
     int hex = abgrToArgb(pixel32);
 
-    widget.onUpdate(Color(hex));
+    onUpdate(Color(hex));
   }
-
-  // Future<void> loadImageBundleBytes() async {
-  //   ByteData imageBytes = await rootBundle.load(imagePath);
-  //   setImageBytes(imageBytes);
-  // }
 
   Future<void> loadSnapshotBytes() async {
     RenderRepaintBoundary boxPaint = paintKey.currentContext.findRenderObject();

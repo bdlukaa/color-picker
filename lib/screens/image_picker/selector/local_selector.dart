@@ -11,7 +11,6 @@ import '../image_color_picker.dart';
 class LocalImageSelector extends StatefulWidget {
   LocalImageSelector({Key key}) : super(key: key);
 
-
   @override
   _LocalImageSelectorState createState() => _LocalImageSelectorState();
 }
@@ -23,12 +22,9 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
   final picker = ImagePicker();
   File _image;
 
-  Future getImage() async {
+  void getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-    });
+    setState(() => _image = File(pickedFile.path));
   }
 
   @override
@@ -44,9 +40,7 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
             child: FlatButton(
               child: Text(lang.selectPhoto),
               color: Colors.green,
-              onPressed: () {
-                getImage();
-              },
+              onPressed: getImage,
               textColor: Colors.white,
             ),
           ),

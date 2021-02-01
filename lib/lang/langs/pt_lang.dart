@@ -36,9 +36,9 @@ class Portuguese extends Language {
 
   String get opacity => 'Opacidade';
 
-  String get localImage => 'Image do dispositivo';
+  String get localImage => 'Imagem do dispositivo';
   String get networkImage => 'Imagem da internet';
-  String get selectPhoto => 'Selecionar image';
+  String get selectPhoto => 'Selecionar imagem';
 
   String get favoriteColorsTitle => 'Cores favoritas';
   String get haventFavoritedAnyBefore =>
@@ -50,6 +50,8 @@ class Portuguese extends Language {
 
   String get seeColorInfo => 'Ver informações da cor';
   String get colorInfo => 'Informações da cor';
+  String colorWithOpacity(String name, int opacity) =>
+      '$name com $opacity% de opacidade';
 
   String get settings => 'Configurações';
   String get user => 'Usuário';
@@ -57,10 +59,13 @@ class Portuguese extends Language {
   String get initialColor => 'Cor inicial';
   String get language => 'Idioma';
 
-  String get theme => 'Tema';
+  String get theme => 'Tema do aplicativo';
   String get dark => 'Escuro';
   String get light => 'Claro';
   String get system => 'Sistema (padrão)';
+
+  String minHeight(int height) =>
+      'Esta funcionalidade só está disponível em dispositivos com uma tela maior que $height pixels';
 
   String get update => 'Atualizar';
   String get initialColorUpdated => 'Cor inicial atualizada';

@@ -110,7 +110,7 @@ class _WheelPainter extends CustomPainter {
 
   final HSVColor color;
 
-  _WheelPainter({Key key, this.color}) : super();
+  _WheelPainter({@required this.color}) : super();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -180,24 +180,27 @@ class _WheelPainter extends CustomPainter {
       colors: [Colors.transparent, Colors.black],
     ).createShader(rect);
     canvas.drawRRect(
-        rRect,
-        Paint()
-          ..style = PaintingStyle.fill
-          ..shader = vertical);
+      rRect,
+      Paint()
+        ..style = PaintingStyle.fill
+        ..shader = vertical,
+    );
 
     canvas.drawRRect(
-        rRect,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..color = Colors.grey);
+      rRect,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..color = Colors.grey,
+    );
 
-    double paletteX =
+    final int indicatorSize = 12;
+    final paletteX =
         Wheel.saturationToVector(color.saturation, squareRadio, center.dx);
-    double paletteY = Wheel.valueToVector(color.value, squareRadio, center.dy);
-    Offset paletteVector = Offset(paletteX, paletteY);
+    final paletteY = Wheel.valueToVector(color.value, squareRadio, center.dy);
+    final paletteVector = Offset(paletteX, paletteY - (indicatorSize / 2));
     canvas.drawCircle(
       paletteVector,
-      12,
+      indicatorSize.toDouble(),
       Paint()
         ..color = Colors.white
         ..strokeWidth = 1

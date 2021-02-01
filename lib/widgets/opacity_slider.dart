@@ -31,9 +31,9 @@ class OpacitySlider extends StatelessWidget {
           Text(
             '${(value * 100.0).toInt()}%',
             style: TextStyle(
-                color: ThemeManager.isBright(context)
-                    ? Colors.black
-                    : Colors.white),
+              color:
+                  ThemeManager.isBright(context) ? Colors.black : Colors.white,
+            ),
           ),
           SizedBox(width: 10),
         ],
