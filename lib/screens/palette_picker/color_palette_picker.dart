@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
-const double _kBorderRadius = 6;
-const double _kBorderWidth = 0.2;
+const double _kBorderRadius = 3;
+const double _kBorderWidth = 0.01;
 double kSliderHeight = 14;
 double kThumbSize = kSliderHeight * 2;
 
@@ -81,6 +81,7 @@ class PalettePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, size) {
       return Stack(
+        clipBehavior: Clip.none,
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
@@ -105,8 +106,9 @@ class PalettePicker extends StatelessWidget {
             ),
           ), // Top bottom
           Positioned(
-            left: size.biggest.width * positionToRatio().dx - (25 / 2),
-            top: size.biggest.height * positionToRatio().dy - (25 / 2),
+            // 26 because of the border. 25 + 1
+            left: size.biggest.width * positionToRatio().dx - (26 / 2),
+            top: size.biggest.height * positionToRatio().dy - (26 / 2) ,
             child: Container(
               height: 25,
               width: 25,
@@ -218,7 +220,7 @@ class _SliderPickerState extends State<SliderPicker> {
               ),
               decoration: BoxDecoration(
                 borderRadius: radius,
-                border: Border.all(color: Colors.grey, width: _kBorderWidth),
+                // border: Border.all(color: Colors.grey, width: _kBorderWidth),
                 gradient: LinearGradient(colors: widget.colors),
               ),
               child: gestureDetector,

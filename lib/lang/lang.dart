@@ -80,6 +80,11 @@ abstract class Language {
   String get favorite;
   String get unfavorite;
 
+  String get copyToClipboard;
+  Widget copiedToClipboard(String text);
+
+  String supportedPlatforms(List<TargetPlatform> platforms);
+
   String get seeColorInfo;
   String get colorInfo;
   String colorWithOpacity(String name, int opacity);
@@ -89,6 +94,11 @@ abstract class Language {
   String get app;
   String get initialColor;
   String get language;
+
+  String get about;
+  String get author;
+  String get openSource;
+  String get madeWithFlutter;
 
   String get theme;
   String get dark;

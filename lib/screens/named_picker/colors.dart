@@ -1,5 +1,6 @@
-import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
+
+import '../../lang/lang.dart';
 
 Map<String, MaterialColor> primaries(BuildContext context) {
   final lang = Language.of(context);

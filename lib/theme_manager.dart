@@ -40,12 +40,18 @@ class ThemeManager extends ChangeNotifier {
           valueIndicatorTextStyle: TextStyle(color: Colors.white),
           showValueIndicator: ShowValueIndicator.always,
         ),
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          centerTitle: true,
+        ),
       );
 
   static ThemeData get lightTheme => def(Colors.orange).copyWith(
         scaffoldBackgroundColor: Colors.orange,
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
+          elevation: 0,
+          centerTitle: true,
         ),
         tabBarTheme: TabBarTheme(
           indicatorSize: TabBarIndicatorSize.label,
@@ -58,7 +64,11 @@ class ThemeManager extends ChangeNotifier {
   static ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.grey[850],
-        appBarTheme: AppBarTheme(color: Colors.grey[850]),
+        appBarTheme: AppBarTheme(
+          color: Colors.grey[850],
+          elevation: 0,
+          centerTitle: true,
+        ),
         tabBarTheme: TabBarTheme(
           indicatorSize: TabBarIndicatorSize.label,
           indicator: UnderlineTabIndicator(

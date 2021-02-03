@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import "dart:math" as math;
+
+import 'package:flutter/material.dart';
 
 class Wheel {
   static double vectorToHue(Offset vector) =>
@@ -186,12 +187,13 @@ class _WheelPainter extends CustomPainter {
         ..shader = vertical,
     );
 
-    canvas.drawRRect(
-      rRect,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..color = Colors.grey,
-    );
+    // border
+    // canvas.drawRRect(
+    //   rRect,
+    //   Paint()
+    //     ..style = PaintingStyle.stroke
+    //     ..color = Colors.grey,
+    // );
 
     final int indicatorSize = 12;
     final paletteX =

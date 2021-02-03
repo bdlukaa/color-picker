@@ -36,7 +36,16 @@ class HEXColorInfo extends StatelessWidget {
             ],
           ),
           Spacer(),
-          ColorPreview(color: this.color),
+          ColorPreview(
+            color: this.color,
+            onCopyToClipboard: () async {
+              final text = '#' + alpha + color.toString();
+              await FlutterClipboard.copy(text);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: lang.copiedToClipboard(text)),
+              );
+            },
+          ),
         ],
       ),
     );

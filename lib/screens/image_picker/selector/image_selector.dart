@@ -10,7 +10,7 @@ class ImageSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double tabBarSize = 46;
+    final double tabBarSize = 46;
     return LayoutBuilder(builder: (context, con) {
       final lang = Language.of(context);
       return SingleChildScrollView(
@@ -19,8 +19,6 @@ class ImageSelector extends StatelessWidget {
           child: SizedBox(
             height: con.biggest.height,
             child: Column(
-              // avoid keyboard bottom overflow
-              // physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 LimitedBox(
                   maxHeight: tabBarSize,
@@ -31,18 +29,17 @@ class ImageSelector extends StatelessWidget {
                     ],
                     indicatorSize: TabBarIndicatorSize.label,
                     indicator: UnderlineTabIndicator(
-                        borderSide: BorderSide(color: Colors.blue[800])),
+                      borderSide: BorderSide(color: Colors.blue[800]),
+                    ),
                     labelColor: Colors.black,
                   ),
                 ),
-                SizedBox(
+                Container(
+                  padding: EdgeInsets.only(top: 4),
                   height: con.biggest.height - tabBarSize,
                   child: TabBarView(
                     physics: NeverScrollableScrollPhysics(),
-                    children: <Widget>[
-                      LocalImageSelector(),
-                      NetworkImageSelector(),
-                    ],
+                    children: [LocalImageSelector(), NetworkImageSelector()],
                   ),
                 )
               ],

@@ -9,29 +9,23 @@ class NamedPickerHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colors = primaries(context);
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        top: false,
-        child: ListView.builder(
-          itemCount: colors.length,
-          padding: EdgeInsets.only(
-            left: 15,
-            right: 15,
-            top: 20,
-            bottom: 35,
-          ),
-          itemBuilder: (context, index) {
-            final name = colors.keys.toList()[index];
-            final color = colors.values.toList()[index];
-            return NamedPickerTile(
-              color: color,
-              title: name,
-              first: index == 0,
-            );
-          },
-        ),
+    return ListView.builder(
+      itemCount: colors.length,
+      padding: EdgeInsets.only(
+        left: 15,
+        right: 15,
+        top: 20,
+        bottom: 35,
       ),
+      itemBuilder: (context, index) {
+        final name = colors.keys.toList()[index];
+        final color = colors.values.toList()[index];
+        return NamedPickerTile(
+          color: color,
+          title: name,
+          first: index == 0,
+        );
+      },
     );
   }
 }

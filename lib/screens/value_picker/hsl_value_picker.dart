@@ -1,7 +1,9 @@
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/screens/color_info/color_info.dart';
-import 'package:color_picker/widgets/opacity_slider.dart';
 import 'package:flutter/material.dart';
+
+import '../../lang/lang.dart';
+import '../../widgets/opacity_slider.dart';
+
+import '../color_info/color_info.dart';
 
 class HSLValuePicker extends StatefulWidget {
   HSLValuePicker({Key key}) : super(key: key);
@@ -31,7 +33,6 @@ class _HSLValuePickerState extends State<HSLValuePicker>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // Spacer(),
         ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),

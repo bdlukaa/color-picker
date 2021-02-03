@@ -1,8 +1,10 @@
-import 'package:color/color.dart' hide Color;
-import 'package:color_picker/screens/color_info/color_info.dart';
-import 'package:color_picker/widgets/opacity_slider.dart';
-import 'package:color_picker/widgets/scroll_initial.dart';
 import 'package:flutter/material.dart' hide TextField;
+import 'package:color/color.dart' hide Color;
+
+import '../../widgets/opacity_slider.dart';
+import '../../widgets/scroll_initial.dart';
+
+import '../color_info/color_info.dart';
 
 class LABValuePicker extends StatefulWidget {
   LABValuePicker({Key key}) : super(key: key);

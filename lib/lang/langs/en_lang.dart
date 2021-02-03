@@ -1,4 +1,5 @@
 import 'package:color_picker/lang/lang.dart';
+import 'package:flutter/material.dart';
 
 class English extends Language {
   String get code => 'en';
@@ -47,6 +48,24 @@ class English extends Language {
   String get favorite => 'Favorite';
   String get unfavorite => 'Unfavorite';
 
+  String get copyToClipboard => 'Copy to clipboard';
+  Widget copiedToClipboard(String text) {
+    return RichText(
+      text: TextSpan(
+        text: 'Copied ',
+        children: [
+          TextSpan(text: text, style: TextStyle(color: Colors.blue)),
+          TextSpan(text: ' to clipboard'),
+        ],
+      ),
+    );
+  }
+
+  String supportedPlatforms(List<TargetPlatform> platforms) {
+    String text = 'This feature is not avaiable on your OS';
+    return text;
+  }
+
   String get seeColorInfo => 'See color info';
   String get colorInfo => 'Color info';
   String colorWithOpacity(String name, int opacity) =>
@@ -57,6 +76,11 @@ class English extends Language {
   String get app => 'App';
   String get initialColor => 'Initial color';
   String get language => 'Language';
+
+  String get about => 'About';
+  String get author => 'Author';
+  String get openSource => 'Open source';
+  String get madeWithFlutter => 'Made with Flutter 💙';
 
   String get theme => 'Theme';
   String get dark => 'Dark';

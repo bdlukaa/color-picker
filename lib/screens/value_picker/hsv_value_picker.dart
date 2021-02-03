@@ -1,7 +1,9 @@
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/screens/color_info/color_info.dart';
-import 'package:color_picker/widgets/opacity_slider.dart';
 import 'package:flutter/material.dart';
+
+import '../../lang/lang.dart';
+import '../../widgets/opacity_slider.dart';
+
+import '../color_info/color_info.dart';
 
 class HSVValuePicker extends StatefulWidget {
   HSVValuePicker({Key key}) : super(key: key);
@@ -27,7 +29,7 @@ class _HSVValuePickerState extends State<HSVValuePicker>
     var color = HSVColor.fromAHSV(1, hue, saturation, value)
         .toColor()
         .withOpacity(opacity);
-    Language lang = Language.of(context);
+    final lang = Language.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

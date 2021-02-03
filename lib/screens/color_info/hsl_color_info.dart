@@ -42,7 +42,17 @@ class HSLColorInfo extends StatelessWidget {
             ],
           ),
           Spacer(),
-          ColorPreview(color: this.color),
+          ColorPreview(
+            color: this.color,
+            onCopyToClipboard: () async {
+              final text =
+                  'hsl(${color.hue.toInt()}, ${(color.saturation * 100).toInt()}%, ${(color.lightness * 100).toInt()}%)';
+              await FlutterClipboard.copy(text);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: lang.copiedToClipboard(text)),
+              );
+            },
+          ),
         ],
       ),
     );

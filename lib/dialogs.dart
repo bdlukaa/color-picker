@@ -17,16 +17,10 @@ showColorInfoDialog(
 ) =>
     showDialog(
       context: context,
-      child: SimpleDialog(
+      child: AlertDialog(
         title: Center(child: Text(title)),
         contentPadding: EdgeInsets.only(top: 20),
-        children: <Widget>[
-          ColorInfo(
-            color: color,
-            // clipBehavior: Clip.none,
-            background: Colors.transparent,
-          )
-        ],
+        content: ColorInfo(color: color, background: Colors.transparent),
       ),
     );
 

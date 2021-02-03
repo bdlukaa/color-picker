@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../screens/color_info/color_info.dart';
 import '../../widgets/opacity_slider.dart';
-import '../../widgets/scroll_initial.dart';
 import '../../widgets/minHeight.dart';
 
 import '../../utils.dart';
@@ -26,7 +25,6 @@ class _PalettePickerHomeState extends State<PalettePickerHome>
     return MinHeight(
       minScreenHeight: 350,
       child: Container(
-        color: Colors.white,
         padding: EdgeInsets.only(left: 10, right: 10, top: 10),
         height: double.infinity,
         child: Column(

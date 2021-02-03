@@ -1,8 +1,9 @@
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/widgets/zoomed_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import '../lang/lang.dart';
+import '../widgets/zoomed_scaffold.dart';
 import '../theme_manager.dart';
+
 import 'palette_picker/palette_picker_home.dart';
 import 'wheel_picker/color_picker_wheel_home.dart';
 import 'value_picker/value_home.dart';
@@ -20,6 +21,9 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> with TickerProviderStateMixin {
   MenuController menuController;
+
+  // Use this key to keep the state of the tabs and scrolling
+  final scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -46,42 +50,43 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
           : Theme.of(context).scaffoldBackgroundColor,
       endMenuScreen: FavoritesList(),
       endMenuColor: Colors.blueGrey,
-      contentScreen: LayoutBuilder(builder: (context, consts) {
-        final height = consts.biggest.height;
-        return DefaultTabController(
-          length: 5,
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              leading: menuController.expanded
-                  ? null
-                  : IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () => menuController.toggle(),
-                    ),
-              title: height >= 500
-                  ? Text(lang.title, style: TextStyle(color: Colors.white))
-                  : _buildTabBar(lang),
-              actions: <Widget>[
-                if (!menuController.expanded)
-                  IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () => menuController.toggleEnd(),
+      contentScreen: DefaultTabController(
+        key: scaffoldKey,
+        length: 5,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            leading: menuController.expanded
+                ? null
+                : IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => menuController.toggle(),
                   ),
-              ],
-              brightness: Brightness.dark, // light icons
-              centerTitle: true,
-              elevation: 0,
-              bottom: height >= 500 ? _buildTabBar(lang) : null,
-            ),
-            // backgroundColor: Colors.orange,
-            body: Padding(
-              padding: EdgeInsets.only(top: 7),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+            // title: height >= 500
+            title: false
+                // ignore: dead_code
+                ? Text(lang.title, style: TextStyle(color: Colors.white))
+                : _buildTabBar(lang),
+            actions: <Widget>[
+              if (!menuController.expanded)
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  onPressed: () => menuController.toggleEnd(),
                 ),
+            ],
+            brightness: Brightness.dark, // light icons
+            // bottom: height >= 500 ? _buildTabBar(lang) : null,
+          ),
+          // backgroundColor: Colors.orange,
+          body: Padding(
+            padding: EdgeInsets.only(top: 7),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+              child: Container(
+                color: ThemeManager.isBright(context) ? Colors.white : null,
                 child: TabBarView(
                   physics: NeverScrollableScrollPhysics(),
                   children: <Widget>[
@@ -95,8 +100,8 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
               ),
             ),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 

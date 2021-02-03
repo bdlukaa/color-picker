@@ -1,6 +1,6 @@
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/widgets/color_preview.dart';
 import 'package:flutter/material.dart';
+
+import '../../lang/lang.dart';
 import '../../db/database_manager.dart' as db;
 import '../../dialogs.dart';
 
@@ -40,11 +40,7 @@ class FavoriteListTile extends StatelessWidget {
             },
           ),
           Expanded(
-            child: ColorPreview(
-              color: color,
-              favoriteEnabled: false,
-              // size: 100,
-            ),
+            child: Container(height: 45, color: color),
           ),
           IconButton(
             icon: Icon(Icons.info_outline, color: Colors.white),

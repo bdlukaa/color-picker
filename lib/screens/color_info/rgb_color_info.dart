@@ -41,7 +41,17 @@ class RGBColorInfo extends StatelessWidget {
             ],
           ),
           Spacer(),
-          ColorPreview(color: color),
+          ColorPreview(
+            color: color,
+            onCopyToClipboard: () async {
+              final text =
+                  'rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})';
+              await FlutterClipboard.copy(text);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: lang.copiedToClipboard(text)),
+              );
+            },
+          ),
         ],
       ),
     );

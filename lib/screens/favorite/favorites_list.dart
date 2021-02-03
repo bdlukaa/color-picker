@@ -1,6 +1,6 @@
-import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
 
+import '../../lang/lang.dart';
 import '../../db/database_manager.dart';
 import 'favorite_tile.dart';
 

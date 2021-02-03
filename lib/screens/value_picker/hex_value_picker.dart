@@ -1,10 +1,10 @@
-import 'package:color/color.dart' hide Color;
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/screens/color_info/color_info.dart';
-import 'package:color_picker/widgets/opacity_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:color/color.dart' hide Color;
 
-import '../../theme_manager.dart';
+import '../../lang/lang.dart';
+import '../../widgets/opacity_slider.dart';
+
+import '../color_info/color_info.dart';
 
 class HEXValuePicker extends StatefulWidget {
   HEXValuePicker({Key key}) : super(key: key);
@@ -42,10 +42,7 @@ class _HEXValuePickerState extends State<HEXValuePicker>
               ),
             ),
             IconButton(
-              icon: Icon(
-                Icons.close,
-                color: ThemeManager.isBright(context) ? null : Colors.black,
-              ),
+              icon: Icon(Icons.close),
               onPressed: () => _hexController.clear(),
               tooltip: lang.clear,
             ),

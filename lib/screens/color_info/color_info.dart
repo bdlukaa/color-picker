@@ -4,6 +4,7 @@ import 'package:color/color.dart' hide Color;
 import 'package:color_picker/widgets/opacity_slider.dart';
 
 import '../../theme_manager.dart';
+import '../../clipboard.dart';
 import '../../lang/lang.dart';
 
 import '../../widgets/opacity_slider.dart';
@@ -38,14 +39,17 @@ class ColorInfo extends StatelessWidget {
       clipBehavior: clipBehavior,
       borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       child: Container(
-        color: background ??
-            (ThemeManager.isBright(context)
-                ? Colors.grey[100]
-                : Colors.grey[850]),
+        decoration: BoxDecoration(
+          color: background ??
+              (ThemeManager.isBright(context)
+                  ? Colors.grey[200]
+                  : Colors.grey[900]),
+        ),
         child: DefaultTabController(
           length: 6,
           initialIndex: initial ?? 0,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
                 height: 46,

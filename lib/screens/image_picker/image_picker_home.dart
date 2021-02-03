@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'selector/image_selector.dart';
 import '../../widgets/minHeight.dart';
+import '../../widgets/supported_platforms.dart';
 
 class ImagePickerHome extends StatefulWidget {
   ImagePickerHome({Key key}) : super(key: key);
@@ -17,17 +19,21 @@ class _ImagePickerHomeState extends State<ImagePickerHome>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return MinHeight(
-      minScreenHeight: 440,
-      child: LayoutBuilder(
-        builder: (context, snapshot) {
-          return Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-            constraints: snapshot,
-            child: SafeArea(child: ImageSelector()),
-          );
-        },
+    // Local image is not supported because Web does not support files
+    //
+    // Network image is not supported because [RepaintBoundary.toImage()] was
+    // not implemented on web yet.
+
+    return SupportedPlatform(
+      supportedPlatforms: TargetPlatform.values,
+      supportWeb: false,
+      child: MinHeight(
+        minScreenHeight: 440,
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: ImageSelector(),
+        ),
       ),
     );
   }

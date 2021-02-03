@@ -23,8 +23,7 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
     super.build(context);
     return MinHeight(
       minScreenHeight: 400,
-      child: Container(
-        color: Colors.white,
+      child: Padding(
         padding: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,8 +33,8 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
                 alignment: Alignment.center,
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    minWidth: 340,
-                    minHeight: 245,
+                    minWidth: 350,
+                    minHeight: 255,
                     // maxHeight: 300,
                     // maxWidth: 400,
                   ),

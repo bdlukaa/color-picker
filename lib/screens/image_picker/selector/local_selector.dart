@@ -1,10 +1,13 @@
 import 'dart:io';
 
-import 'package:color_picker/lang/lang.dart';
-import 'package:color_picker/screens/color_info/color_info.dart';
-import 'package:color_picker/widgets/scroll_initial.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../lang/lang.dart';
+import '../../../widgets/scroll_initial.dart';
+
+import '../../color_info/color_info.dart';
 
 import '../image_color_picker.dart';
 
@@ -30,7 +33,7 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    Language lang = Language.of(context);
+    final lang = Language.of(context);
     return ScrollInitial(
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -67,8 +67,8 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
               ),
             ),
             IconButton(
-              icon: Icon(Icons.search),
-              tooltip: 'Search',
+              icon: Icon(Icons.search, color: Colors.black),
+              tooltip: lang.search,
               onPressed: () => submit(),
             ),
           ],

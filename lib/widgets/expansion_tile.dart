@@ -119,38 +119,36 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
     final Color borderSideColor =
         _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
 
+    final borderRadius =
+        BorderRadius.vertical(top: Radius.circular(widget.first ? 20 : 0));
+
     return Container(
       decoration: BoxDecoration(
-          color: _backgroundColor.evaluate(_easeOutAnimation) ??
-              Colors.transparent,
-          border: Border(
-            top: BorderSide(color: borderSideColor),
-            bottom: BorderSide(color: borderSideColor),
-          )),
+        color:
+            _backgroundColor.evaluate(_easeOutAnimation) ?? Colors.transparent,
+        border: Border(
+          top: BorderSide(color: borderSideColor),
+          bottom: BorderSide(color: borderSideColor),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           IconTheme.merge(
             data: IconThemeData(color: _iconColor.evaluate(_easeInAnimation)),
             child: ClipRRect(
-              borderRadius: widget.first
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    )
-                  : BorderRadius.zero,
-              child: Container(
-                color: widget.backgroundColor ?? Colors.transparent,
-                child: ListTile(
-                  onTap: toggle,
-                  leading: widget.leading,
-                  title: widget.title,
-                  trailing: widget.trailing ??
-                      RotationTransition(
-                        turns: _iconTurns,
-                        child: const Icon(Icons.expand_more),
-                      ),
-                ),
+              borderRadius: borderRadius,
+              child: ListTile(
+                shape: RoundedRectangleBorder(borderRadius: borderRadius),
+                tileColor: widget.backgroundColor,
+                onTap: toggle,
+                leading: widget.leading,
+                title: widget.title,
+                trailing: widget.trailing ??
+                    RotationTransition(
+                      turns: _iconTurns,
+                      child: const Icon(Icons.expand_more),
+                    ),
               ),
             ),
           ),
