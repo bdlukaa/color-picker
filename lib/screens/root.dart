@@ -42,12 +42,12 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
+    final radius = BorderRadius.vertical(top: Radius.circular(25));
     return ZoomScaffold(
       controller: menuController,
       menuScreen: SettingsHome(),
-      menuColor: ThemeManager.isBright(context)
-          ? Colors.white
-          : Theme.of(context).scaffoldBackgroundColor,
+      menuColor:
+          ThemeManager.isBright(context) ? Colors.white : Colors.grey[850],
       endMenuScreen: FavoritesList(),
       endMenuColor: Colors.blueGrey,
       contentScreen: DefaultTabController(
@@ -61,6 +61,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
                 : IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => menuController.toggle(),
+                    tooltip: lang.settings,
                   ),
             // title: height >= 500
             title: false
@@ -72,31 +73,34 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
                 IconButton(
                   icon: Icon(Icons.favorite),
                   onPressed: () => menuController.toggleEnd(),
+                  tooltip: lang.favoriteColorsTitle,
                 ),
             ],
             brightness: Brightness.dark, // light icons
             // bottom: height >= 500 ? _buildTabBar(lang) : null,
           ),
-          // backgroundColor: Colors.orange,
-          body: Padding(
-            padding: EdgeInsets.only(top: 7),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
-              child: Container(
-                color: ThemeManager.isBright(context) ? Colors.white : null,
-                child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    WheelPickerHome(),
-                    PalettePickerHome(),
-                    ValueHome(),
-                    NamedPickerHome(),
-                    ImagePickerHome(),
-                  ],
-                ),
+          body: Container(
+            margin: EdgeInsets.only(top: 7),
+            decoration: BoxDecoration(
+              color: ThemeManager.isBright(context)
+                  ? Colors.white
+                  : Colors.grey[850],
+              borderRadius: radius,
+            ),
+            child: Material(
+              type: MaterialType.transparency,
+              elevation: 8,
+              borderRadius: radius,
+              // color: Colors.transparent,
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  WheelPickerHome(),
+                  PalettePickerHome(),
+                  ValueHome(),
+                  NamedPickerHome(),
+                  ImagePickerHome(),
+                ],
               ),
             ),
           ),
@@ -115,9 +119,6 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
         Tab(text: lang.namedPicker),
         Tab(text: lang.imagePicker),
       ],
-      // indicatorColor: Colors.blue[800],
-      // indicatorSize: TabBarIndicatorSize.label,
-      // labelColor: Colors.white,
     );
   }
 }

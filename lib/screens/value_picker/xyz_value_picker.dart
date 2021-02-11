@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:color/color.dart' hide Color;
 
 import '../../widgets/opacity_slider.dart';
-import '../../widgets/scroll_initial.dart';
 import '../../theme_manager.dart';
 
 import '../color_info/color_info.dart';
@@ -38,8 +37,6 @@ class _XYZValuePickerState extends State<XYZValuePicker>
     }
   }
 
-  double initialHeight;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -53,47 +50,44 @@ class _XYZValuePickerState extends State<XYZValuePicker>
       rgb.g.toInt(),
       rgb.b.toInt(),
     );
-    return ScrollInitial(
-      initialHeight: initialHeight,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Field(
-                controller: _xController,
-                color: Colors.redAccent,
-                label: 'X',
-              ),
-              Field(
-                controller: _yController,
-                color: Colors.green,
-                label: 'Y',
-              ),
-              Field(
-                controller: _zController,
-                color: Colors.blue,
-                label: 'Z',
-              ),
-              SizedBox(height: 4),
-            ],
-          ),
-          MediaQuery.of(context).orientation == Orientation.portrait
-              ? Spacer()
-              : Container(),
-          Divider(),
-          ColorInfo(
-            color: color,
-            initial: 4,
-            slider: OpacitySlider(
-              onChanged: (value) => setState(() => opacity = value),
-              value: opacity,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            Field(
+              controller: _xController,
+              color: Colors.redAccent,
+              label: 'X',
             ),
+            Field(
+              controller: _yController,
+              color: Colors.green,
+              label: 'Y',
+            ),
+            Field(
+              controller: _zController,
+              color: Colors.blue,
+              label: 'Z',
+            ),
+            SizedBox(height: 4),
+          ],
+        ),
+        MediaQuery.of(context).orientation == Orientation.portrait
+            ? Spacer()
+            : Container(),
+        Divider(),
+        ColorInfo(
+          color: color,
+          initial: 4,
+          slider: OpacitySlider(
+            onChanged: (value) => setState(() => opacity = value),
+            value: opacity,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

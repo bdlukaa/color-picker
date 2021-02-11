@@ -213,11 +213,10 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
         final width = consts.biggest.width;
         Widget Function(Color color, Widget screen, EdgeInsets p) buildMenu =
             (color, screen, p) {
-          return Material(
-            child: Container(
-              // Use media query instead of SafeArea to abrange the color
-              padding: (p ?? padding) + mq.viewPadding,
-              color: color,
+          return Container(
+            padding: (p ?? padding) + mq.viewPadding,
+            color: color,
+            child: Material(
               child: screen,
             ),
           );

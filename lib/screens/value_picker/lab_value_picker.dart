@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide TextField;
 import 'package:color/color.dart' hide Color;
 
 import '../../widgets/opacity_slider.dart';
-import '../../widgets/scroll_initial.dart';
 
 import '../color_info/color_info.dart';
 
@@ -43,45 +42,42 @@ class _LABValuePickerState extends State<LABValuePicker>
       rgb.g.toInt(),
       rgb.b.toInt(),
     );
-    return ScrollInitial(
-      // height: consts.biggest.height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                Field(
-                  value: lightness,
-                  onChanged: (value) => setState(() => lightness = value),
-                  color: Colors.redAccent,
-                  label: 'Lightness',
-                  max: 100,
-                ),
-                TextField(
-                  controller: _aController,
-                  color: Colors.green,
-                  label: 'A',
-                ),
-                TextField(
-                  controller: _bController,
-                  color: Colors.blue,
-                  label: 'B',
-                ),
-              ],
-            ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            children: <Widget>[
+              Field(
+                value: lightness,
+                onChanged: (value) => setState(() => lightness = value),
+                color: Colors.redAccent,
+                label: 'Lightness',
+                max: 100,
+              ),
+              TextField(
+                controller: _aController,
+                color: Colors.green,
+                label: 'A',
+              ),
+              TextField(
+                controller: _bController,
+                color: Colors.blue,
+                label: 'B',
+              ),
+            ],
           ),
-          Divider(),
-          ColorInfo(
-            color: color,
-            initial: 5,
-            slider: OpacitySlider(
-              onChanged: (value) => setState(() => opacity = value),
-              value: opacity,
-            ),
+        ),
+        Divider(),
+        ColorInfo(
+          color: color,
+          initial: 5,
+          slider: OpacitySlider(
+            onChanged: (value) => setState(() => opacity = value),
+            value: opacity,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

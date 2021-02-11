@@ -16,7 +16,7 @@ class WheelPickerHome extends StatefulWidget {
 
 class _WheelPickerHomeState extends State<WheelPickerHome>
     with AutomaticKeepAliveClientMixin {
-  Color color = initialColor;
+  HSVColor color = HSVColor.fromColor(initialColor);
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +39,19 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
                     // maxWidth: 400,
                   ),
                   child: WheelPicker(
-                    color: HSVColor.fromColor(color),
-                    onChanged: (color) =>
-                        setState(() => this.color = color.toColor()),
+                    color: color,
+                    onChanged: (color) => setState(() => this.color = color),
                   ),
                 ),
               ),
             ),
             Divider(),
             ColorInfo(
-              color: color,
+              color: color.toColor(),
               slider: OpacitySlider(
                 onChanged: (value) =>
-                    setState(() => color = color.withOpacity(value)),
-                value: color.opacity,
+                    setState(() => color = color.withAlpha(value)),
+                value: color.alpha,
               ),
             ),
           ],

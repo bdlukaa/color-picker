@@ -8,13 +8,12 @@ class RGBColorInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -40,20 +39,15 @@ class RGBColorInfo extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          ColorPreview(
-            color: color,
-            onCopyToClipboard: () async {
-              final text =
-                  'rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})';
-              await FlutterClipboard.copy(text);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: lang.copiedToClipboard(text)),
-              );
-            },
+        ),
+        ColorPreview(
+          color: color,
+          onCopyToClipboard: () => showCopiedToClipboard(
+            context,
+            'rgba(${color.red}, ${color.green}, ${color.blue}, ${color.opacity})',
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

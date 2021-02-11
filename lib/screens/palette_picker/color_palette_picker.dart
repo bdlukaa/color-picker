@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
+import '../../widgets/indicator.dart';
 
 const double _kBorderRadius = 3;
 const double _kBorderWidth = 0.01;
-double kSliderHeight = 14;
-double kThumbSize = kSliderHeight * 2;
+const double kSliderHeight = 14;
 
-class PalettePicker extends StatelessWidget {
+class PalettePicker extends StatefulWidget {
   final Offset position;
   final ValueChanged<Offset> onChanged;
 
@@ -16,6 +16,7 @@ class PalettePicker extends StatelessWidget {
   final double topPosition;
   final double bottomPosition;
   final List<Color> topBottomColors;
+  final HSVColor color;
 
   PalettePicker({
     Key key,
@@ -27,17 +28,29 @@ class PalettePicker extends StatelessWidget {
     this.rightPosition = 1.0,
     this.topPosition = 0.0,
     this.bottomPosition = 1.0,
+    this.color,
   })  : assert(position != null),
         super(key: key);
 
-  Offset positionToRatio() {
-    double ratioX = leftPosition < rightPosition
-        ? positionToRatio2(position.dx, leftPosition, rightPosition)
-        : 1.0 - positionToRatio2(position.dx, rightPosition, leftPosition);
+  @override
+  _PalettePickerState createState() => _PalettePickerState();
+}
 
-    double ratioY = topPosition < bottomPosition
-        ? positionToRatio2(position.dy, topPosition, bottomPosition)
-        : 1.0 - positionToRatio2(position.dy, bottomPosition, topPosition);
+class _PalettePickerState extends State<PalettePicker> {
+  Offset positionToRatio() {
+    double ratioX = widget.leftPosition < widget.rightPosition
+        ? positionToRatio2(
+            widget.position.dx, widget.leftPosition, widget.rightPosition)
+        : 1.0 -
+            positionToRatio2(
+                widget.position.dx, widget.rightPosition, widget.leftPosition);
+
+    double ratioY = widget.topPosition < widget.bottomPosition
+        ? positionToRatio2(
+            widget.position.dy, widget.topPosition, widget.bottomPosition)
+        : 1.0 -
+            positionToRatio2(
+                widget.position.dy, widget.bottomPosition, widget.topPosition);
 
     return Offset(ratioX, ratioY);
   }
@@ -58,16 +71,18 @@ class PalettePicker extends StatelessWidget {
     double ratioX = updateOffset.dx / size.width;
     double ratioY = updateOffset.dy / size.height;
 
-    double positionX = leftPosition < rightPosition
-        ? ratioToPosition2(ratioX, leftPosition, rightPosition)
-        : ratioToPosition2(1.0 - ratioX, rightPosition, leftPosition);
+    double positionX = widget.leftPosition < widget.rightPosition
+        ? ratioToPosition2(ratioX, widget.leftPosition, widget.rightPosition)
+        : ratioToPosition2(
+            1.0 - ratioX, widget.rightPosition, widget.leftPosition);
 
-    double positionY = topPosition < bottomPosition
-        ? ratioToPosition2(ratioY, topPosition, bottomPosition)
-        : ratioToPosition2(1.0 - ratioY, bottomPosition, topPosition);
+    double positionY = widget.topPosition < widget.bottomPosition
+        ? ratioToPosition2(ratioY, widget.topPosition, widget.bottomPosition)
+        : ratioToPosition2(
+            1.0 - ratioY, widget.bottomPosition, widget.topPosition);
 
     Offset position = Offset(positionX, positionY);
-    onChanged(position);
+    widget.onChanged(position);
   }
 
   double ratioToPosition2(
@@ -76,6 +91,8 @@ class PalettePicker extends StatelessWidget {
     if (ratio > 1.0) return maxposition;
     return ratio * maxposition + (1.0 - ratio) * minposition;
   }
+
+  bool showColor;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +107,7 @@ class PalettePicker extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: leftRightColors,
+                colors: widget.leftRightColors,
               ),
             ),
           ), // Left right
@@ -101,34 +118,37 @@ class PalettePicker extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: topBottomColors,
+                colors: widget.topBottomColors,
               ),
             ),
           ), // Top bottom
           Positioned(
             // 26 because of the border. 25 + 1
             left: size.biggest.width * positionToRatio().dx - (26 / 2),
-            top: size.biggest.height * positionToRatio().dy - (26 / 2) ,
-            child: Container(
-              height: 25,
-              width: 25,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.transparent,
-                border: Border.all(
-                  width: 1,
-                  color: Colors.white,
-                ),
-              ),
+            top: size.biggest.height * positionToRatio().dy - (26 / 2),
+            child: ColorIndicator(
+              currentColor: widget.color.toColor(),
+              show: showColor,
+              below:
+                  positionToRatio().dy <= ((kIndicatorPreviewSize * 0.8) / 100),
             ),
           ), // Indicator
           GestureDetector(
-            onPanStart: (details) =>
-                ratioToPosition(context, details.globalPosition),
-            onPanUpdate: (details) =>
-                ratioToPosition(context, details.globalPosition),
-            onPanDown: (details) =>
-                ratioToPosition(context, details.globalPosition),
+            onPanStart: (details) {
+              showColor = true;
+              ratioToPosition(context, details.globalPosition);
+            },
+            onPanEnd: (_) {
+              setState(() => showColor = false);
+            },
+            onPanUpdate: (details) => ratioToPosition(
+              context,
+              details.globalPosition,
+            ),
+            onPanDown: (details) => ratioToPosition(
+              context,
+              details.globalPosition,
+            ),
           ), // Gestures
         ],
       );
@@ -141,8 +161,8 @@ class SliderPicker extends StatefulWidget {
   final double max;
   final double value;
   final ValueChanged<double> onChanged;
-  final List<Color> colors;
-  final Color color;
+  final List<HSVColor> colors;
+  final HSVColor color;
 
   SliderPicker({
     Key key,
@@ -199,6 +219,7 @@ class _SliderPickerState extends State<SliderPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final double kIndicatorSize = kSliderHeight * 2.4;
     return LayoutBuilder(
       builder: (context, box) {
         Widget gestureDetector = GestureDetector(
@@ -212,36 +233,40 @@ class _SliderPickerState extends State<SliderPicker> {
         );
         return Stack(
           clipBehavior: Clip.none,
+          alignment: Alignment.centerLeft,
           children: <Widget>[
-            Container(
-              constraints: BoxConstraints.tightFor(
-                width: box.maxWidth,
-                height: kSliderHeight
-              ),
-              decoration: BoxDecoration(
-                borderRadius: radius,
-                // border: Border.all(color: Colors.grey, width: _kBorderWidth),
-                gradient: LinearGradient(colors: widget.colors),
-              ),
-              child: gestureDetector,
-            ),
-            // Thumb
-            Positioned(
-              top: -7,
-              child: Transform(
-                transform: Matrix4.identity()
-                  ..translate(
-                    getWidth(getRatio(), box.maxWidth) - (kThumbSize / 2),
-                  ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              child: Material(
+                type: MaterialType.transparency,
+                elevation: 8,
                 child: Container(
-                  height: kThumbSize,
-                  width: kThumbSize,
+                  constraints: BoxConstraints.tightFor(
+                    width: box.maxWidth,
+                    height: kSliderHeight,
+                  ),
                   decoration: BoxDecoration(
-                    color: widget.color.withOpacity(1),
-                    shape: BoxShape.circle,
+                    borderRadius: radius,
+                    gradient: LinearGradient(
+                      colors: widget.colors.map((c) => c.toColor()).toList(),
+                    ),
                   ),
                   child: gestureDetector,
                 ),
+              ),
+            ),
+            // Thumb
+            Positioned(
+              top: -(kIndicatorSize / 4),
+              left: getWidth(getRatio(), box.maxWidth) - (kIndicatorSize / 2),
+              child: Container(
+                height: kIndicatorSize,
+                width: kIndicatorSize,
+                decoration: BoxDecoration(
+                  color: widget.color.withValue(1).withSaturation(1).toColor(),
+                  shape: BoxShape.circle,
+                ),
+                child: gestureDetector,
               ),
             )
           ],
@@ -262,17 +287,17 @@ class PaletteHuePicker extends StatelessWidget {
   })  : assert(color != null),
         super(key: key);
 
-  List<Color> get hueColors {
+  List<HSVColor> get hueColors {
     final color = this.color.withSaturation(1).withValue(1);
-    return <Color>[
-      color.withHue(0.0).toColor(),
-      color.withHue(60.0).toColor(),
-      color.withHue(120.0).toColor(),
-      color.withHue(180.0).toColor(),
-      color.withHue(240.0).toColor(),
-      color.withHue(300.0).toColor(),
-      color.withHue(0.0).toColor()
-    ].map((color) => color.withOpacity(1)).toList();
+    return <HSVColor>[
+      color.withHue(0.0),
+      color.withHue(60.0),
+      color.withHue(120.0),
+      color.withHue(180.0),
+      color.withHue(240.0),
+      color.withHue(300.0),
+      color.withHue(0.0)
+    ];
   }
 
   List<Color> get saturationColors => [
@@ -291,15 +316,19 @@ class PaletteHuePicker extends StatelessWidget {
         children: <Widget>[
           Expanded(
             // fit: FlexFit.loose,
-            child: PalettePicker(
-              position: Offset(color.saturation, color.value),
-              onChanged: (value) => onChanged(
-                HSVColor.fromAHSV(color.alpha, color.hue, value.dx, value.dy),
+            child: Material(
+              elevation: 8,
+              child: PalettePicker(
+                position: Offset(color.saturation, color.value),
+                onChanged: (value) => onChanged(
+                  HSVColor.fromAHSV(color.alpha, color.hue, value.dx, value.dy),
+                ),
+                color: color,
+                topPosition: 1.0,
+                bottomPosition: 0.0,
+                leftRightColors: saturationColors,
+                topBottomColors: valueColors,
               ),
-              topPosition: 1.0,
-              bottomPosition: 0.0,
-              leftRightColors: saturationColors,
-              topBottomColors: valueColors,
             ),
           ),
           SizedBox(height: 14),
@@ -309,7 +338,7 @@ class PaletteHuePicker extends StatelessWidget {
             value: color.hue,
             onChanged: (value) => onChanged(color.withHue(value)),
             colors: hueColors,
-            color: color.toColor(),
+            color: color,
           )
         ],
       ),

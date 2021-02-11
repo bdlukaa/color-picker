@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme_manager.dart';
 import '../../widgets/minHeight.dart';
 
 import 'rgb_value_picker.dart';
@@ -25,8 +26,10 @@ class _ValueHomeState extends State<ValueHome>
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
             title: TabBar(
               isScrollable: true,
               tabs: <Widget>[
@@ -41,10 +44,12 @@ class _ValueHomeState extends State<ValueHome>
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: Colors.blue[800]),
               ),
+              labelColor:
+                  ThemeManager.isBright(context) ? Colors.black : Colors.white,
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+            padding: EdgeInsets.only(left: 10, right: 10),
             child: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[

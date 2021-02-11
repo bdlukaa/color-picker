@@ -13,13 +13,12 @@ class HEXColorInfo extends StatelessWidget {
     String alpha =
         this.color?.alpha?.toInt()?.toRadixString(16)?.padLeft(2, '0') ?? '';
     final lang = Language.of(context);
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -35,19 +34,15 @@ class HEXColorInfo extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          ColorPreview(
-            color: this.color,
-            onCopyToClipboard: () async {
-              final text = '#' + alpha + color.toString();
-              await FlutterClipboard.copy(text);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: lang.copiedToClipboard(text)),
-              );
-            },
+        ),
+        ColorPreview(
+          color: this.color,
+          onCopyToClipboard: () => showCopiedToClipboard(
+            context,
+            '#' + alpha + color.toString(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -13,86 +13,86 @@ class SettingsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
-    return Scrollbar(
-      child: ListView(
-        padding: EdgeInsets.only(left: 25, top: 75),
-        children: <Widget>[
-          Row(children: [
-            Text(
-              lang.settings,
-              textAlign: TextAlign.left,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Icon(Icons.settings),
-          ]),
-          Divider(),
-          SettingsTitleTile(title: lang.user),
-          SettingsTile(
-            icon: Icons.format_color_fill,
-            title: lang.initialColor,
-            subColor: true,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => InitialColorDialog(),
-              );
-            },
-          ),
-          Divider(),
-          SettingsTitleTile(title: lang.app),
-          SettingsTile(
-            icon: Icons.language,
-            title: lang.language,
-            subtitle: lang.langName,
-            onTap: () => showDialog(
+    return ListView(
+      padding: EdgeInsets.only(left: 25, top: 75),
+      children: <Widget>[
+        Text(
+          lang.settings,
+          textAlign: TextAlign.left,
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 2),
+        SettingsTitleTile(title: lang.user),
+        SettingsTile(
+          icon: Icons.format_color_fill,
+          title: lang.initialColor,
+          subColor: true,
+          onTap: () {
+            showDialog(
               context: context,
-              builder: (context) => LanguageDialog(),
+              builder: (context) => InitialColorDialog(),
+            );
+          },
+        ),
+        Divider(),
+        SettingsTitleTile(title: lang.app),
+        SettingsTile(
+          icon: Icons.language,
+          title: lang.language,
+          subtitle: lang.langName,
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => LanguageDialog(),
+          ),
+        ),
+        SettingsTile(
+          icon: Icons.settings_brightness,
+          title: lang.theme,
+          subtitle: lang.fromThemeMode(
+            ThemeManager.of(context, false).mode,
+          ),
+          onTap: () => showDialog(
+            context: context,
+            builder: (_) => ThemeDialog(),
+          ),
+        ),
+        SettingsTile(
+          icon: Icons.drag_indicator,
+          title: 'Indicator',
+          onTap: () {
+            // TODO: open indicator settings
+          },
+        ),
+        Divider(),
+        SettingsTitleTile(title: lang.about),
+        SettingsTile(
+          icon: Icons.eco,
+          title: lang.author,
+          subtitle: 'bdlukaa',
+          onTap: () => launch('https://github.com/bdlukaa'),
+        ),
+        Wrap(
+          spacing: 6,
+          children: [
+            ActionChip(
+              avatar: Icon(Icons.source),
+              label: Text(lang.openSource),
+              backgroundColor: Colors.teal,
+              onPressed: () =>
+                  launch('https://github.com/bdlukaa/color-picker'),
             ),
-          ),
-          SettingsTile(
-            icon: Icons.settings_brightness,
-            title: lang.theme,
-            subtitle: lang.fromThemeMode(
-              ThemeManager.of(context, false).mode,
+            ActionChip(
+              avatar: FlutterLogo(size: IconTheme.of(context).size ?? 24),
+              label: Text(lang.madeWithFlutter),
+              backgroundColor: Colors.blue,
+              onPressed: () => launch('https://flutter.dev'),
             ),
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => ThemeDialog(),
-            ),
-          ),
-          Divider(),
-          SettingsTitleTile(title: lang.about),
-          SettingsTile(
-            icon: Icons.eco,
-            title: lang.author,
-            subtitle: 'bdlukaa',
-            onTap: () => launch('https://github.com/bdlukaa'),
-          ),
-          Wrap(
-            runSpacing: 6,
-            spacing: 6,
-            children: [
-              ActionChip(
-                avatar: Icon(Icons.source),
-                label: Text(lang.openSource),
-                backgroundColor: Colors.teal,
-                onPressed: () =>
-                    launch('https://github.com/bdlukaa/color-picker'),
-              ),
-              ActionChip(
-                avatar: FlutterLogo(size: IconTheme.of(context).size ?? 24),
-                label: Text(lang.madeWithFlutter),
-                backgroundColor: Colors.blue,
-                onPressed: () => launch('https://flutter.dev'),
-              ),
-            ],
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 

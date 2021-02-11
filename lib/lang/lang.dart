@@ -95,6 +95,9 @@ abstract class Language {
   String get initialColor;
   String get language;
 
+  String get open;
+  String get close;
+
   String get about;
   String get author;
   String get openSource;

@@ -37,7 +37,7 @@ class Portuguese extends Language {
 
   String get opacity => 'Opacidade';
 
-  String get localImage => 'Imagem do dispositivo';
+  String get localImage => 'Imagem local';
   String get networkImage => 'Imagem da internet';
   String get selectPhoto => 'Selecionar imagem';
 
@@ -77,6 +77,9 @@ class Portuguese extends Language {
   String get app => 'Aplicativo';
   String get initialColor => 'Cor inicial';
   String get language => 'Idioma';
+
+  String get open => 'Abrir';
+  String get close => 'Fechar';
 
   String get about => 'Sobre';
   String get author => 'Autor';

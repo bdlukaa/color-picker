@@ -9,13 +9,12 @@ class HSVColorInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = this.color == null ? null : HSVColor.fromColor(this.color);
     final lang = Language.of(context);
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -41,10 +40,9 @@ class HSVColorInfo extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          ColorPreview(color: this.color),
-        ],
-      ),
+        ),
+        ColorPreview(color: this.color),
+      ],
     );
   }
 }

@@ -17,7 +17,7 @@ class PalettePickerHome extends StatefulWidget {
 
 class _PalettePickerHomeState extends State<PalettePickerHome>
     with AutomaticKeepAliveClientMixin {
-  Color color = initialColor;
+  HSVColor color = HSVColor.fromColor(initialColor);
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +25,24 @@ class _PalettePickerHomeState extends State<PalettePickerHome>
     return MinHeight(
       minScreenHeight: 350,
       child: Container(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+        padding: EdgeInsets.only(left: 10, right: 10, top: 6),
         height: double.infinity,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Expanded(
               child: PaletteHuePicker(
-                color: HSVColor.fromColor(color),
-                onChanged: (c) => setState(() => color = c.toColor()),
+                color: color,
+                onChanged: (c) => setState(() => color = c),
               ),
             ),
             Divider(height: 16),
             LimitedBox(
               child: ColorInfo(
-                color: color,
+                color: color.toColor(),
                 slider: OpacitySlider(
-                  onChanged: (v) =>
-                      setState(() => color = color.withOpacity(v)),
-                  value: color.opacity,
+                  onChanged: (v) => setState(() => color = color.withAlpha(v)),
+                  value: color.alpha,
                 ),
               ),
             ),

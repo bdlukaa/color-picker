@@ -11,13 +11,12 @@ class XYZColorInfo extends StatelessWidget {
         ? null
         : RgbColor(this.color.red, this.color.green, this.color.blue)
             .toXyzColor();
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -38,10 +37,9 @@ class XYZColorInfo extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          ColorPreview(color: this.color),
-        ],
-      ),
+        ),
+        ColorPreview(color: this.color),
+      ],
     );
   }
 }

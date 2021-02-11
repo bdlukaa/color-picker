@@ -1,5 +1,29 @@
 Date format: DD/MM/YYYY
 
+## [11/02/2021] - 1.0.7
+
+- Do NOT convert HSVColor to RGB anymore (better performance)
+- use `Positioned` instead of `Transform` to position the slider thumb
+- Make the image selector background image darker when in dark mode
+- Chessboard built entirely in dart. No need to use assets anymore
+
+## [10/02/2021] - 1.0.6
+
+- **NEW**:
+  - Color info can now be shrinked
+  - User can now customize the color indicator in the settings page
+  - An overlay is shown above the indicator with the currrent color
+- **FIXED**:
+  - Image color picker issues:
+    - the color wasn't syncronized with the indicator
+    - the color at the empty space was taken as if it was from the picture
+  - Initial color dialog didn't open
+  - Could not copy colors on dialogs
+  - Overflow on color info
+- Removed expansion tile border
+- Removed scroll bar
+- Removed Clipper at `root.dart` to improve performance
+
 ## [03/02/2021] - 1.0.5
 
 - `SupportedPlatforms` widget

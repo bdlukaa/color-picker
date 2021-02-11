@@ -50,7 +50,7 @@ class NamedPickerTile extends StatelessWidget {
           child: Text(
             lang.colorWithOpacity(title, opacity ~/ 10),
             style: TextStyle(
-              color: color.opacity <= 0.5 ? Colors.black : Colors.white,
+              color: color.opacity >= 0.5 ? Colors.black : Colors.white,
             ),
           ),
         );

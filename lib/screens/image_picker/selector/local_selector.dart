@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../lang/lang.dart';
-import '../../../widgets/scroll_initial.dart';
 
 import '../../color_info/color_info.dart';
+import '../../../utils.dart';
+import '../../../widgets/chessboard.dart';
 
 import '../image_color_picker.dart';
 
@@ -27,49 +28,55 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
 
   void getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() => _image = File(pickedFile.path));
+    if (pickedFile != null) setState(() => _image = File(pickedFile.path));
   }
+
+  final pickerKey = GlobalKey<ColorPickerWidgetState>();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final lang = Language.of(context);
-    return ScrollInitial(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          SizedBox(
-            width: double.infinity,
-            child: FlatButton(
-              child: Text(lang.selectPhoto),
-              color: Colors.green,
-              onPressed: getImage,
-              textColor: Colors.white,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Stack(
+              children: [
+                RepaintBoundary(child: ChessBoard()),
+                if (_image != null)
+                  LayoutBuilder(builder: (context, c) {
+                    return ConstrainedBox(
+                      constraints: c,
+                      child: ColorPickerWidget(
+                        key: pickerKey,
+                        onUpdate: (color) => setState(() => this.color = color),
+                        image: Image.file(
+                          _image,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    );
+                  })
+              ],
             ),
           ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: Image.asset(
-                    'assets/checkerboard.png',
-                    fit: BoxFit.fill,
-                  ).image,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 8),
-              child: _image != null
-                  ? ColorPickerWidget(
-                      onUpdate: (color) => setState(() => this.color = color),
-                      image: FileImage(_image),
-                    )
-                  : Container(),
-            ),
+        ),
+        ColorInfo(
+          color: color,
+          onExpand: () {
+            pickerKey.currentState?.loadSnapshotBytes();
+            setState(() {});
+          },
+          leading: buildCompactIconButton(
+            icon: Icon(Icons.photo_album_rounded),
+            tooltip: lang.selectPhoto,
+            onPressed: getImage,
           ),
-          ColorInfo(color: color),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

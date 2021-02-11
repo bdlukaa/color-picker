@@ -7,7 +7,7 @@ const Duration _kExpand = const Duration(milliseconds: 200);
 class ControllableExpansionTile extends StatefulWidget {
   const ControllableExpansionTile({
     Key key,
-    @required this.title,
+    this.title,
     @required this.backgroundColor,
     this.leading,
     this.controller,
@@ -16,6 +16,7 @@ class ControllableExpansionTile extends StatefulWidget {
     this.children: const <Widget>[],
     this.trailing,
     this.initiallyExpanded: false,
+    this.radius,
   })  : assert(initiallyExpanded != null),
         super(key: key);
 
@@ -28,6 +29,7 @@ class ControllableExpansionTile extends StatefulWidget {
   final bool initiallyExpanded;
   final ControllableExpansionTileController controller;
   final bool first;
+  final BorderRadiusGeometry radius;
 
   @override
   ControllableExpansionTileState createState() =>
@@ -95,7 +97,7 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
     _setExpanded(!_isExpanded);
   }
 
-  void _setExpanded(bool isExpanded) {
+  void _setExpanded(bool isExpanded) async {
     if (_isExpanded != isExpanded) {
       setState(() {
         _isExpanded = isExpanded;
@@ -110,27 +112,18 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
         PageStorage.of(context)?.writeState(context, _isExpanded);
       });
       if (widget.onExpansionChanged != null) {
+        await Future.delayed(_kExpand);
         widget.onExpansionChanged(_isExpanded);
       }
     }
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
-    final Color borderSideColor =
-        _borderColor.evaluate(_easeOutAnimation) ?? Colors.transparent;
-
-    final borderRadius =
+    final borderRadius = widget.radius ??
         BorderRadius.vertical(top: Radius.circular(widget.first ? 20 : 0));
 
     return Container(
-      decoration: BoxDecoration(
-        color:
-            _backgroundColor.evaluate(_easeOutAnimation) ?? Colors.transparent,
-        border: Border(
-          top: BorderSide(color: borderSideColor),
-          bottom: BorderSide(color: borderSideColor),
-        ),
-      ),
+      color: _backgroundColor.evaluate(_easeOutAnimation) ?? Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -144,11 +137,10 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
                 onTap: toggle,
                 leading: widget.leading,
                 title: widget.title,
-                trailing: widget.trailing ??
-                    RotationTransition(
-                      turns: _iconTurns,
-                      child: const Icon(Icons.expand_more),
-                    ),
+                trailing: RotationTransition(
+                  turns: _iconTurns,
+                  child: widget.trailing ?? const Icon(Icons.expand_more),
+                ),
               ),
             ),
           ),
@@ -172,7 +164,8 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
       ..end = theme.accentColor;
     _iconColor
       ..begin = theme.unselectedWidgetColor
-      ..end = theme.accentColor;
+      ..end = theme.unselectedWidgetColor;
+    // ..end = theme.accentColor;
     // _backgroundColor.begin = widget.backgroundColor;
     // _backgroundColor.end = widget.backgroundColor;
 
@@ -186,7 +179,6 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
 }
 
 class ControllableExpansionTileController {
-  // ignore: close_sinks
   final _str = StreamController<bool>.broadcast();
 
   Stream get stream => _str.stream;

@@ -6,67 +6,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 
-// ignore: must_be_immutable
-class ColorPickerWidget extends StatelessWidget {
-  ColorPickerWidget({@required this.onUpdate, @required this.image});
+import '../../widgets/indicator.dart';
+
+class ColorPickerWidget extends StatefulWidget {
+  ColorPickerWidget({
+    Key key,
+    @required this.onUpdate,
+    @required this.image,
+  }) : super(key: key);
 
   final Function(Color) onUpdate;
-  final ImageProvider image;
+  final Widget image;
 
-  GlobalKey paintKey = GlobalKey();
+  @override
+  ColorPickerWidgetState createState() => ColorPickerWidgetState();
+}
+
+class ColorPickerWidgetState extends State<ColorPickerWidget> {
+  final paintKey = GlobalKey();
   img.Image photo;
 
   Offset position = Offset(10, 10);
 
+  Color color;
+  bool showColor;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        RepaintBoundary(
-          key: paintKey,
-          // key: imageKey,
-          child: GestureDetector(
-            onPanStart: (details) {
-              searchPixel(details.globalPosition);
-              position = details.localPosition;
-            },
-            onPanDown: (details) {
-              searchPixel(details.globalPosition);
-              position = details.localPosition;
-            },
-            onPanUpdate: (details) {
-              searchPixel(details.globalPosition);
-              position = details.localPosition;
-            },
-            child: Center(
-              child: Image(
-                image: image,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
+    return RepaintBoundary(
+        key: paintKey,
+        child: Stack(
+          children: <Widget>[
+            GestureDetector(
+              onPanStart: (details) {
+                showColor = true;
+                searchPixel(details.globalPosition);
+              },
+              onPanEnd: (_) => setState(() => showColor = false),
+              onPanDown: (details) {
+                searchPixel(details.globalPosition);
+              },
+              onPanUpdate: (details) {
+                searchPixel(details.globalPosition);
+              },
+              child: Center(
+                // child: Image(
+                //   image: widget.image,
+                //   fit: BoxFit.contain,
+                //   alignment: Alignment.center,
+                // ),
+                child: widget.image,
               ),
             ),
-          ),
-        ),
-        Positioned(
-          // divide by two so the collected color is in the center of the
-          // bubble, not on the right top
-          top: position.dy - (25 / 2),
-          left: position.dx - (25 / 2),
-          child: Container(
-            height: 25,
-            width: 25,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.transparent,
-              border: Border.all(
-                width: 1,
-                color: Colors.white,
-              ),
+            Positioned(
+              // divide by two so the collected color is in the center of the
+              // bubble, not on the right top
+              top: position.dy - (25 / 2),
+              left: position.dx - (25 / 2),
+              child: ColorIndicator(currentColor: color, show: showColor),
             ),
-          ),
-        ),
-      ],
-    );
+          ],
+        ));
   }
 
   void searchPixel(Offset globalPosition) async {
@@ -77,14 +77,16 @@ class ColorPickerWidget extends StatelessWidget {
   void _calculatePixel(Offset globalPosition) {
     RenderBox box = paintKey.currentContext.findRenderObject();
     Offset localPosition = box.globalToLocal(globalPosition);
+    position = localPosition;
 
-    double px = localPosition.dx;
-    double py = localPosition.dy;
+    double px = position.dx;
+    double py = position.dy;
 
     int pixel32 = photo.getPixelSafe(px.toInt(), py.toInt());
     int hex = abgrToArgb(pixel32);
 
-    onUpdate(Color(hex));
+    color = Color(hex);
+    widget.onUpdate(color);
   }
 
   Future<void> loadSnapshotBytes() async {
@@ -94,6 +96,7 @@ class ColorPickerWidget extends StatelessWidget {
         await capture.toByteData(format: ui.ImageByteFormat.png);
     setImageBytes(imageBytes);
     capture.dispose();
+    widget.onUpdate(color);
   }
 
   void setImageBytes(ByteData imageBytes) {

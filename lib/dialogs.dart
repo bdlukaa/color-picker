@@ -108,13 +108,8 @@ class InitialColorDialog extends StatelessWidget {
     final lang = Language.of(context);
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      title: Center(
-        child: Text(
-          lang.initialColor,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-      ),
-      contentPadding: EdgeInsets.only(top: 20),
+      title: Text(lang.initialColor, textAlign: TextAlign.center),
+      contentPadding: EdgeInsets.zero,
       children: <Widget>[RGBIntialColorChanger()],
     );
   }
@@ -150,33 +145,27 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            Field(
-              value: red.toDouble(),
-              onChanged: (value) => setState(() => red = value.toInt()),
-              color: Colors.redAccent,
-              label: lang.red,
-            ),
-            Field(
-              value: green.toDouble(),
-              onChanged: (value) => setState(() => green = value.toInt()),
-              color: Colors.green,
-              label: lang.green,
-            ),
-            Field(
-              value: blue.toDouble(),
-              onChanged: (value) => setState(() => blue = value.toInt()),
-              color: Colors.blue,
-              label: lang.blue,
-            ),
-          ],
+        Field(
+          value: red.toDouble(),
+          onChanged: (value) => setState(() => red = value.toInt()),
+          color: Colors.redAccent,
+          label: lang.red,
+        ),
+        Field(
+          value: green.toDouble(),
+          onChanged: (value) => setState(() => green = value.toInt()),
+          color: Colors.green,
+          label: lang.green,
+        ),
+        Field(
+          value: blue.toDouble(),
+          onChanged: (value) => setState(() => blue = value.toInt()),
+          color: Colors.blue,
+          label: lang.blue,
         ),
         ColorInfo(
-          clipBehavior: Clip.none,
           background: Colors.transparent,
+          shrinkable: false,
           color: Color.fromARGB(
             255,
             red,
@@ -191,10 +180,10 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
         Button(
           color: Colors.green,
           splashColor: Colors.lightGreenAccent,
-          padding: EdgeInsets.all(10),
+          // padding: EdgeInsets.all(10),
           text: Text(lang.update, style: TextStyle(color: Colors.white)),
           shadowEnabled: false,
-          radius: BorderRadius.circular(25),
+          radius: BorderRadius.vertical(bottom: Radius.circular(20)),
           onTap: () async {
             showToast(lang.initialColorUpdated, context: context);
             Navigator.pop(context);

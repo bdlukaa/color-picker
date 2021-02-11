@@ -63,9 +63,9 @@ class ThemeManager extends ChangeNotifier {
       );
   static ThemeData get darkTheme => ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.grey[850],
+        scaffoldBackgroundColor: Colors.grey[900],
         appBarTheme: AppBarTheme(
-          color: Colors.grey[850],
+          color: Colors.grey[900],
           elevation: 0,
           centerTitle: true,
         ),

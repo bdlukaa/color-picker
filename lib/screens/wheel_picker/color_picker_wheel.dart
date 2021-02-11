@@ -116,10 +116,10 @@ class _WheelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.width / 2, size.height / 2);
-    double radio = _WheelPainter.radio(size);
+    double radio = _WheelPainter.radio(size * 1.1);
     double squareRadio = _WheelPainter.squareRadio(radio);
 
-    //Wheel
+    // Wheel
     Shader sweepShader = SweepGradient(
       center: Alignment.bottomRight,
       colors: [
@@ -133,12 +133,13 @@ class _WheelPainter extends CustomPainter {
       ],
     ).createShader(Rect.fromLTWH(0, 0, radio, radio));
     canvas.drawCircle(
-        center,
-        radio,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = _WheelPainter.doubleStrokeWidth
-          ..shader = sweepShader);
+      center,
+      radio,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = _WheelPainter.doubleStrokeWidth
+        ..shader = sweepShader,
+    );
 
     Offset wheel = Wheel.hueToVector(
       ((color.hue + 360.0) * math.pi / 180.0),
@@ -146,11 +147,12 @@ class _WheelPainter extends CustomPainter {
       center,
     );
     canvas.drawCircle(
-        wheel,
-        radio / 6,
-        Paint()
-          ..color = color.toColor().withOpacity(1)
-          ..style = PaintingStyle.fill);
+      wheel,
+      radio / 6,
+      Paint()
+        ..color = color.withSaturation(1).withValue(1).toColor().withOpacity(1)
+        ..style = PaintingStyle.fill,
+    );
 
     // Palette
     Rect rect = Rect.fromLTWH(

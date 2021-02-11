@@ -9,13 +9,12 @@ class HSLColorInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = this.color == null ? null : HSLColor.fromColor(this.color);
     final lang = Language.of(context);
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -41,20 +40,15 @@ class HSLColorInfo extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          ColorPreview(
-            color: this.color,
-            onCopyToClipboard: () async {
-              final text =
-                  'hsl(${color.hue.toInt()}, ${(color.saturation * 100).toInt()}%, ${(color.lightness * 100).toInt()}%)';
-              await FlutterClipboard.copy(text);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: lang.copiedToClipboard(text)),
-              );
-            },
+        ),
+        ColorPreview(
+          color: this.color,
+          onCopyToClipboard: () => showCopiedToClipboard(
+            context,
+            'hsl(${color.hue.toInt()}, ${(color.saturation * 100).toInt()}%, ${(color.lightness * 100).toInt()}%)',
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

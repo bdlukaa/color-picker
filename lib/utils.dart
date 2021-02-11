@@ -23,5 +23,20 @@ extension colorEncode on Color {
         'blue': blue,
         'alpha': alpha,
       });
+}
 
+Widget buildCompactIconButton({
+  @required Widget icon,
+  @required VoidCallback onPressed,
+  String tooltip,
+}) {
+  return IconButton(
+    icon: icon,
+    tooltip: tooltip,
+    onPressed: onPressed,
+    padding: EdgeInsets.zero,
+    visualDensity: VisualDensity.compact,
+    splashRadius: 25,
+    constraints: BoxConstraints(maxWidth: 28),
+  );
 }

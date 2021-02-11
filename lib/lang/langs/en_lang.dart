@@ -77,6 +77,9 @@ class English extends Language {
   String get initialColor => 'Initial color';
   String get language => 'Language';
 
+  String get open => 'Open';
+  String get close => 'Close';
+
   String get about => 'About';
   String get author => 'Author';
   String get openSource => 'Open source';
