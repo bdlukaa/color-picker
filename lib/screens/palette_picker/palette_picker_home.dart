@@ -18,6 +18,7 @@ class PalettePickerHome extends StatefulWidget {
 class _PalettePickerHomeState extends State<PalettePickerHome>
     with AutomaticKeepAliveClientMixin {
   HSVColor color = HSVColor.fromColor(initialColor);
+  bool showIndicator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,9 @@ class _PalettePickerHomeState extends State<PalettePickerHome>
           children: <Widget>[
             Expanded(
               child: PaletteHuePicker(
+                showIndicator: showIndicator,
+                onShowIndicatorChanged: (value) =>
+                    setState(() => showIndicator = value),
                 color: color,
                 onChanged: (c) => setState(() => color = c),
               ),

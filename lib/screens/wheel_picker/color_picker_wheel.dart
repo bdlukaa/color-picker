@@ -2,6 +2,8 @@ import "dart:math" as math;
 
 import 'package:flutter/material.dart';
 
+import '../../widgets/indicator.dart';
+
 class Wheel {
   static double vectorToHue(Offset vector) =>
       (((math.atan2(vector.dy, vector.dx)) * 180.0 / math.pi) + 360.0) % 360.0;
@@ -38,6 +40,7 @@ class _WheelPickerState extends State<WheelPicker> {
   HSVColor get color => widget.color;
 
   final GlobalKey paletteKey = GlobalKey();
+
   Offset getOffset(Offset ratio) {
     RenderBox renderBox = paletteKey.currentContext.findRenderObject();
     Offset startPosition = renderBox.localToGlobal(Offset.zero);
@@ -49,9 +52,15 @@ class _WheelPickerState extends State<WheelPicker> {
     return renderBox.size;
   }
 
+  bool showIndicator = false;
+
   bool isWheel = false;
   bool isPalette = false;
-  void onPanStart(Offset offset) => onPanUpdate(offset, true);
+
+  void onPanStart(Offset offset) {
+    showIndicator = true;
+    onPanUpdate(offset, true);
+  }
 
   void onPanUpdate(Offset offset, [bool start = false]) {
     RenderBox renderBox = paletteKey.currentContext.findRenderObject();
@@ -71,8 +80,10 @@ class _WheelPickerState extends State<WheelPicker> {
       this.isPalette = isPalette;
     }
 
-    if (isWheel) widget.onChanged(color.withHue(Wheel.vectorToHue(vector)));
-    if (isPalette)
+    if (isWheel) {
+      widget.onChanged(color.withHue(Wheel.vectorToHue(vector)));
+    }
+    if (isPalette) {
       widget.onChanged(
         HSVColor.fromAHSV(
           color.alpha,
@@ -81,20 +92,52 @@ class _WheelPickerState extends State<WheelPicker> {
           Wheel.vectorToValue(vector.dy, squareRadio).clamp(0.0, 1.0),
         ),
       );
+    }
   }
 
   void onPanDown(Offset offset) => isWheel = isPalette = false;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanStart: (details) => onPanStart(details.globalPosition),
-      onPanUpdate: (details) => onPanUpdate(details.globalPosition),
-      onPanDown: (details) => onPanDown(details.globalPosition),
-      child: Container(
-        key: paletteKey,
-        padding: EdgeInsets.only(top: 12.0),
-        child: CustomPaint(painter: _WheelPainter(color: color)),
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: GestureDetector(
+        onPanStart: (details) => onPanStart(details.globalPosition),
+        onPanUpdate: (details) => onPanUpdate(details.globalPosition),
+        onPanDown: (details) => onPanDown(details.globalPosition),
+        onPanEnd: (details) => setState(() => showIndicator = false),
+        child: LayoutBuilder(builder: (context, consts) {
+          final size = consts.biggest;
+          final center = Offset(size.width / 2, size.height / 2);
+          final squareRadio =
+              _WheelPainter.squareRadio(_WheelPainter.radio(size * 1.1));
+          final indicatorX = Wheel.saturationToVector(
+            color.saturation,
+            squareRadio,
+            center.dx,
+          );
+          final indicatorY = Wheel.valueToVector(
+            color.value,
+            squareRadio,
+            center.dy,
+          );
+          return Stack(
+            key: paletteKey,
+            children: [
+              Positioned.fill(
+                child: CustomPaint(painter: _WheelPainter(color: color)),
+              ),
+              Positioned(
+                top: indicatorY - (kIndicatorSize / 2),
+                left: indicatorX - (kIndicatorSize / 2),
+                child: ColorIndicator(
+                  currentColor: color.toColor(),
+                  show: showIndicator,
+                ),
+              )
+            ],
+          );
+        }),
       ),
     );
   }
@@ -148,7 +191,7 @@ class _WheelPainter extends CustomPainter {
     );
     canvas.drawCircle(
       wheel,
-      radio / 6,
+      radio * 0.15,
       Paint()
         ..color = color.withSaturation(1).withValue(1).toColor().withOpacity(1)
         ..style = PaintingStyle.fill,
@@ -187,28 +230,6 @@ class _WheelPainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.fill
         ..shader = vertical,
-    );
-
-    // border
-    // canvas.drawRRect(
-    //   rRect,
-    //   Paint()
-    //     ..style = PaintingStyle.stroke
-    //     ..color = Colors.grey,
-    // );
-
-    final int indicatorSize = 12;
-    final paletteX =
-        Wheel.saturationToVector(color.saturation, squareRadio, center.dx);
-    final paletteY = Wheel.valueToVector(color.value, squareRadio, center.dy);
-    final paletteVector = Offset(paletteX, paletteY - (indicatorSize / 2));
-    canvas.drawCircle(
-      paletteVector,
-      indicatorSize.toDouble(),
-      Paint()
-        ..color = Colors.white
-        ..strokeWidth = 1
-        ..style = PaintingStyle.stroke,
     );
   }
 

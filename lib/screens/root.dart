@@ -56,28 +56,28 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            leading: menuController.expanded
-                ? null
-                : IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () => menuController.toggle(),
-                    tooltip: lang.settings,
-                  ),
+            leading: () {
+              if (menuController.expanded != null)
+                return IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () => menuController.toggle(),
+                  tooltip: lang.settings,
+                  splashRadius: 24,
+                );
+              return null;
+            }(),
             // title: height >= 500
-            title: false
-                // ignore: dead_code
-                ? Text(lang.title, style: TextStyle(color: Colors.white))
-                : _buildTabBar(lang),
+            title: _buildTabBar(lang),
             actions: <Widget>[
               if (!menuController.expanded)
                 IconButton(
                   icon: Icon(Icons.favorite),
                   onPressed: () => menuController.toggleEnd(),
                   tooltip: lang.favoriteColorsTitle,
+                  splashRadius: 24,
                 ),
             ],
             brightness: Brightness.dark, // light icons
-            // bottom: height >= 500 ? _buildTabBar(lang) : null,
           ),
           body: Container(
             margin: EdgeInsets.only(top: 7),

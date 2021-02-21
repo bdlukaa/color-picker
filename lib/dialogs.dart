@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fl_toast/fl_toast.dart';
 
 import 'lang/lang.dart';
 import 'widgets/button.dart';
@@ -10,22 +11,20 @@ import 'utils.dart';
 import 'main.dart';
 import 'theme_manager.dart';
 
-showColorInfoDialog(
-  BuildContext context,
-  String title,
-  Color color,
-) =>
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        title: Center(child: Text(title)),
-        contentPadding: EdgeInsets.only(top: 20),
-        content: ColorInfo(color: color, background: Colors.transparent),
-      ),
-    );
-
 class ThemeDialog extends StatelessWidget {
   const ThemeDialog({Key key}) : super(key: key);
+
+  static IconData getIconData(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return FontAwesomeIcons.moon;
+      case ThemeMode.light:
+        return FontAwesomeIcons.sun;
+      case ThemeMode.system:
+        return FontAwesomeIcons.circleNotch;
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +38,15 @@ class ThemeDialog extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
-      children: <Widget>[
-        CheckboxListTile(
-          value: theme.mode == ThemeMode.light,
-          onChanged: (mode) {
-            theme.mode = ThemeMode.light;
-          },
-          title: Text(lang.light),
-        ),
-        CheckboxListTile(
-          value: theme.mode == ThemeMode.dark,
-          onChanged: (mode) {
-            theme.mode = ThemeMode.dark;
-          },
-          title: Text(lang.dark),
-        ),
-        CheckboxListTile(
-          value: theme.mode == ThemeMode.system,
-          onChanged: (mode) {
-            theme.mode = ThemeMode.system;
-          },
-          title: Text(lang.system),
-        ),
-      ],
+      children: List.generate(ThemeMode.values.length, (index) {
+        final mode = ThemeMode.values[index];
+        return CheckboxListTile(
+          secondary: FaIcon(getIconData(mode)),
+          value: theme.mode == mode,
+          onChanged: (_) => theme.mode = mode,
+          title: Text(lang.fromThemeMode(mode)),
+        );
+      }),
     );
   }
 }
@@ -185,7 +170,7 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
           shadowEnabled: false,
           radius: BorderRadius.vertical(bottom: Radius.circular(20)),
           onTap: () async {
-            showToast(lang.initialColorUpdated, context: context);
+            showTextToast(text: lang.initialColorUpdated, context: context);
             Navigator.pop(context);
             await preferences.setString(
               'initialColor',

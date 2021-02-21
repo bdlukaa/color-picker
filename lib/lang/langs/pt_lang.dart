@@ -48,6 +48,8 @@ class Portuguese extends Language {
       ' em uma previsualização de cor para favoritar';
   String get favorite => 'Favoritar';
   String get unfavorite => 'Desfavoritar';
+  String get favorited => 'Favoritado';
+  String get unfavorited => 'Desfavoritado';
 
   String get copyToClipboard => 'Copiar para a área de transferência';
   Widget copiedToClipboard(String text) {

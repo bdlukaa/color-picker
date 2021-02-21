@@ -1,9 +1,9 @@
 import 'package:color_picker/widgets/expansion_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_toast/fl_toast.dart';
 import 'package:color/color.dart' hide Color;
 
 import 'package:color_picker/widgets/opacity_slider.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import '../../theme_manager.dart';
 import '../../clipboard.dart';
@@ -20,6 +20,29 @@ part 'hsl_color_info.dart';
 part 'hsv_color_info.dart';
 part 'rgb_color_info.dart';
 part 'xyz_color_info.dart';
+
+showColorInfoDialog(
+  BuildContext context,
+  String title,
+  Color color,
+) {
+  final background = Theme.of(context).dialogBackgroundColor;
+  showDialog(
+    context: context,
+    child: AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      title: Center(child: Text(title)),
+      contentPadding: EdgeInsets.only(top: 20),
+      content: ColorInfo(
+        color: color,
+        background: background,
+        shrinkable: false,
+      ),
+    ),
+  );
+}
 
 class ColorInfo extends StatefulWidget {
   const ColorInfo({
@@ -141,14 +164,21 @@ class _ColorInfoState extends State<ColorInfo> {
         length: 6,
         initialIndex: widget.initial ?? 0,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               height: 46,
-              child: Row(
-                children: [
-                  widget.leading ?? SizedBox(),
-                  Expanded(child: tabBar),
-                ],
+              child: ListTile(
+                title: Row(
+                  children: [
+                    if (widget.leading != null)
+                      Padding(
+                        padding: EdgeInsets.only(right: 6),
+                        child: widget.leading,
+                      ),
+                    Expanded(child: tabBar),
+                  ],
+                ),
               ),
             ),
             w,
@@ -192,26 +222,45 @@ class ColorName extends StatelessWidget {
   }
 }
 
-void showCopiedToClipboard(BuildContext context, String text) async {
+Future showCopiedToClipboard(BuildContext context, String text) async {
   final lang = Language.of(context);
   await FlutterClipboard.copy(text);
+  final content = lang.copiedToClipboard(text);
   if (Scaffold.of(context, nullOk: true) != null)
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: lang.copiedToClipboard(text),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-    );
-  else
-    showToastWidget(
-      Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(8),
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: content,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    ));
+  else {
+    showToast(
+      interactive: true,
+      padding: EdgeInsets.zero,
+      alignment: Alignment(0, 1),
+      duration: Duration(seconds: 4),
+      animationDuration: Duration(milliseconds: 200),
+      animationBuilder: (context, animation, child) {
+        return SlideTransition(
+          child: child,
+          position: Tween<Offset>(
+            begin: Offset(0, 1),
+            end: Offset(0, 0),
+          ).animate(animation),
+        );
+      },
+      child: Dismissible(
+        key: ValueKey<String>(text),
+        direction: DismissDirection.down,
+        child: Material(
+          elevation: 8,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: content,
+          ),
         ),
-        child: lang.copiedToClipboard(text),
       ),
       context: context,
     );
+  }
 }

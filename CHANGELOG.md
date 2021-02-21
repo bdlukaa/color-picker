@@ -1,11 +1,24 @@
 Date format: DD/MM/YYYY
 
+## [20/02/2021] - 1.0.8
+
+- **NEW**
+  - Network Image selector
+  - Download apk from readme
+  - Color indicator on wheel
+  - New toast library: [fl_toast](https://pub.dev/packages/fl_toast)
+- **PERFORMANCE** Do the indexes calculation only once on `Chessboard`
+- Updated screenshots and removed old assets
+- Image selector can NOT be shrinked anymore
+- Added my own toast library
+
 ## [11/02/2021] - 1.0.7
 
-- Do NOT convert HSVColor to RGB anymore (better performance)
-- use `Positioned` instead of `Transform` to position the slider thumb
+- **PERFORMANCE IMPROVEMENTS**
+  - Do NOT convert HSVColor to RGB anymore
+  - use `Positioned` instead of `Transform` to position the slider thumb
+  - Chessboard built entirely in dart. No need to use assets anymore
 - Make the image selector background image darker when in dark mode
-- Chessboard built entirely in dart. No need to use assets anymore
 
 ## [10/02/2021] - 1.0.6
 

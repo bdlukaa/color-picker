@@ -47,6 +47,8 @@ class English extends Language {
       ' in a color preview to favorite a color';
   String get favorite => 'Favorite';
   String get unfavorite => 'Unfavorite';
+  String get favorited => 'Favorited';
+  String get unfavorited => 'Unfavorited';
 
   String get copyToClipboard => 'Copy to clipboard';
   Widget copiedToClipboard(String text) {

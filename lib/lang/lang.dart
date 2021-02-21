@@ -79,6 +79,8 @@ abstract class Language {
   String get haventFavoritedAnyAfter;
   String get favorite;
   String get unfavorite;
+  String get favorited;
+  String get unfavorited;
 
   String get copyToClipboard;
   Widget copiedToClipboard(String text);

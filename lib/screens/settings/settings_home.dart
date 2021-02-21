@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../lang/lang.dart';
@@ -13,6 +14,7 @@ class SettingsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
+    final theme = ThemeManager.of(context, false);
     return ListView(
       padding: EdgeInsets.only(left: 25, top: 75),
       children: <Widget>[
@@ -49,18 +51,16 @@ class SettingsHome extends StatelessWidget {
           ),
         ),
         SettingsTile(
-          icon: Icons.settings_brightness,
+          icon: ThemeDialog.getIconData(theme.mode),
           title: lang.theme,
-          subtitle: lang.fromThemeMode(
-            ThemeManager.of(context, false).mode,
-          ),
+          subtitle: lang.fromThemeMode(theme.mode),
           onTap: () => showDialog(
             context: context,
             builder: (_) => ThemeDialog(),
           ),
         ),
         SettingsTile(
-          icon: Icons.drag_indicator,
+          icon: FontAwesomeIcons.crosshairs,
           title: 'Indicator',
           onTap: () {
             // TODO: open indicator settings

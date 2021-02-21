@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../color_info/color_info.dart';
 
@@ -17,16 +18,9 @@ class NetworkImageSelector extends StatefulWidget {
 class _NetworkImageSelectorState extends State<NetworkImageSelector>
     with AutomaticKeepAliveClientMixin {
   final _focus = FocusNode();
-  final _key = GlobalKey<FormState>();
-  final _controller = TextEditingController();
 
   Color color = Colors.black;
   String url;
-
-  void submit() {
-    if (_key.currentState.validate() && url != _controller.text)
-      setState(() => url = _controller.text);
-  }
 
   @override
   void initState() {
@@ -38,44 +32,9 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
   Widget build(BuildContext context) {
     super.build(context);
     final lang = Language.of(context);
-    var border = UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.blue),
-    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // Row(
-        //   children: <Widget>[
-        //     Expanded(
-        //       child: Form(
-        //         key: _key,
-        //         child: TextFormField(
-        //           focusNode: _focus,
-        //           controller: _controller,
-        //           onFieldSubmitted: (text) => submit(),
-        //           decoration: InputDecoration(
-        //             labelText: lang.url,
-        //             labelStyle: TextStyle(color: Colors.blue),
-        //             enabledBorder: border,
-        //             disabledBorder: border,
-        //             focusedBorder: border,
-        //           ),
-        //           cursorColor: Colors.black,
-        //           style: TextStyle(color: Colors.black),
-        //           validator: (text) {
-        //             if (text.isEmpty) return lang.urlMustNotBeEmpty;
-        //             return null;
-        //           },
-        //         ),
-        //       ),
-        //     ),
-        //     IconButton(
-        //       icon: Icon(Icons.search, color: Colors.black),
-        //       tooltip: lang.search,
-        //       onPressed: () => submit(),
-        //     ),
-        //   ],
-        // ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -83,7 +42,7 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
               alignment: Alignment.center,
               children: [
                 RepaintBoundary(child: ChessBoard()),
-                if (url != null)
+                if (url != null && url.isNotEmpty)
                   ColorPickerWidget(
                     onUpdate: (color) => setState(() => this.color = color),
                     image: Image.network(
@@ -98,10 +57,16 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
         ),
         ColorInfo(
           color: color,
+          shrinkable: false,
           leading: buildCompactIconButton(
-            icon: Icon(Icons.link),
+            icon: FaIcon(FontAwesomeIcons.link),
             tooltip: lang.url,
-            onPressed: () {},
+            onPressed: () => UrlPicker(
+              onPick: (text) {
+                setState(() => url = text);
+                Navigator.pop(context);
+              },
+            ).show(context),
           ),
         ),
       ],
@@ -110,4 +75,53 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class UrlPicker extends StatelessWidget {
+  UrlPicker({Key key, @required this.onPick}) : super(key: key);
+
+  final ValueChanged<String> onPick;
+
+  void show(BuildContext context) => showDialog(
+        context: context,
+        child: this,
+      );
+
+  final _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final lang = Language.of(context);
+    return AlertDialog(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      content: TextFormField(
+        controller: _controller,
+        keyboardType: TextInputType.url,
+        onFieldSubmitted: (text) => onPick?.call(text),
+        decoration: InputDecoration(
+          hintText: lang.url,
+          focusColor: Colors.white,
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: Text(lang.close),
+          onPressed: () => Navigator.pop(context),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            overlayColor: MaterialStateProperty.all(Colors.red),
+          ),
+        ),
+        TextButton(
+          child: Text(lang.search),
+          onPressed: () => onPick?.call(_controller.text),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Colors.teal),
+            overlayColor: MaterialStateProperty.all(Colors.tealAccent),
+          ),
+        ),
+      ],
+    );
+  }
 }

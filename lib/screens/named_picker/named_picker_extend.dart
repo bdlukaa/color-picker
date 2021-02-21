@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../lang/lang.dart';
 import '../../widgets/expansion_tile.dart';
-import '../../dialogs.dart';
+import '../color_info/color_info.dart';
 
 class NamedPickerTile extends StatelessWidget {
   NamedPickerTile({

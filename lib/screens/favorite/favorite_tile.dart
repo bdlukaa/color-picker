@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../lang/lang.dart';
 import '../../db/database_manager.dart' as db;
-import '../../dialogs.dart';
+import '../color_info/color_info.dart';
 
 class FavoriteListTile extends StatelessWidget {
   FavoriteListTile({

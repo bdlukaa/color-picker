@@ -31,11 +31,6 @@ class ThemeManager extends ChangeNotifier {
   static ThemeData def([Color primarySwatch]) => ThemeData(
         primarySwatch: primarySwatch,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        dialogTheme: DialogTheme(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-        ),
         sliderTheme: SliderThemeData(
           valueIndicatorTextStyle: TextStyle(color: Colors.white),
           showValueIndicator: ShowValueIndicator.always,
@@ -61,7 +56,9 @@ class ThemeManager extends ChangeNotifier {
           labelColor: Colors.white,
         ),
       );
+
   static ThemeData get darkTheme => ThemeData(
+        accentColor: Colors.white,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.grey[900],
         appBarTheme: AppBarTheme(

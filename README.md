@@ -26,67 +26,40 @@ Is it too bright? Don't worry, use the dark theme.\
 
 ✔️ Resposive - The zoomed scaffold will expand in screens larger than 950px\
 ✔️ [Accessible](https://flutter.dev/docs/development/accessibility-and-localization/accessibility) - Includes tooltips and `Semantics` to accessibility\
-✔️ [Internacionalizated](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - Includes support for English and Portuguese
+✔️ [Internationalized](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - Includes support for English and Portuguese
 
 ### Color info
 
 You can see a color information or parse with the following color spaces:
 
-| Space             | See info | Parse | Copy |
-| :---------------- | :------: | :---: | :--: |
-| RGB               |    ✔️    |  ✔️   |  ✔️  |
-| HEX               |    ✔️    |  ✔️   |  ✔️  |
-| HSL               |    ✔️    |  ✔️   |  ✔️  |
-| HSV               |    ✔️    |  ✔️   |      |
-| Cielab            |    ✔️    |  ✔️   |      |
-| XYZ               |    ✔️    |       |      |
-| Color Temperature |    ✔️    |       |      |
+| Space  | See info | Parse | Copy |
+| :----- | :------: | :---: | :--: |
+| RGB    |    ✔️    |  ✔️   |  ✔️  |
+| HEX    |    ✔️    |  ✔️   |  ✔️  |
+| HSL    |    ✔️    |  ✔️   |  ✔️  |
+| HSV    |    ✔️    |  ✔️   |      |
+| Cielab |    ✔️    |  ✔️   |      |
+| XYZ    |    ✔️    |       |      |
 
-### Color Temperature
+## Showcase
 
-The color temperature value is based on RGB. It can be not totally accurate if you use other color schemes that convertion is not 100% to RGB. The math is based on [this wikipedia article](https://en.wikipedia.org/wiki/Color_temperature)
+A brief showcase of the app. [Download](https://github.com/bdlukaa/color-picker/releases)
 
-## Screenshots
+| Wheel Picker                                                  | Palette Picker                                                  |
+| ------------------------------------------------------------- | --------------------------------------------------------------- |
+| <img src="screenshots/wheel_picker.png" width=300 height=480> | <img src="screenshots/palette_picker.png" width=300 height=480> |
 
-<!-- Use html in here because markdown does not support width and height -->
-<table>
-  <tr>
-    <td>Wheel picker</td>
-    <td>Palette picker</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/wheel_picker.png" width=300 height=480></td>
-    <td><img src="screenshots/palette_picker.png" width=300 height=480></td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td>Value picker</td>
-    <td>Named picker</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/value_picker.png" width=300 height=480></td>
-    <td><img src="screenshots/named_picker.png" width=300 height=480></td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td>Image picker</td>
-    <td>Favorite colors</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/image_picker.png" width=300 height=480></td>
-    <td><img src="screenshots/favorite_colors.png" width=300 height=480></td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td>Settings</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/settings.png" width=300 height=480></td>
-  </tr>
-</table>
+| Value Picker                                                  | Named Picker                                                  |
+| ------------------------------------------------------------- | ------------------------------------------------------------- |
+| <img src="screenshots/value_picker.png" width=300 height=480> | <img src="screenshots/named_picker.png" width=300 height=480> |
+
+| Image Picker                                                  | Favorite Colors                                                  |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| <img src="screenshots/image_picker.png" width=300 height=480> | <img src="screenshots/favorite_colors.png" width=300 height=480> |
+
+| Settings                                                  |
+| --------------------------------------------------------- |
+| <img src="screenshots/settings.png" width=300 height=480> |
 
 # Contribution
 
