@@ -29,7 +29,7 @@ showColorInfoDialog(
   final background = Theme.of(context).dialogBackgroundColor;
   showDialog(
     context: context,
-    child: AlertDialog(
+    builder: (context) => AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -226,8 +226,8 @@ Future showCopiedToClipboard(BuildContext context, String text) async {
   final lang = Language.of(context);
   await FlutterClipboard.copy(text);
   final content = lang.copiedToClipboard(text);
-  if (Scaffold.of(context, nullOk: true) != null)
-    Scaffold.of(context).showSnackBar(SnackBar(
+  if (ScaffoldMessenger.of(context) != null)
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: content,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     ));

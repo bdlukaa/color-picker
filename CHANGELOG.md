@@ -1,16 +1,22 @@
 Date format: DD/MM/YYYY
 
+## [03/03/2021] - 1.0.8
+
+<!-- - **NEW** 💢 App Icon
+- **NEW** 💥 App Splashscreen -->
+
+- Update with Flutter 2.0
+
 ## [20/02/2021] - 1.0.8
 
 - **NEW**
   - Network Image selector
   - Download apk from readme
   - Color indicator on wheel
-  - New toast library: [fl_toast](https://pub.dev/packages/fl_toast)
+  - New toast library [fl_toast](https://pub.dev/packages/fl_toast) ~made by me~
 - **PERFORMANCE** Do the indexes calculation only once on `Chessboard`
 - Updated screenshots and removed old assets
 - Image selector can NOT be shrinked anymore
-- Added my own toast library
 
 ## [11/02/2021] - 1.0.7
 

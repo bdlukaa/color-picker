@@ -84,7 +84,7 @@ class UrlPicker extends StatelessWidget {
 
   void show(BuildContext context) => showDialog(
         context: context,
-        child: this,
+        builder: (context) => this,
       );
 
   final _controller = TextEditingController();

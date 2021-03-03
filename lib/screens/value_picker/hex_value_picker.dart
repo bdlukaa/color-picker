@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:color/color.dart' hide Color;
+import 'package:flutter/services.dart';
 
 import '../../lang/lang.dart';
 import '../../widgets/opacity_slider.dart';
@@ -141,7 +142,7 @@ class Field extends StatelessWidget {
       style: TextStyle(color: color),
       textInputAction: action,
       maxLength: 6,
-      maxLengthEnforced: true,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
       onFieldSubmitted: (text) => action == TextInputAction.done
           ? FocusScope.of(context).unfocus()
           : FocusScope.of(context).nextFocus(),
