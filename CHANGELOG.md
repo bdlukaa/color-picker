@@ -1,6 +1,6 @@
 Date format: DD/MM/YYYY
 
-## [03/03/2021] - 1.0.8
+## [03/03/2021] - 1.0.9
 
 <!-- - **NEW** 💢 App Icon
 - **NEW** 💥 App Splashscreen -->
