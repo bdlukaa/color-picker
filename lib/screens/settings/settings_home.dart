@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 import '../../lang/lang.dart';
 import '../../dialogs.dart';
@@ -68,27 +68,36 @@ class SettingsHome extends StatelessWidget {
         ),
         Divider(),
         SettingsTitleTile(title: lang.about),
-        SettingsTile(
-          icon: Icons.eco,
-          title: lang.author,
-          subtitle: 'bdlukaa',
-          onTap: () => launch('https://github.com/bdlukaa'),
+        Link(
+          uri: Uri.parse('https://github.com/bdlukaa'),
+          builder: (context, followLink) => SettingsTile(
+            icon: FontAwesomeIcons.at,
+            title: lang.author,
+            subtitle: 'bdlukaa',
+            onTap: followLink,
+          ),
         ),
+        SizedBox(height: 10.0),
         Wrap(
           spacing: 6,
           children: [
-            ActionChip(
-              avatar: Icon(Icons.source),
-              label: Text(lang.openSource),
-              backgroundColor: Colors.teal,
-              onPressed: () =>
-                  launch('https://github.com/bdlukaa/color-picker'),
+            Link(
+              uri: Uri.parse('https://github.com/bdlukaa/color-picker'),
+              builder: (context, followLink) => ActionChip(
+                avatar: Icon(Icons.source, size: 18.0),
+                label: Text(lang.openSource),
+                backgroundColor: Colors.teal,
+                onPressed: () => followLink?.call(),
+              ),
             ),
-            ActionChip(
-              avatar: FlutterLogo(size: IconTheme.of(context).size ?? 24),
-              label: Text(lang.madeWithFlutter),
-              backgroundColor: Colors.blue,
-              onPressed: () => launch('https://flutter.dev'),
+            Link(
+              uri: Uri.parse('https://flutter.dev'),
+              builder: (context, followLink) => ActionChip(
+                avatar: FlutterLogo(size: 18.0),
+                label: Text(lang.madeWithFlutter),
+                backgroundColor: Colors.blue,
+                onPressed: () => followLink?.call(),
+              ),
             ),
           ],
         ),
