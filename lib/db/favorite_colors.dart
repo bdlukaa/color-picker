@@ -14,16 +14,13 @@ class FavoriteColors {
 }
 
 Future<void> favorite(Color color) async {
-  await database?.insert(
-    'favorites',
-    {
-      'alpha': color.alpha,
-      'red': color.red,
-      'green': color.green,
-      'blue': color.blue,
-    },
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
+  await favoritesBox.add({
+    'alpha': color.alpha,
+    'red': color.red,
+    'green': color.green,
+    'blue': color.blue,
+  });
+
   FavoriteColors.colors.add(color);
   favoritesKey.currentState?.insertItem(
     FavoriteColors.colors.indexOf(color),
@@ -38,11 +35,15 @@ Future<void> favorite(Color color) async {
 const itemSlideAnimationDuration = Duration(milliseconds: 400);
 
 Future<void> unfavorite(Color color) async {
-  await database?.delete(
-    'favorites',
-    where: "alpha = ? and red = ? and green = ? and blue = ?",
-    whereArgs: [color.alpha, color.red, color.green, color.blue],
-  );
+  // await favoritesBox.clear();
+  final valueInDb = favoritesBox.values.firstWhere((element) {
+    return element['alpha'] == color.alpha &&
+        element['red'] == color.red &&
+        element['green'] == color.green &&
+        element['blue'] == color.blue;
+  });
+  await favoritesBox.deleteAt(favoritesBox.values.toList().indexOf(valueInDb));
+
   int index = FavoriteColors.colors.indexOf(color);
   var c = FavoriteColors.colors[index];
   bool isFavorite = FavoriteColors.hasColor(color);
@@ -67,7 +68,8 @@ Future<void> unfavorite(Color color) async {
 }
 
 Future<List<Color>> favorites() async {
-  final List<Map<String, dynamic>>? maps = await database?.query('favorites');
+  final List<Map<String, dynamic>>? maps =
+      favoritesBox.values.toList().cast<Map<String, dynamic>>();
   if (maps != null && maps.isNotEmpty)
     FavoriteColors.colors = List.generate(maps.length, (i) {
       var map = maps[i];

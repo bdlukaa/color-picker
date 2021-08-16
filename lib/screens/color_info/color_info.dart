@@ -90,7 +90,7 @@ class _ColorInfoState extends State<ColorInfo> {
       children: <Widget>[
         LimitedBox(
           maxWidth: MediaQuery.of(context).size.width,
-          maxHeight: 80,
+          maxHeight: 92.0,
           child: DefaultTextStyle(
             style: TextStyle(
               color:
@@ -144,7 +144,7 @@ class _ColorInfoState extends State<ColorInfo> {
             ]),
           ),
           trailing: buildCompactIconButton(
-            icon: Icon(Icons.expand_more),
+            icon: Icon(Icons.expand_less),
             tooltip: shrinked ? lang.open : lang.close,
             onPressed: () {
               (shrinked ? controller.open : controller.close)();

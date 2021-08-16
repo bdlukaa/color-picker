@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,9 +17,10 @@ part 'app_builder.dart';
 var _appBuilderKey = GlobalKey<AppBuilderState>();
 
 void main() async {
+  print('hehe');
   WidgetsFlutterBinding.ensureInitialized();
 
-  setPathUrlStrategy();
+  if (kIsWeb) setPathUrlStrategy();
 
   utils.preferences = await SharedPreferences.getInstance();
 
@@ -31,6 +33,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('hehe');
     return ChangeNotifierProvider<ThemeManager>(
       create: (_) => ThemeManager(
         utils.preferences.getString('theme') ?? ThemeMode.system.toString(),

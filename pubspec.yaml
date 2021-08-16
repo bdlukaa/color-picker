@@ -22,8 +22,9 @@ dependencies:
   path: ^1.8.0
   provider: ^5.0.0
   shared_preferences: ^2.0.6
-  sqflite: ^2.0.0+3
-  url_launcher: 6.0.9
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  url_launcher: ^6.0.9
   url_strategy: ^0.2.0
 
 dev_dependencies:
