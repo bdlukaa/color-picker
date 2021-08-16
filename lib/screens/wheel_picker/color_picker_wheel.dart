@@ -100,31 +100,31 @@ class _WheelPickerState extends State<WheelPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(14.0),
-      child: LayoutBuilder(builder: (context, consts) {
-        final size = consts.biggest;
-        final center = Offset(size.width / 2, size.height / 2);
-        final squareRadio =
-            _WheelPainter.squareRadio(_WheelPainter.radio(size * 1.1));
-        final indicatorX = Wheel.saturationToVector(
-          color.saturation,
-          squareRadio,
-          center.dx,
-        );
-        final indicatorY = Wheel.valueToVector(
-          color.value,
-          squareRadio,
-          center.dy,
-        );
-        return GestureDetector(
-          onPanStart: (details) => onPanStart(details.localPosition, size),
-          onPanUpdate: (details) => onPanUpdate(details.localPosition, size),
-          onPanDown: (details) => onPanDown(details.localPosition),
-          onPanEnd: (details) => setState(() => showIndicator = false),
-          child: Stack(
-            key: paletteKey,
-            children: [
+    return Transform.scale(
+      scale: 0.9,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: LayoutBuilder(builder: (context, consts) {
+          final size = consts.biggest;
+          final center = Offset(size.width / 2, size.height / 2);
+          final squareRadio =
+              _WheelPainter.squareRadio(_WheelPainter.radio(size * 1.1));
+          final indicatorX = Wheel.saturationToVector(
+            color.saturation,
+            squareRadio,
+            center.dx,
+          );
+          final indicatorY = Wheel.valueToVector(
+            color.value,
+            squareRadio,
+            center.dy,
+          );
+          return GestureDetector(
+            onPanStart: (details) => onPanStart(details.localPosition, size),
+            onPanUpdate: (details) => onPanUpdate(details.localPosition, size),
+            onPanDown: (details) => onPanDown(details.localPosition),
+            onPanEnd: (details) => setState(() => showIndicator = false),
+            child: Stack(key: paletteKey, children: [
               Positioned.fill(
                 child: CustomPaint(painter: _WheelPainter(color: color)),
               ),
@@ -136,17 +136,17 @@ class _WheelPickerState extends State<WheelPicker> {
                   show: showIndicator,
                 ),
               )
-            ],
-          ),
-        );
-      }),
+            ]),
+          );
+        }),
+      ),
     );
   }
 }
 
 class _WheelPainter extends CustomPainter {
-  static double strokeWidth = 8;
-  static double doubleStrokeWidth = 16;
+  static double get strokeWidth => 8;
+  static double get doubleStrokeWidth => 16;
   static double radio(Size size) =>
       math.min(size.width, size.height).toDouble() / 2 -
       _WheelPainter.strokeWidth;
@@ -160,10 +160,13 @@ class _WheelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.width / 2, size.height / 2);
-    double radio = _WheelPainter.radio(size * 1.0);
+    double radio = _WheelPainter.radio(size * 1.1);
     double squareRadio = _WheelPainter.squareRadio(radio);
 
     // Wheel
+
+    double wheelRadio = radio;
+
     Shader sweepShader = SweepGradient(
       center: Alignment.bottomRight,
       colors: [
@@ -175,10 +178,10 @@ class _WheelPainter extends CustomPainter {
         Color.fromARGB(255, 255, 0, 255),
         Color.fromARGB(255, 255, 0, 0),
       ],
-    ).createShader(Rect.fromLTWH(0, 0, radio, radio));
+    ).createShader(Rect.fromLTWH(0, 0, wheelRadio, wheelRadio));
     canvas.drawCircle(
       center,
-      radio,
+      wheelRadio,
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = _WheelPainter.doubleStrokeWidth
@@ -187,12 +190,12 @@ class _WheelPainter extends CustomPainter {
 
     Offset wheel = Wheel.hueToVector(
       ((color.hue + 360.0) * math.pi / 180.0),
-      radio,
+      wheelRadio,
       center,
     );
     canvas.drawCircle(
       wheel,
-      radio * 0.15,
+      wheelRadio * 0.15,
       Paint()
         ..color = color.withSaturation(1).withValue(1).toColor().withOpacity(1)
         ..style = PaintingStyle.fill,
@@ -205,7 +208,7 @@ class _WheelPainter extends CustomPainter {
       squareRadio * 2,
       squareRadio * 2,
     );
-    RRect rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
+    RRect rRect = RRect.fromRectAndRadius(rect, Radius.circular(2.0));
 
     Shader horizontal = LinearGradient(
       begin: Alignment.centerLeft,
@@ -216,10 +219,11 @@ class _WheelPainter extends CustomPainter {
       ],
     ).createShader(rect);
     canvas.drawRRect(
-        rRect,
-        Paint()
-          ..style = PaintingStyle.fill
-          ..shader = horizontal);
+      rRect,
+      Paint()
+        ..style = PaintingStyle.fill
+        ..shader = horizontal,
+    );
 
     Shader vertical = LinearGradient(
       begin: Alignment.topCenter,
@@ -235,5 +239,5 @@ class _WheelPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_WheelPainter other) => true;
+  bool shouldRepaint(covariant _WheelPainter other) => color != other.color;
 }

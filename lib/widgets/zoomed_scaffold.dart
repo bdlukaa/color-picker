@@ -348,7 +348,12 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
 }
 
 class MenuController {
-  bool expanded = false;
+  bool _expanded = false;
+  bool get expanded => _expanded;
+  set expanded(bool expanded) {
+    _expanded = expanded;
+    _stream.add(expanded);
+  }
   final TickerProvider vsync;
   final AnimationController _animationController;
 

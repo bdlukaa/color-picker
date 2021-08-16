@@ -66,7 +66,6 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
                 );
               return null;
             }(),
-            // title: height >= 500
             title: _buildTabBar(lang),
             actions: <Widget>[
               if (!menuController.expanded)
@@ -77,7 +76,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
                   splashRadius: 24,
                 ),
             ],
-            brightness: Brightness.dark, // light icons
+            brightness: Brightness.dark,
           ),
           body: Container(
             margin: EdgeInsets.only(top: 7),
@@ -95,8 +94,8 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
-                  WheelPickerHome(),
                   PalettePickerHome(),
+                  WheelPickerHome(),
                   ValueHome(),
                   NamedPickerHome(),
                   ImagePickerHome(),
@@ -113,8 +112,8 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
     return TabBar(
       isScrollable: true,
       tabs: <Widget>[
-        Tab(text: lang.wheelPicker),
         Tab(text: lang.palettePicker),
+        Tab(text: lang.wheelPicker),
         Tab(text: lang.valuePicker),
         Tab(text: lang.namedPicker),
         Tab(text: lang.imagePicker),
