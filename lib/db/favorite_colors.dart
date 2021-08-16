@@ -14,7 +14,7 @@ class FavoriteColors {
 }
 
 Future<void> favorite(Color color) async {
-  await database.insert(
+  await database?.insert(
     'favorites',
     {
       'alpha': color.alpha,
@@ -38,7 +38,7 @@ Future<void> favorite(Color color) async {
 const itemSlideAnimationDuration = Duration(milliseconds: 400);
 
 Future<void> unfavorite(Color color) async {
-  await database.delete(
+  await database?.delete(
     'favorites',
     where: "alpha = ? and red = ? and green = ? and blue = ?",
     whereArgs: [color.alpha, color.red, color.green, color.blue],
@@ -67,8 +67,8 @@ Future<void> unfavorite(Color color) async {
 }
 
 Future<List<Color>> favorites() async {
-  final List<Map<String, dynamic>> maps = await database.query('favorites');
-  if (maps.isNotEmpty)
+  final List<Map<String, dynamic>>? maps = await database?.query('favorites');
+  if (maps != null && maps.isNotEmpty)
     FavoriteColors.colors = List.generate(maps.length, (i) {
       var map = maps[i];
       return Color.fromARGB(

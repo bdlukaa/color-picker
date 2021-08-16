@@ -9,9 +9,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 part 'favorite_colors.dart';
 
-late Database database;
+Database? database;
 
-Future<Database> startDatabase() async {
+Future<Database?> startDatabase() async {
   if (!kIsWeb)
     database = await openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
@@ -31,4 +31,4 @@ Future<Database> startDatabase() async {
   return database;
 }
 
-Future<void> closeDatabase() async => await database.close();
+Future<void> closeDatabase() async => await database?.close();
