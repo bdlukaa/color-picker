@@ -19,13 +19,12 @@ var _appBuilderKey = GlobalKey<AppBuilderState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (kIsWeb) setPathUrlStrategy();
-
   utils.preferences = await SharedPreferences.getInstance();
 
   await db.startDatabase();
   await db.favorites();
 
+  if (kIsWeb) setPathUrlStrategy();
   runApp(MyApp());
 }
 
