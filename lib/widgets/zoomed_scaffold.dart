@@ -217,6 +217,7 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
             padding: (p ?? padding) + mq.viewPadding,
             color: color,
             child: Material(
+              type: MaterialType.transparency,
               child: screen,
             ),
           );
@@ -227,16 +228,22 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
           contentPadding = width / 3;
           w = Stack(
             children: [
-              Container(
-                padding: EdgeInsets.only(right: width / 2),
+              Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: width / 2,
                 child: buildMenu(
                   widget.menuColor,
                   widget.menuScreen,
                   EdgeInsets.only(right: width / 6),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(left: width / 2),
+              Positioned(
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: width / 2,
                 child: buildMenu(
                   widget.endMenuColor,
                   widget.endMenuScreen,

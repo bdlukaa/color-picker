@@ -68,8 +68,7 @@ Future<void> unfavorite(Color color) async {
 }
 
 Future<List<Color>> favorites() async {
-  final List<Map<String, dynamic>>? maps =
-      favoritesBox.values.toList().cast<Map<String, dynamic>>();
+  final List? maps = favoritesBox.values.toList();
   if (maps != null && maps.isNotEmpty)
     FavoriteColors.colors = List.generate(maps.length, (i) {
       var map = maps[i];

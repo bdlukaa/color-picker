@@ -17,7 +17,6 @@ part 'app_builder.dart';
 var _appBuilderKey = GlobalKey<AppBuilderState>();
 
 void main() async {
-  print('hehe');
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) setPathUrlStrategy();
@@ -33,7 +32,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('hehe');
     return ChangeNotifierProvider<ThemeManager>(
       create: (_) => ThemeManager(
         utils.preferences.getString('theme') ?? ThemeMode.system.toString(),

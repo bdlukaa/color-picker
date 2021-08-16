@@ -85,37 +85,33 @@ class _ColorInfoState extends State<ColorInfo> {
   Widget build(BuildContext context) {
     final radius = BorderRadius.vertical(top: Radius.circular(25));
     final lang = Language.of(context);
-    Widget w = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        LimitedBox(
-          maxWidth: MediaQuery.of(context).size.width,
-          maxHeight: 92.0,
-          child: DefaultTextStyle(
-            style: TextStyle(
-              color:
-                  ThemeManager.isBright(context) ? Colors.black : Colors.white,
-            ),
-            child: TabBarView(
-              children: <Widget>[
-                RGBColorInfo(color: widget.color),
-                HEXColorInfo(color: widget.color),
-                HSLColorInfo(color: widget.color),
-                HSVColorInfo(color: widget.color),
-                XYZColorInfo(color: widget.color),
-                CielabColorInfo(color: widget.color),
-              ].map<Widget>((child) {
-                return Padding(
-                  padding: EdgeInsets.all(8),
-                  child: child,
-                );
-              }).toList(),
-            ),
+    Widget w = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      LimitedBox(
+        maxWidth: MediaQuery.of(context).size.width,
+        maxHeight: 92.0,
+        child: DefaultTextStyle(
+          style: TextStyle(
+            color: ThemeManager.isBright(context) ? Colors.black : Colors.white,
+          ),
+          child: TabBarView(
+            children: <Widget>[
+              RGBColorInfo(color: widget.color),
+              HEXColorInfo(color: widget.color),
+              HSLColorInfo(color: widget.color),
+              HSVColorInfo(color: widget.color),
+              XYZColorInfo(color: widget.color),
+              CielabColorInfo(color: widget.color),
+            ].map<Widget>((child) {
+              return Padding(
+                padding: EdgeInsets.all(8),
+                child: child,
+              );
+            }).toList(),
           ),
         ),
-        if (widget.slider != null) widget.slider!,
-      ],
-    );
+      ),
+      if (widget.slider != null) widget.slider!,
+    ]);
     TabBar tabBar = TabBar(
       isScrollable: true,
       labelColor: ThemeManager.isBright(context) ? Colors.black : Colors.white,
