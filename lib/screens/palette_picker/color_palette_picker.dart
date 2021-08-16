@@ -21,7 +21,7 @@ class PalettePicker extends StatefulWidget {
   final bool showIndicator;
   final ValueChanged<bool> onShowIndicatorChanged;
 
-  PalettePicker({
+  const PalettePicker({
     Key? key,
     required this.position,
     required this.onChanged,
@@ -68,7 +68,7 @@ class _PalettePickerState extends State<PalettePicker> {
 
   void ratioToPosition(BuildContext context, Offset ratio) {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
-    Offset startposition = renderBox.localToGlobal(Offset.zero);
+    Offset startposition = Offset.zero;
     Size size = renderBox.size;
     Offset updateOffset = ratio - startposition;
 
@@ -99,61 +99,58 @@ class _PalettePickerState extends State<PalettePicker> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, size) {
-      return Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: _kBorderWidth),
-              borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: widget.leftRightColors,
-              ),
+      final width = size.maxWidth;
+      final height = size.maxHeight;
+      return Stack(clipBehavior: Clip.none, children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: _kBorderWidth),
+            borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: widget.leftRightColors,
             ),
-          ), // Left right
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: _kBorderWidth),
-              borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: widget.topBottomColors,
-              ),
+          ),
+        ), // Left right
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: _kBorderWidth),
+            borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: widget.topBottomColors,
             ),
-          ), // Top bottom
-          Positioned(
-            // 26 because of the border. 25 + 1
-            left: size.biggest.width * positionToRatio().dx -
-                (kIndicatorSize / 2),
-            top: size.biggest.height * positionToRatio().dy -
-                (kIndicatorSize / 2),
-            child: ColorIndicator(
-              currentColor: widget.color?.toColor(),
-              show: widget.showIndicator,
-              below:
-                  positionToRatio().dy <= ((kIndicatorPreviewSize * 0.8) / 100),
-            ),
-          ), // Indicator
-          GestureDetector(
-            onPanStart: (details) {
-              widget.onShowIndicatorChanged(true);
-              ratioToPosition(context, details.globalPosition);
-            },
-            onPanEnd: (_) => widget.onShowIndicatorChanged(false),
-            onPanUpdate: (details) => ratioToPosition(
-              context,
-              details.globalPosition,
-            ),
-            onPanDown: (details) => ratioToPosition(
-              context,
-              details.globalPosition,
-            ),
-          ), // Gestures
-        ],
-      );
+          ),
+        ), // Top bottom
+        Positioned(
+          // 26 because of the border. 25 + 1
+          left: width * positionToRatio().dx - (kIndicatorSize / 2),
+          top: height * positionToRatio().dy - (kIndicatorSize / 2),
+          child: ColorIndicator(
+            currentColor: widget.color?.toColor(),
+            show: widget.showIndicator,
+            below:
+                positionToRatio().dy <= ((kIndicatorPreviewSize * 0.8) / 100),
+          ),
+        ), // Indicator
+        GestureDetector(
+          onPanStart: (details) {
+            widget.onShowIndicatorChanged(true);
+            ratioToPosition(context, details.localPosition);
+          },
+          onPanEnd: (_) => widget.onShowIndicatorChanged(false),
+          onPanUpdate: (details) => ratioToPosition(
+            context,
+            details.localPosition,
+          ),
+          onPanDown: (details) => ratioToPosition(
+            context,
+            details.localPosition,
+          ),
+        ), // Gestures
+      ]);
     });
   }
 }
@@ -194,22 +191,19 @@ class _SliderPickerState extends State<SliderPicker> {
       widget.onChanged((ratio * (max - min) + min).clamp(min, max));
 
   void onPanStart(DragStartDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    Offset offset = renderBox.globalToLocal(details.globalPosition);
+    Offset offset = details.localPosition;
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
   }
 
   void onPanUpdate(DragUpdateDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    Offset offset = renderBox.globalToLocal(details.globalPosition);
+    Offset offset = details.localPosition;
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
   }
 
   void onPanDown(DragDownDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    Offset offset = renderBox.globalToLocal(details.globalPosition);
+    Offset offset = details.localPosition;
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
   }
@@ -226,10 +220,7 @@ class _SliderPickerState extends State<SliderPicker> {
     return LayoutBuilder(
       builder: (context, box) {
         Widget gestureDetector = GestureDetector(
-          child: Container(
-            color: Colors.transparent,
-            constraints: box,
-          ),
+          child: Container(color: Colors.transparent, constraints: box),
           onPanStart: (detail) => onPanStart(detail, box),
           onPanDown: (detail) => onPanDown(detail, box),
           onHorizontalDragStart: (_) => widget.onShowIndicatorChanged(true),

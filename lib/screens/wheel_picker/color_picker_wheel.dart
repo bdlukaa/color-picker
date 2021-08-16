@@ -58,20 +58,19 @@ class _WheelPickerState extends State<WheelPicker> {
   bool isWheel = false;
   bool isPalette = false;
 
-  void onPanStart(Offset offset) {
+  void onPanStart(
+    Offset offset,
+    Size size,
+  ) {
     showIndicator = true;
-    onPanUpdate(offset, true);
+    onPanUpdate(offset, size, true);
   }
 
-  void onPanUpdate(Offset offset, [bool start = false]) {
-    RenderBox renderBox =
-        paletteKey.currentContext!.findRenderObject() as RenderBox;
-    Size size = renderBox.size;
-
+  void onPanUpdate(Offset offset, Size size, [bool start = false]) {
     double radio = _WheelPainter.radio(size);
     double squareRadio = _WheelPainter.squareRadio(radio);
 
-    Offset startPosition = renderBox.localToGlobal(Offset.zero);
+    Offset startPosition = Offset.zero;
     Offset center = Offset(size.width / 2, size.height / 2);
     Offset vector = offset - startPosition - center;
 
@@ -103,27 +102,27 @@ class _WheelPickerState extends State<WheelPicker> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(14.0),
-      child: GestureDetector(
-        onPanStart: (details) => onPanStart(details.globalPosition),
-        onPanUpdate: (details) => onPanUpdate(details.globalPosition),
-        onPanDown: (details) => onPanDown(details.globalPosition),
-        onPanEnd: (details) => setState(() => showIndicator = false),
-        child: LayoutBuilder(builder: (context, consts) {
-          final size = consts.biggest;
-          final center = Offset(size.width / 2, size.height / 2);
-          final squareRadio =
-              _WheelPainter.squareRadio(_WheelPainter.radio(size * 1.1));
-          final indicatorX = Wheel.saturationToVector(
-            color.saturation,
-            squareRadio,
-            center.dx,
-          );
-          final indicatorY = Wheel.valueToVector(
-            color.value,
-            squareRadio,
-            center.dy,
-          );
-          return Stack(
+      child: LayoutBuilder(builder: (context, consts) {
+        final size = consts.biggest;
+        final center = Offset(size.width / 2, size.height / 2);
+        final squareRadio =
+            _WheelPainter.squareRadio(_WheelPainter.radio(size * 1.1));
+        final indicatorX = Wheel.saturationToVector(
+          color.saturation,
+          squareRadio,
+          center.dx,
+        );
+        final indicatorY = Wheel.valueToVector(
+          color.value,
+          squareRadio,
+          center.dy,
+        );
+        return GestureDetector(
+          onPanStart: (details) => onPanStart(details.localPosition, size),
+          onPanUpdate: (details) => onPanUpdate(details.localPosition, size),
+          onPanDown: (details) => onPanDown(details.localPosition),
+          onPanEnd: (details) => setState(() => showIndicator = false),
+          child: Stack(
             key: paletteKey,
             children: [
               Positioned.fill(
@@ -138,9 +137,9 @@ class _WheelPickerState extends State<WheelPicker> {
                 ),
               )
             ],
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }
@@ -161,7 +160,7 @@ class _WheelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.width / 2, size.height / 2);
-    double radio = _WheelPainter.radio(size * 1.1);
+    double radio = _WheelPainter.radio(size * 1.0);
     double squareRadio = _WheelPainter.squareRadio(radio);
 
     // Wheel

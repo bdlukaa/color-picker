@@ -21,6 +21,7 @@ class ColorIndicator extends StatelessWidget {
     double padding = kIndicatorPreviewPadding;
     return Stack(
       clipBehavior: Clip.none,
+      alignment: Alignment.center,
       children: [
         if (currentColor != null)
           Positioned(
@@ -54,10 +55,7 @@ class ColorIndicator extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.transparent,
-            border: Border.all(
-              width: 1,
-              color: Colors.white,
-            ),
+            border: Border.all(width: 1, color: Colors.white),
           ),
           alignment: Alignment.center,
           child: Container(height: 3, width: 3, color: Colors.red),
