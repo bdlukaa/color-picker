@@ -1,5 +1,13 @@
 Date format: DD/MM/YYYY
 
+## [16/08/2021] - 2.0.0
+
+- Migrate to null-safety
+- Publish the web version of the project at <https://bdlukaa.github.io/color-picker/>
+- Several pointer improvements
+- Migrate from sqflite to hive, in order to support more platforms
+- Some minor improvements
+
 ## [03/03/2021] - 1.0.9
 
 <!-- - **NEW** 💢 App Icon
