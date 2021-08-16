@@ -6,10 +6,10 @@ import '../color_info/color_info.dart';
 
 class FavoriteListTile extends StatelessWidget {
   FavoriteListTile({
-    Key key,
-    @required this.isFavorite,
-    @required this.color,
-    @required this.animation,
+    Key? key,
+    required this.isFavorite,
+    required this.color,
+    required this.animation,
   }) : super(key: key);
 
   final bool isFavorite;

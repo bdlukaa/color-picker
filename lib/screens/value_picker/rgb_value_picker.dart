@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class RGBValuePicker extends StatefulWidget {
-  RGBValuePicker({Key key}) : super(key: key);
+  RGBValuePicker({Key? key}) : super(key: key);
 
   @override
   _RGBValuePickerState createState() => _RGBValuePickerState();
@@ -15,7 +15,7 @@ class RGBValuePicker extends StatefulWidget {
 class _RGBValuePickerState extends State<RGBValuePicker>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
-  int red, green, blue;
+  late int red, green, blue;
 
   @override
   void initState() {
@@ -78,11 +78,11 @@ class _RGBValuePickerState extends State<RGBValuePicker>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.value,
-    @required this.onChanged,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.onChanged,
   }) : super(key: key);
 
   final Color color;

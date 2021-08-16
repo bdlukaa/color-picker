@@ -9,7 +9,7 @@ import '../../../widgets/chessboard.dart';
 import '../image_color_picker.dart';
 
 class NetworkImageSelector extends StatefulWidget {
-  NetworkImageSelector({Key key}) : super(key: key);
+  NetworkImageSelector({Key? key}) : super(key: key);
 
   @override
   _NetworkImageSelectorState createState() => _NetworkImageSelectorState();
@@ -20,7 +20,7 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
   final _focus = FocusNode();
 
   Color color = Colors.black;
-  String url;
+  String? url;
 
   @override
   void initState() {
@@ -42,11 +42,11 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
               alignment: Alignment.center,
               children: [
                 RepaintBoundary(child: ChessBoard()),
-                if (url != null && url.isNotEmpty)
+                if (url != null && url!.isNotEmpty)
                   ColorPickerWidget(
                     onUpdate: (color) => setState(() => this.color = color),
                     image: Image.network(
-                      url,
+                      url!,
                       fit: BoxFit.contain,
                       alignment: Alignment.center,
                     ),
@@ -78,7 +78,7 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
 }
 
 class UrlPicker extends StatelessWidget {
-  UrlPicker({Key key, @required this.onPick}) : super(key: key);
+  UrlPicker({Key? key, required this.onPick}) : super(key: key);
 
   final ValueChanged<String> onPick;
 
@@ -97,7 +97,7 @@ class UrlPicker extends StatelessWidget {
       content: TextFormField(
         controller: _controller,
         keyboardType: TextInputType.url,
-        onFieldSubmitted: (text) => onPick?.call(text),
+        onFieldSubmitted: (text) => onPick.call(text),
         decoration: InputDecoration(
           hintText: lang.url,
           focusColor: Colors.white,
@@ -115,7 +115,7 @@ class UrlPicker extends StatelessWidget {
         ),
         TextButton(
           child: Text(lang.search),
-          onPressed: () => onPick?.call(_controller.text),
+          onPressed: () => onPick.call(_controller.text),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(Colors.teal),
             overlayColor: MaterialStateProperty.all(Colors.tealAccent),

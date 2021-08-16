@@ -12,7 +12,7 @@ import 'main.dart';
 import 'theme_manager.dart';
 
 class ThemeDialog extends StatelessWidget {
-  const ThemeDialog({Key key}) : super(key: key);
+  const ThemeDialog({Key? key}) : super(key: key);
 
   static IconData getIconData(ThemeMode mode) {
     switch (mode) {
@@ -21,9 +21,9 @@ class ThemeDialog extends StatelessWidget {
       case ThemeMode.light:
         return FontAwesomeIcons.sun;
       case ThemeMode.system:
+      default:
         return FontAwesomeIcons.circleNotch;
     }
-    return null;
   }
 
   @override
@@ -52,7 +52,7 @@ class ThemeDialog extends StatelessWidget {
 }
 
 class LanguageDialog extends StatefulWidget {
-  const LanguageDialog({Key key}) : super(key: key);
+  const LanguageDialog({Key? key}) : super(key: key);
 
   @override
   _LanguageDialogState createState() => _LanguageDialogState();
@@ -86,7 +86,7 @@ class _LanguageDialogState extends State<LanguageDialog> {
 }
 
 class InitialColorDialog extends StatelessWidget {
-  const InitialColorDialog({Key key}) : super(key: key);
+  const InitialColorDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class InitialColorDialog extends StatelessWidget {
 }
 
 class RGBIntialColorChanger extends StatefulWidget {
-  RGBIntialColorChanger({Key key}) : super(key: key);
+  RGBIntialColorChanger({Key? key}) : super(key: key);
 
   @override
   _RGBIntialColorChangerState createState() => _RGBIntialColorChangerState();
@@ -110,7 +110,7 @@ class RGBIntialColorChanger extends StatefulWidget {
 class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
-  int red, green, blue;
+  late int red, green, blue;
 
   Color color = initialColor;
 
@@ -194,11 +194,11 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.value,
-    @required this.onChanged,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.onChanged,
   }) : super(key: key);
 
   final Color color;

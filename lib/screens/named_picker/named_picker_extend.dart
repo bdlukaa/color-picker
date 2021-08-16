@@ -6,9 +6,9 @@ import '../color_info/color_info.dart';
 
 class NamedPickerTile extends StatelessWidget {
   NamedPickerTile({
-    @required this.color,
-    @required this.title,
-    @required this.first,
+    required this.color,
+    required this.title,
+    required this.first,
   });
 
   final Color color;

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-SharedPreferences preferences;
+late SharedPreferences preferences;
 
 Color get initialColor => _initialColor(preferences.getString('initialColor'));
-Color _initialColor(String iColorMap) {
+Color _initialColor([String? iColorMap]) {
   if (iColorMap == null) return Colors.blue;
   Map<String, dynamic> map = jsonDecode(iColorMap);
   int red = map['red'];
@@ -26,9 +26,9 @@ extension colorEncode on Color {
 }
 
 Widget buildCompactIconButton({
-  @required Widget icon,
-  @required VoidCallback onPressed,
-  String tooltip,
+  required Widget icon,
+  required VoidCallback onPressed,
+  String? tooltip,
 }) {
   return IconButton(
     icon: icon,

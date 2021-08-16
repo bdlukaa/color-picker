@@ -5,14 +5,12 @@ import '../lang/lang.dart';
 
 class SupportedPlatform extends StatelessWidget {
   const SupportedPlatform({
-    Key key,
-    @required this.child,
-    this.supportedPlatforms,
+    Key? key,
+    required this.child,
     this.supportWeb = true,
   }) : super(key: key);
 
   final Widget child;
-  final List<TargetPlatform> supportedPlatforms;
   final bool supportWeb;
 
   @override

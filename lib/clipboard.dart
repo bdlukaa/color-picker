@@ -7,13 +7,12 @@ class FlutterClipboard {
   /// copy receives a string text and saves to Clipboard
   /// returns void
   static Future<void> copy(String text) {
-    assert(text != null, 'The text can not be null');
     return Clipboard.setData(ClipboardData(text: text));
   }
 
   /// Paste retrieves the data from clipboard.
-  static Future<String> paste() async {
-    ClipboardData data = await Clipboard.getData('text/plain');
-    return data.text;
+  static Future<String?> paste() async {
+    final ClipboardData? data = await Clipboard.getData('text/plain');
+    return data?.text;
   }
 }

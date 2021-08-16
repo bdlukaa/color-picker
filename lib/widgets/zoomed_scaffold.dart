@@ -14,13 +14,13 @@ class ZoomScaffold extends StatefulWidget {
   final MenuController controller;
   final bool returnWhenPressBack;
 
-  ZoomScaffold({
-    @required this.contentScreen,
-    this.menuScreen,
-    this.endMenuScreen,
-    this.endMenuColor,
-    this.menuColor,
-    this.controller,
+  const ZoomScaffold({
+    required this.contentScreen,
+    required this.menuScreen,
+    required this.endMenuScreen,
+    required this.endMenuColor,
+    required this.menuColor,
+    required this.controller,
     this.returnWhenPressBack = true,
   });
 
@@ -35,13 +35,13 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
   Curve slideOutCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
   Curve slideInCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
 
-  MenuController provider;
+  late MenuController provider;
 
   @override
   void initState() {
     super.initState();
     provider = widget.controller
-      ..stream?.listen((event) {
+      ..stream.listen((event) {
         setState(() {});
       });
   }
@@ -185,9 +185,9 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
     );
   }
 
-  double contentPadding;
+  double contentPadding = 0.0;
 
-  Color get gestureColor => kDebugMode ? null : null;
+  Color? get gestureColor => kDebugMode ? null : null;
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +211,7 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
       },
       child: LayoutBuilder(builder: (context, consts) {
         final width = consts.biggest.width;
-        Widget Function(Color color, Widget screen, EdgeInsets p) buildMenu =
+        Widget Function(Color color, Widget screen, EdgeInsets? p) buildMenu =
             (color, screen, p) {
           return Container(
             padding: (p ?? padding) + mq.viewPadding,
@@ -351,7 +351,7 @@ class MenuController {
   // ignore: close_sinks
   final _stream = StreamController.broadcast();
 
-  MenuController({@required this.vsync})
+  MenuController({required this.vsync})
       : _animationController = AnimationController(vsync: vsync) {
     _animationController
       ..duration = const Duration(milliseconds: 250)

@@ -7,7 +7,7 @@ import 'local_selector.dart';
 import 'network_selector.dart';
 
 class ImageSelector extends StatelessWidget {
-  ImageSelector({Key key}) : super(key: key);
+  ImageSelector({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ImageSelector extends StatelessWidget {
                   ThemeManager.isBright(context) ? Colors.black : Colors.white,
               indicatorSize: TabBarIndicatorSize.label,
               indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(color: Colors.blue[800]),
+                borderSide: BorderSide(color: Colors.blue.shade800),
               ),
             ),
           ),

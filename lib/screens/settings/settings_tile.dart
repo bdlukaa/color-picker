@@ -4,25 +4,26 @@ import '../../utils.dart';
 
 class SettingsTile extends StatelessWidget {
   const SettingsTile({
-    Key key,
-    @required this.icon,
-    @required this.title,
+    Key? key,
+    required this.icon,
+    required this.title,
     this.subtitle,
     this.onTap,
     this.subColor = false,
   }) : super(key: key);
 
   final IconData icon;
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   final bool subColor;
-  final Function onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title, textAlign: TextAlign.left),
       subtitle: subtitle != null
-          ? Text(subtitle)
+          ? Text(subtitle!)
           : subColor
               ? Container(height: 10, color: initialColor)
               : null,
@@ -35,8 +36,8 @@ class SettingsTile extends StatelessWidget {
 
 class SettingsTitleTile extends StatelessWidget {
   const SettingsTitleTile({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   final String title;
@@ -49,7 +50,7 @@ class SettingsTitleTile extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .headline6
-          .copyWith(fontWeight: FontWeight.bold),
+          ?.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }

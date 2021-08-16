@@ -4,7 +4,7 @@ import 'colors.dart';
 import 'named_picker_extend.dart';
 
 class NamedPickerHome extends StatelessWidget {
-  NamedPickerHome({Key key}) : super(key: key);
+  NamedPickerHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

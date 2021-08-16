@@ -7,7 +7,7 @@ import '../../theme_manager.dart';
 import '../color_info/color_info.dart';
 
 class XYZValuePicker extends StatefulWidget {
-  XYZValuePicker({Key key}) : super(key: key);
+  XYZValuePicker({Key? key}) : super(key: key);
 
   @override
   _XYZValuePickerState createState() => _XYZValuePickerState();
@@ -97,10 +97,10 @@ class _XYZValuePickerState extends State<XYZValuePicker>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.controller,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.controller,
   }) : super(key: key);
 
   final Color color;

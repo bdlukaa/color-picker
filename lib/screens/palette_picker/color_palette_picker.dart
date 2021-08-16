@@ -16,26 +16,25 @@ class PalettePicker extends StatefulWidget {
   final double topPosition;
   final double bottomPosition;
   final List<Color> topBottomColors;
-  final HSVColor color;
+  final HSVColor? color;
 
   final bool showIndicator;
   final ValueChanged<bool> onShowIndicatorChanged;
 
   PalettePicker({
-    Key key,
-    @required this.position,
-    @required this.onChanged,
-    @required this.leftRightColors,
-    @required this.topBottomColors,
-    @required this.showIndicator,
-    @required this.onShowIndicatorChanged,
+    Key? key,
+    required this.position,
+    required this.onChanged,
+    required this.leftRightColors,
+    required this.topBottomColors,
+    required this.showIndicator,
+    required this.onShowIndicatorChanged,
     this.leftPosition = 0.0,
     this.rightPosition = 1.0,
     this.topPosition = 0.0,
     this.bottomPosition = 1.0,
     this.color,
-  })  : assert(position != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _PalettePickerState createState() => _PalettePickerState();
@@ -68,7 +67,7 @@ class _PalettePickerState extends State<PalettePicker> {
   }
 
   void ratioToPosition(BuildContext context, Offset ratio) {
-    RenderBox renderBox = context.findRenderObject();
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset startposition = renderBox.localToGlobal(Offset.zero);
     Size size = renderBox.size;
     Offset updateOffset = ratio - startposition;
@@ -132,7 +131,7 @@ class _PalettePickerState extends State<PalettePicker> {
             top: size.biggest.height * positionToRatio().dy -
                 (kIndicatorSize / 2),
             child: ColorIndicator(
-              currentColor: widget.color.toColor(),
+              currentColor: widget.color?.toColor(),
               show: widget.showIndicator,
               below:
                   positionToRatio().dy <= ((kIndicatorPreviewSize * 0.8) / 100),
@@ -164,21 +163,20 @@ class SliderPicker extends StatefulWidget {
   final double max;
   final double value;
   final ValueChanged<double> onChanged;
-  final List<HSVColor> colors;
+  final List<HSVColor>? colors;
   final HSVColor color;
   final ValueChanged<bool> onShowIndicatorChanged;
 
   SliderPicker({
-    Key key,
+    Key? key,
     this.min = 0.0,
     this.max = 1.0,
-    @required this.value,
-    @required this.onChanged,
-    @required this.color,
-    @required this.onShowIndicatorChanged,
+    required this.value,
+    required this.onChanged,
+    required this.color,
+    required this.onShowIndicatorChanged,
     this.colors,
-  })  : assert(value != null),
-        assert(value >= min && value <= max),
+  })  : assert(value >= min && value <= max),
         super(key: key);
 
   @override
@@ -196,21 +194,21 @@ class _SliderPickerState extends State<SliderPicker> {
       widget.onChanged((ratio * (max - min) + min).clamp(min, max));
 
   void onPanStart(DragStartDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject();
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset offset = renderBox.globalToLocal(details.globalPosition);
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
   }
 
   void onPanUpdate(DragUpdateDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject();
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset offset = renderBox.globalToLocal(details.globalPosition);
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
   }
 
   void onPanDown(DragDownDetails details, BoxConstraints box) {
-    RenderBox renderBox = context.findRenderObject();
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset offset = renderBox.globalToLocal(details.globalPosition);
     double ratio = offset.dx / box.maxWidth;
     setRatio(ratio);
@@ -234,9 +232,9 @@ class _SliderPickerState extends State<SliderPicker> {
           ),
           onPanStart: (detail) => onPanStart(detail, box),
           onPanDown: (detail) => onPanDown(detail, box),
-          onHorizontalDragStart: (_) =>  widget.onShowIndicatorChanged(true),
+          onHorizontalDragStart: (_) => widget.onShowIndicatorChanged(true),
           onHorizontalDragUpdate: (detail) => onPanUpdate(detail, box),
-          onHorizontalDragEnd: (_) =>  widget.onShowIndicatorChanged(false),
+          onHorizontalDragEnd: (_) => widget.onShowIndicatorChanged(false),
         );
         return Stack(
           clipBehavior: Clip.none,
@@ -254,9 +252,12 @@ class _SliderPickerState extends State<SliderPicker> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: radius,
-                    gradient: LinearGradient(
-                      colors: widget.colors.map((c) => c.toColor()).toList(),
-                    ),
+                    gradient: widget.colors == null
+                        ? null
+                        : LinearGradient(
+                            colors:
+                                widget.colors!.map((c) => c.toColor()).toList(),
+                          ),
                   ),
                   child: gestureDetector,
                 ),
@@ -290,13 +291,12 @@ class PaletteHuePicker extends StatelessWidget {
   final ValueChanged<bool> onShowIndicatorChanged;
 
   const PaletteHuePicker({
-    Key key,
-    @required this.color,
-    @required this.onChanged,
-    @required this.showIndicator,
-    @required this.onShowIndicatorChanged,
-  })  : assert(color != null),
-        super(key: key);
+    Key? key,
+    required this.color,
+    required this.onChanged,
+    required this.showIndicator,
+    required this.onShowIndicatorChanged,
+  }) : super(key: key);
 
   List<HSVColor> get hueColors {
     final color = this.color.withSaturation(1).withValue(1);

@@ -1,16 +1,15 @@
 part of 'color_info.dart';
 
 class CielabColorInfo extends StatelessWidget {
-  const CielabColorInfo({Key key, @required this.color}) : super(key: key);
+  const CielabColorInfo({Key? key, required this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    CielabColor color = this.color == null
+    final CielabColor? color = this.color == null
         ? null
-        : RgbColor(this.color.red, this.color.green, this.color.blue)
-            .toCielabColor();
+        : RgbColor(this.color!.red, this.color!.green, this.color!.blue).toCielabColor();
     final lang = Language.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,17 +22,17 @@ class CielabColorInfo extends StatelessWidget {
             children: <Widget>[
               ColorName(
                 text: '${lang.lightness}: ',
-                value: color?.l?.toStringAsFixed(2) ?? '?',
+                value: color?.l.toStringAsFixed(2) ?? '?',
                 color: Colors.redAccent,
               ),
               ColorName(
                 text: 'A: ',
-                value: color?.a?.toStringAsFixed(2) ?? '?',
+                value: color?.a.toStringAsFixed(2) ?? '?',
                 color: Colors.green,
               ),
               ColorName(
                 text: 'B: ',
-                value: color?.b?.toStringAsFixed(2) ?? '?',
+                value: color?.b.toStringAsFixed(2) ?? '?',
                 color: Colors.blue,
               ),
             ],

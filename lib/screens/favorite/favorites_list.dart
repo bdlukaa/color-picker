@@ -7,7 +7,7 @@ import 'favorite_tile.dart';
 final favoritesKey = GlobalKey<AnimatedListState>();
 
 class FavoritesList extends StatelessWidget {
-  const FavoritesList({Key key}) : super(key: key);
+  const FavoritesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class FavoritesList extends StatelessWidget {
               SizedBox(width: 7),
               Text(
                 lang.favoriteColorsTitle,
-                style: Theme.of(context).textTheme.headline5.copyWith(
+                style: Theme.of(context).textTheme.headline5?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

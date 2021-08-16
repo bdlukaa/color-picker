@@ -11,15 +11,16 @@ import 'langs/pt_lang.dart';
 abstract class Language {
   static List<Language> get languages => [English(), Portuguese()];
 
-  static Language of(BuildContext context) {
-    Language lang;
+  static Language of(BuildContext? context) {
+    late Language lang;
     // String locale = preferences.getString('language') ??
     //     Localizations.localeOf(context).languageCode;
-    String locale = preferences.getString('language');
-    if (context == null)
+    String? locale = preferences.getString('language');
+    if (context == null) {
       locale = window.locale.languageCode;
-    else
+    } else {
       locale ??= Localizations.localeOf(context).languageCode;
+    }
     switch (locale) {
       case 'pt':
         lang = Portuguese();

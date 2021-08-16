@@ -5,9 +5,9 @@ import '../theme_manager.dart';
 
 class OpacitySlider extends StatelessWidget {
   const OpacitySlider({
-    Key key,
-    @required this.value,
-    @required this.onChanged,
+    Key? key,
+    required this.value,
+    required this.onChanged,
   }) : super(key: key);
 
   final double value;

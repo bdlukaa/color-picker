@@ -46,8 +46,8 @@ showColorInfoDialog(
 
 class ColorInfo extends StatefulWidget {
   const ColorInfo({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
     this.initial = 0,
     this.clipBehavior = Clip.antiAlias,
     this.slider,
@@ -55,18 +55,17 @@ class ColorInfo extends StatefulWidget {
     this.shrinkable = true,
     this.leading,
     this.onExpand,
-  })  : assert(shrinkable != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final Color color;
-  final Color background;
+  final Color? color;
+  final Color? background;
   final int initial;
-  final OpacitySlider slider;
+  final OpacitySlider? slider;
   final Clip clipBehavior;
   final bool shrinkable;
-  final Widget leading;
+  final Widget? leading;
 
-  final Function onExpand;
+  final VoidCallback? onExpand;
 
   @override
   _ColorInfoState createState() => _ColorInfoState();
@@ -114,7 +113,7 @@ class _ColorInfoState extends State<ColorInfo> {
             ),
           ),
         ),
-        if (widget.slider != null) widget.slider
+        if (widget.slider != null) widget.slider!,
       ],
     );
     TabBar tabBar = TabBar(
@@ -132,7 +131,7 @@ class _ColorInfoState extends State<ColorInfo> {
     if (widget.shrinkable)
       w = DefaultTabController(
         length: 6,
-        initialIndex: widget.initial ?? 0,
+        initialIndex: widget.initial,
         child: ControllableExpansionTile(
           radius: radius,
           initiallyExpanded: true,
@@ -155,14 +154,14 @@ class _ColorInfoState extends State<ColorInfo> {
           controller: controller,
           onExpansionChanged: (e) {
             setState(() => shrinked = !e);
-            if (widget.onExpand != null) widget.onExpand();
+            widget.onExpand?.call();
           },
         ),
       );
     else
       w = DefaultTabController(
         length: 6,
-        initialIndex: widget.initial ?? 0,
+        initialIndex: widget.initial,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -200,10 +199,10 @@ class _ColorInfoState extends State<ColorInfo> {
 
 class ColorName extends StatelessWidget {
   const ColorName({
-    Key key,
-    @required this.text,
-    @required this.value,
-    @required this.color,
+    Key? key,
+    required this.text,
+    required this.value,
+    required this.color,
   }) : super(key: key);
 
   final String text;
@@ -226,14 +225,14 @@ Future showCopiedToClipboard(BuildContext context, String text) async {
   final lang = Language.of(context);
   await FlutterClipboard.copy(text);
   final content = lang.copiedToClipboard(text);
-  if (ScaffoldMessenger.of(context) != null)
+  if (ScaffoldMessenger.maybeOf(context) != null)
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: content,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     ));
   else {
     showToast(
-      interactive: true,
+      // interactive: true,
       padding: EdgeInsets.zero,
       alignment: Alignment(0, 1),
       duration: Duration(seconds: 4),

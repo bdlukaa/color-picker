@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import './screens/root.dart';
 import 'lang/lang.dart';
@@ -16,6 +17,8 @@ var _appBuilderKey = GlobalKey<AppBuilderState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  setPathUrlStrategy();
 
   utils.preferences = await SharedPreferences.getInstance();
 
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeManager.darkTheme,
             theme: ThemeManager.lightTheme,
             builder: (_, child) => ScrollConfiguration(
-              child: child,
+              child: child!,
               behavior: NoGlowBehavior(),
             ),
             localizationsDelegates: [

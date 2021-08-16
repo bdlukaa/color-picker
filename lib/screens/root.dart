@@ -13,14 +13,14 @@ import 'favorite/favorites_list.dart';
 import 'settings/settings_home.dart';
 
 class Root extends StatefulWidget {
-  Root({Key key}) : super(key: key);
+  Root({Key? key}) : super(key: key);
 
   @override
   _RootState createState() => _RootState();
 }
 
 class _RootState extends State<Root> with TickerProviderStateMixin {
-  MenuController menuController;
+  late MenuController menuController;
 
   // Use this key to keep the state of the tabs and scrolling
   final scaffoldKey = GlobalKey();
@@ -47,7 +47,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
       controller: menuController,
       menuScreen: SettingsHome(),
       menuColor:
-          ThemeManager.isBright(context) ? Colors.white : Colors.grey[850],
+          ThemeManager.isBright(context) ? Colors.white : Colors.grey[850]!,
       endMenuScreen: FavoritesList(),
       endMenuColor: Colors.blueGrey,
       contentScreen: DefaultTabController(
@@ -57,7 +57,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             leading: () {
-              if (menuController.expanded != null)
+              if (!menuController.expanded)
                 return IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () => menuController.toggle(),

@@ -8,7 +8,7 @@ import 'color_picker_wheel.dart';
 import '../../utils.dart';
 
 class WheelPickerHome extends StatefulWidget {
-  WheelPickerHome({Key key}) : super(key: key);
+  WheelPickerHome({Key? key}) : super(key: key);
 
   @override
   _WheelPickerHomeState createState() => _WheelPickerHomeState();

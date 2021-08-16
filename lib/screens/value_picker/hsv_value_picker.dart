@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class HSVValuePicker extends StatefulWidget {
-  HSVValuePicker({Key key}) : super(key: key);
+  HSVValuePicker({Key? key}) : super(key: key);
 
   @override
   _HSVValuePickerState createState() => _HSVValuePickerState();
@@ -15,7 +15,7 @@ class HSVValuePicker extends StatefulWidget {
 class _HSVValuePickerState extends State<HSVValuePicker>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
-  double hue, saturation, value;
+  late double hue, saturation, value;
 
   @override
   void initState() {
@@ -81,12 +81,12 @@ class _HSVValuePickerState extends State<HSVValuePicker>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.value,
-    @required this.max,
-    @required this.onChanged,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.max,
+    required this.onChanged,
   }) : super(key: key);
 
   final Color color;

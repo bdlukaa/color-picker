@@ -9,7 +9,7 @@ import '../../theme_manager.dart';
 import 'settings_tile.dart';
 
 class SettingsHome extends StatelessWidget {
-  SettingsHome({Key key}) : super(key: key);
+  SettingsHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class SettingsHome extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline5
-              .copyWith(fontWeight: FontWeight.bold),
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 2),
         SettingsTitleTile(title: lang.user),

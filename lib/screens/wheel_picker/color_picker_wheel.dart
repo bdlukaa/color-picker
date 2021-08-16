@@ -26,11 +26,10 @@ class WheelPicker extends StatefulWidget {
   final ValueChanged<HSVColor> onChanged;
 
   WheelPicker({
-    Key key,
-    @required this.color,
-    @required this.onChanged,
-  })  : assert(color != null),
-        super(key: key);
+    Key? key,
+    required this.color,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   _WheelPickerState createState() => _WheelPickerState();
@@ -42,13 +41,15 @@ class _WheelPickerState extends State<WheelPicker> {
   final GlobalKey paletteKey = GlobalKey();
 
   Offset getOffset(Offset ratio) {
-    RenderBox renderBox = paletteKey.currentContext.findRenderObject();
+    RenderBox renderBox =
+        paletteKey.currentContext!.findRenderObject() as RenderBox;
     Offset startPosition = renderBox.localToGlobal(Offset.zero);
     return ratio - startPosition;
   }
 
   Size getSize() {
-    RenderBox renderBox = paletteKey.currentContext.findRenderObject();
+    RenderBox renderBox =
+        paletteKey.currentContext!.findRenderObject() as RenderBox;
     return renderBox.size;
   }
 
@@ -63,7 +64,8 @@ class _WheelPickerState extends State<WheelPicker> {
   }
 
   void onPanUpdate(Offset offset, [bool start = false]) {
-    RenderBox renderBox = paletteKey.currentContext.findRenderObject();
+    RenderBox renderBox =
+        paletteKey.currentContext!.findRenderObject() as RenderBox;
     Size size = renderBox.size;
 
     double radio = _WheelPainter.radio(size);
@@ -154,7 +156,7 @@ class _WheelPainter extends CustomPainter {
 
   final HSVColor color;
 
-  _WheelPainter({@required this.color}) : super();
+  _WheelPainter({required this.color}) : super();
 
   @override
   void paint(Canvas canvas, Size size) {

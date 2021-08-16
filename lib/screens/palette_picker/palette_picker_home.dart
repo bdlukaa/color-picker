@@ -9,7 +9,7 @@ import '../../utils.dart';
 import 'color_palette_picker.dart';
 
 class PalettePickerHome extends StatefulWidget {
-  PalettePickerHome({Key key}) : super(key: key);
+  PalettePickerHome({Key? key}) : super(key: key);
 
   @override
   _PalettePickerHomeState createState() => _PalettePickerHomeState();

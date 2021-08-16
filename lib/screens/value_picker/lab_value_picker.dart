@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class LABValuePicker extends StatefulWidget {
-  LABValuePicker({Key key}) : super(key: key);
+  LABValuePicker({Key? key}) : super(key: key);
 
   @override
   _LABValuePickerState createState() => _LABValuePickerState();
@@ -27,8 +27,6 @@ class _LABValuePickerState extends State<LABValuePicker>
       return 0;
     }
   }
-
-  double initialHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +85,12 @@ class _LABValuePickerState extends State<LABValuePicker>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.value,
-    @required this.max,
-    @required this.onChanged,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.max,
+    required this.onChanged,
     this.min = 0,
   }) : super(key: key);
 
@@ -130,10 +128,10 @@ class Field extends StatelessWidget {
 
 class TextField extends StatelessWidget {
   const TextField({
-    Key key,
-    @required this.color,
-    @required this.label,
-    @required this.controller,
+    Key? key,
+    required this.color,
+    required this.label,
+    required this.controller,
   }) : super(key: key);
 
   final Color color;

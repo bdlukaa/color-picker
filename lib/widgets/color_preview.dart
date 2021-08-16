@@ -6,17 +6,17 @@ import '../db/database_manager.dart' as db;
 
 class ColorPreview extends StatefulWidget {
   ColorPreview({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
     this.size = 45,
     this.favoriteEnabled = true,
     this.onCopyToClipboard,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
   final double size;
   final bool favoriteEnabled;
-  final Future Function() onCopyToClipboard;
+  final Future Function()? onCopyToClipboard;
 
   @override
   _ColorPreviewState createState() => _ColorPreviewState();
@@ -41,7 +41,7 @@ class _ColorPreviewState extends State<ColorPreview> {
             splashRadius: 24,
             onPressed: () async {
               setState(() => _loading = true);
-              await widget.onCopyToClipboard();
+              await widget.onCopyToClipboard?.call();
               setState(() => _loading = false);
             },
           ),
@@ -51,7 +51,7 @@ class _ColorPreviewState extends State<ColorPreview> {
           color: widget.color ?? Colors.grey[50],
           alignment: Alignment.center,
           child: () {
-            final color = widget.color ?? Colors.grey[50];
+            final Color color = widget.color ?? Colors.grey[50]!;
             final iconColor =
                 color.computeLuminance() < 0.5 ? Colors.white : Colors.black;
             if (widget.color == null)
@@ -79,8 +79,8 @@ class _ColorPreviewState extends State<ColorPreview> {
                 tooltip: isFavorite ? lang.unfavorite : lang.favorite,
                 onPressed: () async {
                   await (isFavorite
-                      ? db.unfavorite(widget.color)
-                      : db.favorite(widget.color));
+                      ? db.unfavorite(widget.color!)
+                      : db.favorite(widget.color!));
                   isFavorite = !isFavorite;
                   showTextToast(
                     text: isFavorite ? lang.favorited : lang.unfavorited,

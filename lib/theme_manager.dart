@@ -28,7 +28,7 @@ class ThemeManager extends ChangeNotifier {
   static bool isBright(BuildContext context) =>
       Theme.of(context).brightness == Brightness.light;
 
-  static ThemeData def([Color primarySwatch]) => ThemeData(
+  static ThemeData def([MaterialColor? primarySwatch]) => ThemeData(
         primarySwatch: primarySwatch,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         sliderTheme: SliderThemeData(
@@ -51,7 +51,7 @@ class ThemeManager extends ChangeNotifier {
         tabBarTheme: TabBarTheme(
           indicatorSize: TabBarIndicatorSize.label,
           indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(color: Colors.blue[800]),
+            borderSide: BorderSide(color: Colors.blue.shade800),
           ),
           labelColor: Colors.white,
         ),

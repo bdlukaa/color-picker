@@ -4,9 +4,9 @@ import '../lang/lang.dart';
 
 class MinHeight extends StatelessWidget {
   const MinHeight({
-    Key key,
-    @required this.minScreenHeight,
-    @required this.child,
+    Key? key,
+    required this.minScreenHeight,
+    required this.child,
   }) : super(key: key);
 
   final double minScreenHeight;

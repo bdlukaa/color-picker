@@ -10,7 +10,7 @@ import 'hsv_value_picker.dart';
 import 'lab_value_picker.dart';
 
 class ValueHome extends StatefulWidget {
-  ValueHome({Key key}) : super(key: key);
+  ValueHome({Key? key}) : super(key: key);
 
   @override
   _ValueHomeState createState() => _ValueHomeState();
@@ -42,7 +42,7 @@ class _ValueHomeState extends State<ValueHome>
               ],
               indicatorSize: TabBarIndicatorSize.label,
               indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(color: Colors.blue[800]),
+                borderSide: BorderSide(color: Colors.blue.shade800),
               ),
               labelColor:
                   ThemeManager.isBright(context) ? Colors.black : Colors.white,

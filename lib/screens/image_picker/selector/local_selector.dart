@@ -14,7 +14,7 @@ import '../../../widgets/chessboard.dart';
 import '../image_color_picker.dart';
 
 class LocalImageSelector extends StatefulWidget {
-  LocalImageSelector({Key key}) : super(key: key);
+  LocalImageSelector({Key? key}) : super(key: key);
 
   @override
   _LocalImageSelectorState createState() => _LocalImageSelectorState();
@@ -25,10 +25,10 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
   Color color = Colors.black;
 
   final picker = ImagePicker();
-  File _image;
+  File? _image;
 
   void getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) setState(() => _image = File(pickedFile.path));
   }
 
@@ -55,7 +55,7 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
                         key: pickerKey,
                         onUpdate: (color) => setState(() => this.color = color),
                         image: Image.file(
-                          _image,
+                          _image!,
                           fit: BoxFit.contain,
                         ),
                       ),

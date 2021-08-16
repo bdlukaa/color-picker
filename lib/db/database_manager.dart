@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 part 'favorite_colors.dart';
 
-Database database;
+late Database database;
 
 Future<Database> startDatabase() async {
   if (!kIsWeb)

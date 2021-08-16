@@ -1,17 +1,18 @@
 part of 'color_info.dart';
 
 class HEXColorInfo extends StatelessWidget {
-  const HEXColorInfo({Key key, @required this.color}) : super(key: key);
+  const HEXColorInfo({Key? key, required this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    HexColor color = this.color == null
+    HexColor? color = this.color == null
         ? null
-        : HexColor.fromRgb(this.color.red, this.color.green, this.color.blue);
+        : HexColor.fromRgb(
+            this.color!.red, this.color!.green, this.color!.blue);
     String alpha =
-        this.color?.alpha?.toInt()?.toRadixString(16)?.padLeft(2, '0') ?? '';
+        this.color?.alpha.toInt().toRadixString(16).padLeft(2, '0') ?? '';
     final lang = Language.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

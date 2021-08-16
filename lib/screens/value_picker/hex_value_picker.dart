@@ -8,7 +8,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class HEXValuePicker extends StatefulWidget {
-  HEXValuePicker({Key key}) : super(key: key);
+  HEXValuePicker({Key? key}) : super(key: key);
 
   @override
   _HEXValuePickerState createState() => _HEXValuePickerState();
@@ -87,7 +87,7 @@ class _HEXValuePickerState extends State<HEXValuePicker>
   }
 
   Color toColor(RgbColor color) {
-    return Color.fromARGB(255, color.r, color.g, color.b);
+    return Color.fromARGB(255, color.r.toInt(), color.g.toInt(), color.b.toInt());
   }
 
   bool get isNull => _hexController.text.isEmpty;
@@ -120,11 +120,11 @@ class _HEXValuePickerState extends State<HEXValuePicker>
 
 class Field extends StatelessWidget {
   const Field({
-    Key key,
-    @required this.color,
-    @required this.action,
-    @required this.label,
-    @required this.controller,
+    Key? key,
+    required this.color,
+    required this.action,
+    required this.label,
+    required this.controller,
   }) : super(key: key);
 
   final Color color;

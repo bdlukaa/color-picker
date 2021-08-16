@@ -6,9 +6,9 @@ const Duration _kExpand = const Duration(milliseconds: 200);
 
 class ControllableExpansionTile extends StatefulWidget {
   const ControllableExpansionTile({
-    Key key,
+    Key? key,
     this.title,
-    @required this.backgroundColor,
+    required this.backgroundColor,
     this.leading,
     this.controller,
     this.first = false,
@@ -17,19 +17,18 @@ class ControllableExpansionTile extends StatefulWidget {
     this.trailing,
     this.initiallyExpanded: false,
     this.radius,
-  })  : assert(initiallyExpanded != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final Widget leading;
-  final Widget title;
-  final ValueChanged<bool> onExpansionChanged;
+  final Widget? leading;
+  final Widget? title;
+  final ValueChanged<bool>? onExpansionChanged;
   final List<Widget> children;
   final Color backgroundColor;
-  final Widget trailing;
+  final Widget? trailing;
   final bool initiallyExpanded;
-  final ControllableExpansionTileController controller;
+  final ControllableExpansionTileController? controller;
   final bool first;
-  final BorderRadiusGeometry radius;
+  final BorderRadius? radius;
 
   @override
   ControllableExpansionTileState createState() =>
@@ -38,18 +37,18 @@ class ControllableExpansionTile extends StatefulWidget {
 
 class ControllableExpansionTileState extends State<ControllableExpansionTile>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  CurvedAnimation _easeOutAnimation;
-  CurvedAnimation _easeInAnimation;
-  ColorTween _borderColor;
-  ColorTween _headerColor;
-  ColorTween _iconColor;
-  ColorTween _backgroundColor;
-  Animation<double> _iconTurns;
+  late AnimationController _controller;
+  late CurvedAnimation _easeOutAnimation;
+  late CurvedAnimation _easeInAnimation;
+  late ColorTween _borderColor;
+  late ColorTween _headerColor;
+  late ColorTween _iconColor;
+  late ColorTween _backgroundColor;
+  late Animation<double> _iconTurns;
 
   bool _isExpanded = false;
 
-  ControllableExpansionTileController controller;
+  late ControllableExpansionTileController controller;
 
   @override
   void initState() {
@@ -113,13 +112,13 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
       });
       if (widget.onExpansionChanged != null) {
         await Future.delayed(_kExpand);
-        widget.onExpansionChanged(_isExpanded);
+        widget.onExpansionChanged!(_isExpanded);
       }
     }
   }
 
-  Widget _buildChildren(BuildContext context, Widget child) {
-    final borderRadius = widget.radius ??
+  Widget _buildChildren(BuildContext context, Widget? child) {
+    final BorderRadius borderRadius = widget.radius ??
         BorderRadius.vertical(top: Radius.circular(widget.first ? 20 : 0));
 
     return Container(
@@ -160,7 +159,7 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
     final ThemeData theme = Theme.of(context);
     _borderColor.end = theme.dividerColor;
     _headerColor
-      ..begin = theme.textTheme.subtitle1.color
+      ..begin = theme.textTheme.subtitle1?.color
       ..end = theme.accentColor;
     _iconColor
       ..begin = theme.unselectedWidgetColor
