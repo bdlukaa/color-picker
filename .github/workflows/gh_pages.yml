@@ -25,7 +25,7 @@ jobs:
         working-directory: ./
       - name: Deploy
         run: |
-          cd example/build/web
+          cd build/web
           git init
           git config user.name "bdlukaa"
           git config user.email "brunodlukaa@github.com"
