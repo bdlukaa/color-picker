@@ -9,7 +9,8 @@ class CielabColorInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final CielabColor? color = this.color == null
         ? null
-        : RgbColor(this.color!.red, this.color!.green, this.color!.blue).toCielabColor();
+        : RgbColor(this.color!.red, this.color!.green, this.color!.blue)
+            .toCielabColor();
     final lang = Language.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -87,7 +87,8 @@ class _HEXValuePickerState extends State<HEXValuePicker>
   }
 
   Color toColor(RgbColor color) {
-    return Color.fromARGB(255, color.r.toInt(), color.g.toInt(), color.b.toInt());
+    return Color.fromARGB(
+        255, color.r.toInt(), color.g.toInt(), color.b.toInt());
   }
 
   bool get isNull => _hexController.text.isEmpty;

@@ -22,7 +22,8 @@ class SupportedPlatform extends StatelessWidget {
     //
     // Network image is not supported because [RepaintBoundary.toImage()] was
     // not implemented on web yet.
-    if (!supportedPlatforms.contains(defaultTargetPlatform) || (kIsWeb && !supportWeb)) {
+    if (!supportedPlatforms.contains(defaultTargetPlatform) ||
+        (kIsWeb && !supportWeb)) {
       return Center(
         child: Text(
           lang.supportedPlatforms(supportedPlatforms),

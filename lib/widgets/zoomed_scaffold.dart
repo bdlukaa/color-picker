@@ -354,6 +354,7 @@ class MenuController {
     _expanded = expanded;
     _stream.add(expanded);
   }
+
   final TickerProvider vsync;
   final AnimationController _animationController;
 
