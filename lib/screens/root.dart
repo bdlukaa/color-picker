@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../lang/lang.dart';
 import '../widgets/zoomed_scaffold.dart';
@@ -13,7 +14,7 @@ import 'favorite/favorites_list.dart';
 import 'settings/settings_home.dart';
 
 class Root extends StatefulWidget {
-  Root({Key? key}) : super(key: key);
+  const Root({Key? key}) : super(key: key);
 
   @override
   _RootState createState() => _RootState();
@@ -42,13 +43,13 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
-    final radius = BorderRadius.vertical(top: Radius.circular(25));
+    const radius = BorderRadius.vertical(top: Radius.circular(25));
     return ZoomScaffold(
       controller: menuController,
-      menuScreen: SettingsHome(),
+      menuScreen: const SettingsHome(),
       menuColor:
           ThemeManager.isBright(context) ? Colors.white : Colors.grey[850]!,
-      endMenuScreen: FavoritesList(),
+      endMenuScreen: const FavoritesList(),
       endMenuColor: Colors.blueGrey,
       contentScreen: DefaultTabController(
         key: scaffoldKey,
@@ -57,43 +58,44 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             leading: () {
-              if (!menuController.expanded)
+              if (!menuController.expanded) {
                 return IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                   onPressed: () => menuController.toggle(),
                   tooltip: lang.settings,
                   splashRadius: 24,
                 );
+              }
               return null;
             }(),
             title: _buildTabBar(lang),
             actions: <Widget>[
               if (!menuController.expanded)
                 IconButton(
-                  icon: Icon(Icons.favorite),
+                  icon: const Icon(Icons.favorite),
                   onPressed: () => menuController.toggleEnd(),
                   tooltip: lang.favoriteColorsTitle,
                   splashRadius: 24,
                 ),
             ],
-            brightness: Brightness.dark,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: Container(
-            margin: EdgeInsets.only(top: 7),
+            margin: const EdgeInsets.only(top: 7),
             decoration: BoxDecoration(
               color: ThemeManager.isBright(context)
                   ? Colors.white
                   : Colors.grey[850],
               borderRadius: radius,
             ),
-            child: Material(
+            child: const Material(
               type: MaterialType.transparency,
               elevation: 8,
               borderRadius: radius,
               // color: Colors.transparent,
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
-                children: <Widget>[
+                children: [
                   PalettePickerHome(),
                   WheelPickerHome(),
                   ValueHome(),

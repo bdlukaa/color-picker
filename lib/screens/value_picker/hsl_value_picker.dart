@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class HSLValuePicker extends StatefulWidget {
-  HSLValuePicker({Key? key}) : super(key: key);
+  const HSLValuePicker({Key? key}) : super(key: key);
 
   @override
   _HSLValuePickerState createState() => _HSLValuePickerState();
@@ -30,48 +30,45 @@ class _HSLValuePickerState extends State<HSLValuePicker>
         .toColor()
         .withOpacity(opacity);
     Language lang = Language.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            Field(
-              value: hue,
-              onChanged: (value) => setState(() => hue = value),
-              color: Colors.purple,
-              label: lang.hue,
-              max: 360,
-            ),
-            Field(
-              max: 1,
-              value: saturation,
-              onChanged: (value) => setState(() => saturation = value),
-              color: Colors.green,
-              label: lang.saturation,
-            ),
-            Field(
-              max: 1,
-              value: lightness,
-              onChanged: (value) => setState(() => lightness = value),
-              color: Colors.yellow,
-              label: lang.lightness,
-            ),
-          ],
-        ),
-        Spacer(),
-        Divider(),
-        ColorInfo(
-          color: color,
-          initial: 2,
-          slider: OpacitySlider(
-            onChanged: (value) => setState(() => opacity = value),
-            value: opacity,
+    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          Field(
+            value: hue,
+            onChanged: (value) => setState(() => hue = value),
+            color: Colors.purple,
+            label: lang.hue,
+            max: 360,
           ),
+          Field(
+            max: 1,
+            value: saturation,
+            onChanged: (value) => setState(() => saturation = value),
+            color: Colors.green,
+            label: lang.saturation,
+          ),
+          Field(
+            max: 1,
+            value: lightness,
+            onChanged: (value) => setState(() => lightness = value),
+            color: Colors.yellow,
+            label: lang.lightness,
+          ),
+        ],
+      ),
+      const Spacer(),
+      const Divider(),
+      ColorInfo(
+        color: color,
+        initial: 2,
+        slider: OpacitySlider(
+          onChanged: (value) => setState(() => opacity = value),
+          value: opacity,
         ),
-      ],
-    );
+      ),
+    ]);
   }
 
   @override
@@ -96,27 +93,23 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Slider(
-              value: value,
-              onChanged: onChanged,
-              max: max,
-              min: 0,
-              label: label,
-              activeColor: color,
-              inactiveColor: color.withOpacity(0.2),
-            ),
-          ),
-          Text(
-            value.toStringAsFixed(2),
-            style: DefaultTextStyle.of(context).style,
-          ),
-          SizedBox(width: 10),
-        ],
+    return Row(children: <Widget>[
+      Expanded(
+        child: Slider(
+          value: value,
+          onChanged: onChanged,
+          max: max,
+          min: 0,
+          label: label,
+          activeColor: color,
+          inactiveColor: color.withOpacity(0.2),
+        ),
       ),
-    );
+      Text(
+        value.toStringAsFixed(2),
+        style: DefaultTextStyle.of(context).style,
+      ),
+      const SizedBox(width: 10),
+    ]);
   }
 }

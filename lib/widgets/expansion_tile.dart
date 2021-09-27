@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-const Duration _kExpand = const Duration(milliseconds: 200);
+const Duration _kExpand = Duration(milliseconds: 200);
 
 class ControllableExpansionTile extends StatefulWidget {
   const ControllableExpansionTile({
@@ -13,9 +13,9 @@ class ControllableExpansionTile extends StatefulWidget {
     this.controller,
     this.first = false,
     this.onExpansionChanged,
-    this.children: const <Widget>[],
+    this.children = const <Widget>[],
     this.trailing,
-    this.initiallyExpanded: false,
+    this.initiallyExpanded = false,
     this.radius,
   }) : super(key: key);
 
@@ -70,10 +70,11 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
 
     controller = widget.controller ?? ControllableExpansionTileController();
     controller.stream.listen((event) {
-      if (event)
+      if (event) {
         expand();
-      else
+      } else {
         collapse();
+      }
     });
   }
 
@@ -100,14 +101,15 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
     if (_isExpanded != isExpanded) {
       setState(() {
         _isExpanded = isExpanded;
-        if (_isExpanded)
+        if (_isExpanded) {
           _controller.forward();
-        else
+        } else {
           _controller.reverse().then<void>((value) {
             setState(() {
               // Rebuild without widget.children.
             });
           });
+        }
         PageStorage.of(context)?.writeState(context, _isExpanded);
       });
       if (widget.onExpansionChanged != null) {

@@ -4,11 +4,14 @@ class FavoriteColors {
   static List<Color> colors = [];
 
   static bool hasColor(Color color) {
-    for (Color c in colors)
+    for (Color c in colors) {
       if (c.red == color.red &&
           c.green == color.green &&
           c.blue == color.blue &&
-          c.alpha == color.alpha) return true;
+          c.alpha == color.alpha) {
+        return true;
+      }
+    }
     return false;
   }
 }
@@ -69,11 +72,12 @@ Future<void> unfavorite(Color color) async {
 
 Future<List<Color>> favorites() async {
   final List? maps = favoritesBox.values.toList();
-  if (maps != null && maps.isNotEmpty)
+  if (maps != null && maps.isNotEmpty) {
     FavoriteColors.colors = List.generate(maps.length, (i) {
       var map = maps[i];
       return Color.fromARGB(
           map['alpha'], map['red'], map['green'], map['blue']);
     });
+  }
   return FavoriteColors.colors;
 }

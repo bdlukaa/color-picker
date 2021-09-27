@@ -60,10 +60,10 @@ class Button extends StatelessWidget {
                     color: color,
                     blurRadius: 2.0,
                     spreadRadius: 0.0,
-                    offset: Offset(2.0, 2.0),
+                    offset: const Offset(2.0, 2.0),
                   )
                 ]
-              : [],
+              : null,
         ),
         child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
@@ -73,7 +73,7 @@ class Button extends StatelessWidget {
             if (icon != null)
               IconTheme(
                 child: icon!,
-                data: IconThemeData(color: Colors.white),
+                data: const IconThemeData(color: Colors.white),
               ),
             SizedBox(width: text == null && subText == null ? 0 : 3),
             if (subText != null)
@@ -108,7 +108,7 @@ class Button extends StatelessWidget {
         child: text!,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -119,7 +119,7 @@ class Button extends StatelessWidget {
         child: subText!,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 12,

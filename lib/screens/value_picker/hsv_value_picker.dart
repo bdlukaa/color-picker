@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class HSVValuePicker extends StatefulWidget {
-  HSVValuePicker({Key? key}) : super(key: key);
+  const HSVValuePicker({Key? key}) : super(key: key);
 
   @override
   _HSVValuePickerState createState() => _HSVValuePickerState();
@@ -33,10 +33,9 @@ class _HSVValuePickerState extends State<HSVValuePicker>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // Spacer(),
         ListView(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             Field(
               value: hue,
@@ -61,8 +60,8 @@ class _HSVValuePickerState extends State<HSVValuePicker>
             ),
           ],
         ),
-        Spacer(),
-        Divider(),
+        const Spacer(),
+        const Divider(),
         ColorInfo(
           color: color,
           initial: 3,
@@ -97,27 +96,23 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Slider(
-              value: value,
-              onChanged: onChanged,
-              max: max,
-              min: 0,
-              label: label,
-              activeColor: color,
-              inactiveColor: color.withOpacity(0.2),
-            ),
-          ),
-          Text(
-            value.toStringAsFixed(2),
-            style: DefaultTextStyle.of(context).style,
-          ),
-          SizedBox(width: 10),
-        ],
+    return Row(children: <Widget>[
+      Expanded(
+        child: Slider(
+          value: value,
+          onChanged: onChanged,
+          max: max,
+          min: 0,
+          label: label,
+          activeColor: color,
+          inactiveColor: color.withOpacity(0.2),
+        ),
       ),
-    );
+      Text(
+        value.toStringAsFixed(2),
+        style: DefaultTextStyle.of(context).style,
+      ),
+      const SizedBox(width: 10),
+    ]);
   }
 }

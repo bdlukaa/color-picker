@@ -9,14 +9,14 @@ import '../../theme_manager.dart';
 import 'settings_tile.dart';
 
 class SettingsHome extends StatelessWidget {
-  SettingsHome({Key? key}) : super(key: key);
+  const SettingsHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final lang = Language.of(context);
     final theme = ThemeManager.of(context, false);
     return ListView(
-      padding: EdgeInsets.only(left: 25, top: 75),
+      padding: const EdgeInsets.only(left: 25, top: 75),
       children: <Widget>[
         Text(
           lang.settings,
@@ -26,7 +26,7 @@ class SettingsHome extends StatelessWidget {
               .headline5
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 2),
+        const SizedBox(height: 2),
         SettingsTitleTile(title: lang.user),
         SettingsTile(
           icon: Icons.format_color_fill,
@@ -35,11 +35,11 @@ class SettingsHome extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => InitialColorDialog(),
+              builder: (context) => const InitialColorDialog(),
             );
           },
         ),
-        Divider(),
+        const Divider(),
         SettingsTitleTile(title: lang.app),
         SettingsTile(
           icon: Icons.language,
@@ -47,7 +47,7 @@ class SettingsHome extends StatelessWidget {
           subtitle: lang.langName,
           onTap: () => showDialog(
             context: context,
-            builder: (context) => LanguageDialog(),
+            builder: (context) => const LanguageDialog(),
           ),
         ),
         SettingsTile(
@@ -56,7 +56,7 @@ class SettingsHome extends StatelessWidget {
           subtitle: lang.fromThemeMode(theme.mode),
           onTap: () => showDialog(
             context: context,
-            builder: (_) => ThemeDialog(),
+            builder: (_) => const ThemeDialog(),
           ),
         ),
         SettingsTile(
@@ -66,7 +66,7 @@ class SettingsHome extends StatelessWidget {
             // TODO: open indicator settings
           },
         ),
-        Divider(),
+        const Divider(),
         SettingsTitleTile(title: lang.about),
         Link(
           uri: Uri.parse('https://github.com/bdlukaa'),
@@ -77,30 +77,27 @@ class SettingsHome extends StatelessWidget {
             onTap: followLink,
           ),
         ),
-        SizedBox(height: 10.0),
-        Wrap(
-          spacing: 6,
-          children: [
-            Link(
-              uri: Uri.parse('https://github.com/bdlukaa/color-picker'),
-              builder: (context, followLink) => ActionChip(
-                avatar: Icon(Icons.source, size: 18.0),
-                label: Text(lang.openSource),
-                backgroundColor: Colors.teal,
-                onPressed: () => followLink?.call(),
-              ),
+        const SizedBox(height: 10.0),
+        Wrap(spacing: 6, children: [
+          Link(
+            uri: Uri.parse('https://github.com/bdlukaa/color-picker'),
+            builder: (context, followLink) => ActionChip(
+              avatar: const Icon(Icons.source, size: 18.0),
+              label: Text(lang.openSource),
+              backgroundColor: Colors.teal,
+              onPressed: () => followLink?.call(),
             ),
-            Link(
-              uri: Uri.parse('https://flutter.dev'),
-              builder: (context, followLink) => ActionChip(
-                avatar: FlutterLogo(size: 18.0),
-                label: Text(lang.madeWithFlutter),
-                backgroundColor: Colors.blue,
-                onPressed: () => followLink?.call(),
-              ),
+          ),
+          Link(
+            uri: Uri.parse('https://flutter.dev'),
+            builder: (context, followLink) => ActionChip(
+              avatar: const FlutterLogo(size: 18.0),
+              label: Text(lang.madeWithFlutter),
+              backgroundColor: Colors.blue,
+              onPressed: () => followLink?.call(),
             ),
-          ],
-        ),
+          ),
+        ]),
       ],
     );
   }

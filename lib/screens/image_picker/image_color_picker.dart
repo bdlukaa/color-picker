@@ -9,7 +9,7 @@ import 'package:image/image.dart' as img;
 import '../../widgets/indicator.dart';
 
 class ColorPickerWidget extends StatefulWidget {
-  ColorPickerWidget({
+  const ColorPickerWidget({
     Key? key,
     required this.onUpdate,
     required this.image,
@@ -26,7 +26,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   final paintKey = GlobalKey();
   img.Image? photo;
 
-  Offset position = Offset(10, 10);
+  Offset position = const Offset(10, 10);
 
   Color? color;
   bool showColor = false;

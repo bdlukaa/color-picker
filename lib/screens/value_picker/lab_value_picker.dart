@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class LABValuePicker extends StatefulWidget {
-  LABValuePicker({Key? key}) : super(key: key);
+  const LABValuePicker({Key? key}) : super(key: key);
 
   @override
   _LABValuePickerState createState() => _LABValuePickerState();
@@ -16,8 +16,8 @@ class _LABValuePickerState extends State<LABValuePicker>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
   double lightness = 0;
-  TextEditingController _aController = TextEditingController(text: '0');
-  TextEditingController _bController = TextEditingController(text: '0');
+  final TextEditingController _aController = TextEditingController(text: '0');
+  final TextEditingController _bController = TextEditingController(text: '0');
 
   num parse(String text) {
     try {
@@ -66,7 +66,7 @@ class _LABValuePickerState extends State<LABValuePicker>
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         ColorInfo(
           color: color,
           initial: 5,
@@ -103,26 +103,22 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Slider(
-              value: value,
-              onChanged: onChanged,
-              max: max,
-              min: min,
-              label: label,
-              divisions: max.toInt() * 100,
-              activeColor: color,
-              inactiveColor: color.withOpacity(0.2),
-            ),
-          ),
-          Text(value.toStringAsFixed(2)),
-          SizedBox(width: 10),
-        ],
+    return Row(children: <Widget>[
+      Expanded(
+        child: Slider(
+          value: value,
+          onChanged: onChanged,
+          max: max,
+          min: min,
+          label: label,
+          divisions: max.toInt() * 100,
+          activeColor: color,
+          inactiveColor: color.withOpacity(0.2),
+        ),
       ),
-    );
+      Text(value.toStringAsFixed(2)),
+      const SizedBox(width: 10),
+    ]);
   }
 }
 
@@ -141,29 +137,27 @@ class TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var border = UnderlineInputBorder(borderSide: BorderSide(color: color));
-    return Container(
-      padding: EdgeInsets.only(left: 25),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              controller: controller,
-              style: TextStyle(color: color),
-              decoration: InputDecoration(
-                enabledBorder: border,
-                disabledBorder: border,
-                labelText: label,
-                labelStyle: TextStyle(color: color),
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 25),
+      child: Row(children: <Widget>[
+        Expanded(
+          child: TextFormField(
+            controller: controller,
+            style: TextStyle(color: color),
+            decoration: InputDecoration(
+              enabledBorder: border,
+              disabledBorder: border,
+              labelText: label,
+              labelStyle: TextStyle(color: color),
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.close),
-            tooltip: 'Clear',
-            onPressed: () => controller.clear(),
-          ),
-        ],
-      ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.close),
+          tooltip: 'Clear',
+          onPressed: () => controller.clear(),
+        ),
+      ]),
     );
   }
 }

@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'selector/image_selector.dart';
-import '../../widgets/minHeight.dart';
+import '../../widgets/min_height.dart';
 import '../../widgets/supported_platforms.dart';
 
 class ImagePickerHome extends StatefulWidget {
-  ImagePickerHome({Key? key}) : super(key: key);
+  const ImagePickerHome({Key? key}) : super(key: key);
 
   @override
   _ImagePickerHomeState createState() => _ImagePickerHomeState();
@@ -23,7 +23,7 @@ class _ImagePickerHomeState extends State<ImagePickerHome>
     //
     // Network image is not supported because [RepaintBoundary.toImage()] was
     // not implemented on web yet.
-    return SupportedPlatform(
+    return const SupportedPlatform(
       supportWeb: false,
       child: MinHeight(
         minScreenHeight: 440,

@@ -6,7 +6,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class RGBValuePicker extends StatefulWidget {
-  RGBValuePicker({Key? key}) : super(key: key);
+  const RGBValuePicker({Key? key}) : super(key: key);
 
   @override
   _RGBValuePickerState createState() => _RGBValuePickerState();
@@ -55,7 +55,7 @@ class _RGBValuePickerState extends State<RGBValuePicker>
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         ColorInfo(
           color: Color.fromARGB(
             255,
@@ -92,28 +92,23 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.grey[50],
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Slider(
-              value: value,
-              onChanged: onChanged,
-              max: 255,
-              min: 0,
-              label: label,
-              activeColor: color,
-              inactiveColor: color.withOpacity(0.2),
-            ),
-          ),
-          Text(
-            value.toInt().toString(),
-            style: DefaultTextStyle.of(context).style,
-          ),
-          SizedBox(width: 10),
-        ],
+    return Row(children: <Widget>[
+      Expanded(
+        child: Slider(
+          value: value,
+          onChanged: onChanged,
+          max: 255,
+          min: 0,
+          label: label,
+          activeColor: color,
+          inactiveColor: color.withOpacity(0.2),
+        ),
       ),
-    );
+      Text(
+        value.toInt().toString(),
+        style: DefaultTextStyle.of(context).style,
+      ),
+      const SizedBox(width: 10),
+    ]);
   }
 }

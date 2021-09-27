@@ -95,13 +95,13 @@ class InitialColorDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       title: Text(lang.initialColor, textAlign: TextAlign.center),
       contentPadding: EdgeInsets.zero,
-      children: <Widget>[RGBIntialColorChanger()],
+      children: const <Widget>[RGBIntialColorChanger()],
     );
   }
 }
 
 class RGBIntialColorChanger extends StatefulWidget {
-  RGBIntialColorChanger({Key? key}) : super(key: key);
+  const RGBIntialColorChanger({Key? key}) : super(key: key);
 
   @override
   _RGBIntialColorChangerState createState() => _RGBIntialColorChangerState();
@@ -165,10 +165,9 @@ class _RGBIntialColorChangerState extends State<RGBIntialColorChanger>
         Button(
           color: Colors.green,
           splashColor: Colors.lightGreenAccent,
-          // padding: EdgeInsets.all(10),
-          text: Text(lang.update, style: TextStyle(color: Colors.white)),
+          text: Text(lang.update, style: const TextStyle(color: Colors.white)),
           shadowEnabled: false,
-          radius: BorderRadius.vertical(bottom: Radius.circular(20)),
+          radius: const BorderRadius.vertical(bottom: Radius.circular(20)),
           onTap: () async {
             showTextToast(text: lang.initialColorUpdated, context: context);
             Navigator.pop(context);
@@ -208,25 +207,23 @@ class Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Slider(
-            value: value,
-            onChanged: onChanged,
-            max: 255,
-            min: 0,
-            label: label,
-            activeColor: color,
-            inactiveColor: color.withOpacity(0.2),
-          ),
+    return Row(children: <Widget>[
+      Expanded(
+        child: Slider(
+          value: value,
+          onChanged: onChanged,
+          max: 255,
+          min: 0,
+          label: label,
+          activeColor: color,
+          inactiveColor: color.withOpacity(0.2),
         ),
-        Text(
-          value.toInt().toString(),
-          style: DefaultTextStyle.of(context).style,
-        ),
-        SizedBox(width: 10),
-      ],
-    );
+      ),
+      Text(
+        value.toInt().toString(),
+        style: DefaultTextStyle.of(context).style,
+      ),
+      const SizedBox(width: 10),
+    ]);
   }
 }

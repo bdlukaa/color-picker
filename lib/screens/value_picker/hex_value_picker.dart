@@ -8,7 +8,7 @@ import '../../widgets/opacity_slider.dart';
 import '../color_info/color_info.dart';
 
 class HEXValuePicker extends StatefulWidget {
-  HEXValuePicker({Key? key}) : super(key: key);
+  const HEXValuePicker({Key? key}) : super(key: key);
 
   @override
   _HEXValuePickerState createState() => _HEXValuePickerState();
@@ -43,13 +43,13 @@ class _HEXValuePickerState extends State<HEXValuePicker>
               ),
             ),
             IconButton(
-              icon: Icon(Icons.close),
+              icon: const Icon(Icons.close),
               onPressed: () => _hexController.clear(),
               tooltip: lang.clear,
             ),
           ],
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         Align(
           alignment: Alignment.center,
           child: Text(
@@ -61,14 +61,14 @@ class _HEXValuePickerState extends State<HEXValuePicker>
                         ? lang.hexCodeLimitedChars
                         : lang.hexCodeOpacity,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        Spacer(),
-        Divider(),
+        const Spacer(),
+        const Divider(),
         ColorInfo(
           initial: 1,
           color: isNull || !isBounded || !isWellFormatted
@@ -96,8 +96,9 @@ class _HEXValuePickerState extends State<HEXValuePicker>
   bool get isBounded {
     if (!isNull) {
       return _hexController.text.replaceAll('#', '').length == 6;
-    } else
+    } else {
       return false;
+    }
   }
 
   bool get isWellFormatted {
@@ -111,8 +112,9 @@ class _HEXValuePickerState extends State<HEXValuePicker>
       } catch (e) {
         return false;
       }
-    } else
+    } else {
       return false;
+    }
   }
 
   @override

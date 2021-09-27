@@ -9,7 +9,7 @@ import '../../../widgets/chessboard.dart';
 import '../image_color_picker.dart';
 
 class NetworkImageSelector extends StatefulWidget {
-  NetworkImageSelector({Key? key}) : super(key: key);
+  const NetworkImageSelector({Key? key}) : super(key: key);
 
   @override
   _NetworkImageSelectorState createState() => _NetworkImageSelectorState();
@@ -41,7 +41,7 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
             child: Stack(
               alignment: Alignment.center,
               children: [
-                RepaintBoundary(child: ChessBoard()),
+                const RepaintBoundary(child: ChessBoard()),
                 if (url != null && url!.isNotEmpty)
                   ColorPickerWidget(
                     onUpdate: (color) => setState(() => this.color = color),
@@ -59,7 +59,7 @@ class _NetworkImageSelectorState extends State<NetworkImageSelector>
           color: color,
           shrinkable: false,
           leading: buildCompactIconButton(
-            icon: FaIcon(FontAwesomeIcons.link),
+            icon: const FaIcon(FontAwesomeIcons.link),
             tooltip: lang.url,
             onPressed: () => UrlPicker(
               onPick: (text) {
@@ -93,7 +93,7 @@ class UrlPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final lang = Language.of(context);
     return AlertDialog(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       content: TextFormField(
         controller: _controller,
         keyboardType: TextInputType.url,

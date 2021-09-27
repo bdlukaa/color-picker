@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme_manager.dart';
-import '../../widgets/minHeight.dart';
+import '../../widgets/min_height.dart';
 
 import 'rgb_value_picker.dart';
 import 'hex_value_picker.dart';
@@ -10,7 +10,7 @@ import 'hsv_value_picker.dart';
 import 'lab_value_picker.dart';
 
 class ValueHome extends StatefulWidget {
-  ValueHome({Key? key}) : super(key: key);
+  const ValueHome({Key? key}) : super(key: key);
 
   @override
   _ValueHomeState createState() => _ValueHomeState();
@@ -32,7 +32,7 @@ class _ValueHomeState extends State<ValueHome>
             backgroundColor: Colors.transparent,
             title: TabBar(
               isScrollable: true,
-              tabs: <Widget>[
+              tabs: const <Widget>[
                 Tab(text: 'RGB'),
                 Tab(text: 'HEX'),
                 Tab(text: 'HSL'),
@@ -48,7 +48,7 @@ class _ValueHomeState extends State<ValueHome>
                   ThemeManager.isBright(context) ? Colors.black : Colors.white,
             ),
           ),
-          body: Padding(
+          body: const Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: TabBarView(
               physics: NeverScrollableScrollPhysics(),

@@ -25,7 +25,7 @@ class WheelPicker extends StatefulWidget {
   final HSVColor color;
   final ValueChanged<HSVColor> onChanged;
 
-  WheelPicker({
+  const WheelPicker({
     Key? key,
     required this.color,
     required this.onChanged,
@@ -167,7 +167,7 @@ class _WheelPainter extends CustomPainter {
 
     double wheelRadio = radio;
 
-    Shader sweepShader = SweepGradient(
+    Shader sweepShader = const SweepGradient(
       center: Alignment.bottomRight,
       colors: [
         Color.fromARGB(255, 255, 0, 0),
@@ -208,7 +208,7 @@ class _WheelPainter extends CustomPainter {
       squareRadio * 2,
       squareRadio * 2,
     );
-    RRect rRect = RRect.fromRectAndRadius(rect, Radius.circular(2.0));
+    RRect rRect = RRect.fromRectAndRadius(rect, const Radius.circular(2.0));
 
     Shader horizontal = LinearGradient(
       begin: Alignment.centerLeft,
@@ -225,7 +225,7 @@ class _WheelPainter extends CustomPainter {
         ..shader = horizontal,
     );
 
-    Shader vertical = LinearGradient(
+    Shader vertical = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [Colors.transparent, Colors.black],

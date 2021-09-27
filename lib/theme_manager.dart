@@ -31,11 +31,11 @@ class ThemeManager extends ChangeNotifier {
   static ThemeData def([MaterialColor? primarySwatch]) => ThemeData(
         primarySwatch: primarySwatch,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        sliderTheme: SliderThemeData(
+        sliderTheme: const SliderThemeData(
           valueIndicatorTextStyle: TextStyle(color: Colors.white),
           showValueIndicator: ShowValueIndicator.always,
         ),
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           elevation: 0,
           centerTitle: true,
         ),
@@ -43,7 +43,7 @@ class ThemeManager extends ChangeNotifier {
 
   static ThemeData get lightTheme => def(Colors.orange).copyWith(
         scaffoldBackgroundColor: Colors.orange,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
           elevation: 0,
           centerTitle: true,
@@ -66,7 +66,7 @@ class ThemeManager extends ChangeNotifier {
           elevation: 0,
           centerTitle: true,
         ),
-        tabBarTheme: TabBarTheme(
+        tabBarTheme: const TabBarTheme(
           indicatorSize: TabBarIndicatorSize.label,
           indicator: UnderlineTabIndicator(
             borderSide: BorderSide(color: Colors.white),

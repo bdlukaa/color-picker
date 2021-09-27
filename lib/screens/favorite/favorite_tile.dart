@@ -5,7 +5,7 @@ import '../../db/database_manager.dart' as db;
 import '../color_info/color_info.dart';
 
 class FavoriteListTile extends StatelessWidget {
-  FavoriteListTile({
+  const FavoriteListTile({
     Key? key,
     required this.isFavorite,
     required this.color,
@@ -20,7 +20,7 @@ class FavoriteListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final lang = Language.of(context);
     return Container(
-      margin: EdgeInsets.only(top: 6),
+      margin: const EdgeInsets.only(top: 6),
       decoration: BoxDecoration(
         color: color.withOpacity(0.6),
         borderRadius: BorderRadius.circular(15),
@@ -43,7 +43,7 @@ class FavoriteListTile extends StatelessWidget {
             child: Container(height: 45, color: color),
           ),
           IconButton(
-            icon: Icon(Icons.info_outline, color: Colors.white),
+            icon: const Icon(Icons.info_outline, color: Colors.white),
             tooltip: lang.seeColorInfo,
             onPressed: () =>
                 showColorInfoDialog(context, lang.colorInfo, color),

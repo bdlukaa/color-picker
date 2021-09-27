@@ -5,7 +5,7 @@ import '../lang/lang.dart';
 import '../db/database_manager.dart' as db;
 
 class ColorPreview extends StatefulWidget {
-  ColorPreview({
+  const ColorPreview({
     Key? key,
     required this.color,
     this.size = 45,
@@ -36,7 +36,7 @@ class _ColorPreviewState extends State<ColorPreview> {
         // if copy is enabled
         if (widget.onCopyToClipboard != null)
           IconButton(
-            icon: Icon(Icons.copy),
+            icon: const Icon(Icons.copy),
             tooltip: lang.copyToClipboard,
             splashRadius: 24,
             onPressed: () async {
@@ -54,9 +54,9 @@ class _ColorPreviewState extends State<ColorPreview> {
             final Color color = widget.color ?? Colors.grey[50]!;
             final iconColor =
                 color.computeLuminance() < 0.5 ? Colors.white : Colors.black;
-            if (widget.color == null)
-              return Text('?');
-            else if (_loading)
+            if (widget.color == null) {
+              return const Text('?');
+            } else if (_loading) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CircularProgressIndicator(
@@ -64,10 +64,10 @@ class _ColorPreviewState extends State<ColorPreview> {
                   strokeWidth: 2,
                 ),
               );
-            else if (widget.favoriteEnabled)
+            } else if (widget.favoriteEnabled) {
               return IconButton(
                 icon: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   child: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
                     key: ValueKey<bool>(isFavorite),
@@ -88,8 +88,9 @@ class _ColorPreviewState extends State<ColorPreview> {
                   );
                 },
               );
-            else
+            } else {
               return null;
+            }
           }(),
         ),
       ],

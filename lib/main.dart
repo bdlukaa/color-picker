@@ -25,10 +25,12 @@ void main() async {
   await db.favorites();
 
   if (kIsWeb) setPathUrlStrategy();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeManager>(
@@ -49,16 +51,16 @@ class MyApp extends StatelessWidget {
               child: child!,
               behavior: NoGlowBehavior(),
             ),
-            localizationsDelegates: [
+            localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
-              const Locale('en', ''), // English, no country code
-              const Locale('pt', ''), // Portuguese, no country code
+            supportedLocales: const [
+              Locale('en', ''), // English, no country code
+              Locale('pt', ''), // Portuguese, no country code
             ],
-            home: Root(),
+            home: const Root(),
           ),
         );
       },
@@ -67,6 +69,7 @@ class MyApp extends StatelessWidget {
 }
 
 class NoGlowBehavior extends ScrollBehavior {
+  @override
   Widget buildViewportChrome(
     BuildContext context,
     Widget child,

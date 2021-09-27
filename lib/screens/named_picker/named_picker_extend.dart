@@ -5,11 +5,12 @@ import '../../widgets/expansion_tile.dart';
 import '../color_info/color_info.dart';
 
 class NamedPickerTile extends StatelessWidget {
-  NamedPickerTile({
+  const NamedPickerTile({
+    Key? key,
     required this.color,
     required this.title,
     required this.first,
-  });
+  }) : super(key: key);
 
   final Color color;
   final String title;
@@ -32,7 +33,7 @@ class NamedPickerTile extends StatelessWidget {
       initiallyExpanded: false,
       first: first,
       trailing: IconButton(
-        icon: Icon(Icons.info_outline, color: Colors.white),
+        icon: const Icon(Icons.info_outline, color: Colors.white),
         tooltip: lang.seeColorInfo,
         onPressed: () => showColorInfoDialog(context, title, color),
       ),
@@ -45,8 +46,8 @@ class NamedPickerTile extends StatelessWidget {
           width: double.infinity,
           color: color,
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 10),
-          margin: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(top: 10),
           child: Text(
             lang.colorWithOpacity(title, opacity ~/ 10),
             style: TextStyle(

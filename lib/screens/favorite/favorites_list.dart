@@ -50,18 +50,19 @@ class FavoritesList extends StatelessWidget {
               },
             ),
             AnimatedSwitcher(
-              duration: Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 600),
               child: FavoriteColors.colors.isEmpty
                   ? Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.only(bottom: 42),
+                      margin: const EdgeInsets.only(bottom: 42),
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           text: lang.haventFavoritedAnyBefore,
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
                           children: [
-                            WidgetSpan(
+                            const WidgetSpan(
                               child: Icon(
                                 Icons.favorite_border,
                                 color: Colors.white,
@@ -72,7 +73,7 @@ class FavoritesList extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ),
           ]),
         ),

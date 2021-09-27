@@ -28,7 +28,7 @@ class SettingsTile extends StatelessWidget {
               ? Container(height: 10, color: initialColor)
               : null,
       leading: Icon(icon),
-      trailing: Icon(Icons.navigate_next),
+      trailing: const Icon(Icons.navigate_next),
       onTap: onTap,
     );
   }

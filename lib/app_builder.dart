@@ -1,7 +1,7 @@
 part of 'main.dart';
 
 class AppBuilder extends StatefulWidget {
-  AppBuilder({Key? key, required this.child}) : super(key: key);
+  const AppBuilder({Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 
@@ -13,7 +13,7 @@ class AppBuilder extends StatefulWidget {
 
 class AppBuilderState extends State<AppBuilder> {
   @override
-  Widget build(_) => widget.child;
+  Widget build(context) => widget.child;
 
   void update() => ThemeManager.of(context, false).notify();
 }

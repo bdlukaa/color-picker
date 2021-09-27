@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../screens/color_info/color_info.dart';
 import '../../widgets/opacity_slider.dart';
-import '../../widgets/minHeight.dart';
+import '../../widgets/min_height.dart';
 
 import 'color_picker_wheel.dart';
 import '../../utils.dart';
 
 class WheelPickerHome extends StatefulWidget {
-  WheelPickerHome({Key? key}) : super(key: key);
+  const WheelPickerHome({Key? key}) : super(key: key);
 
   @override
   _WheelPickerHomeState createState() => _WheelPickerHomeState();
@@ -24,7 +24,7 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
     return MinHeight(
       minScreenHeight: 400,
       child: Padding(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -32,7 +32,7 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
               child: Align(
                 alignment: Alignment.center,
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     minWidth: 350,
                     minHeight: 255,
                     // maxHeight: 300,
@@ -45,7 +45,7 @@ class _WheelPickerHomeState extends State<WheelPickerHome>
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
             ColorInfo(
               color: color.toColor(),
               slider: OpacitySlider(

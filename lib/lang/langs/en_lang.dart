@@ -1,3 +1,5 @@
+// ignore_for_file: annotate_overrides
+
 import 'package:color_picker/lang/lang.dart';
 import 'package:flutter/material.dart';
 
@@ -56,8 +58,8 @@ class English extends Language {
       text: TextSpan(
         text: 'Copied ',
         children: [
-          TextSpan(text: text, style: TextStyle(color: Colors.blue)),
-          TextSpan(text: ' to clipboard'),
+          TextSpan(text: text, style: const TextStyle(color: Colors.blue)),
+          const TextSpan(text: ' to clipboard'),
         ],
       ),
     );

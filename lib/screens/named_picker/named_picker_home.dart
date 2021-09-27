@@ -4,14 +4,14 @@ import 'colors.dart';
 import 'named_picker_extend.dart';
 
 class NamedPickerHome extends StatelessWidget {
-  NamedPickerHome({Key? key}) : super(key: key);
+  const NamedPickerHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var colors = primaries(context);
     return ListView.builder(
       itemCount: colors.length,
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 15,
         right: 15,
         top: 20,

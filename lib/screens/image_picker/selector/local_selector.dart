@@ -14,7 +14,7 @@ import '../../../widgets/chessboard.dart';
 import '../image_color_picker.dart';
 
 class LocalImageSelector extends StatefulWidget {
-  LocalImageSelector({Key? key}) : super(key: key);
+  const LocalImageSelector({Key? key}) : super(key: key);
 
   @override
   _LocalImageSelectorState createState() => _LocalImageSelectorState();
@@ -44,25 +44,23 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Stack(
-              children: [
-                RepaintBoundary(child: ChessBoard()),
-                if (_image != null)
-                  LayoutBuilder(builder: (context, c) {
-                    return ConstrainedBox(
-                      constraints: c,
-                      child: ColorPickerWidget(
-                        key: pickerKey,
-                        onUpdate: (color) => setState(() => this.color = color),
-                        image: Image.file(
-                          _image!,
-                          fit: BoxFit.contain,
-                        ),
+            child: Stack(children: [
+              const RepaintBoundary(child: ChessBoard()),
+              if (_image != null)
+                LayoutBuilder(builder: (context, c) {
+                  return ConstrainedBox(
+                    constraints: c,
+                    child: ColorPickerWidget(
+                      key: pickerKey,
+                      onUpdate: (color) => setState(() => this.color = color),
+                      image: Image.file(
+                        _image!,
+                        fit: BoxFit.contain,
                       ),
-                    );
-                  })
-              ],
-            ),
+                    ),
+                  );
+                })
+            ]),
           ),
         ),
         ColorInfo(
@@ -73,7 +71,7 @@ class _LocalImageSelectorState extends State<LocalImageSelector>
             setState(() {});
           },
           leading: buildCompactIconButton(
-            icon: FaIcon(FontAwesomeIcons.image),
+            icon: const FaIcon(FontAwesomeIcons.image),
             tooltip: lang.selectPhoto,
             onPressed: getImage,
           ),

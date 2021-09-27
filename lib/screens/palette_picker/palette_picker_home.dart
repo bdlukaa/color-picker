@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../screens/color_info/color_info.dart';
 import '../../widgets/opacity_slider.dart';
-import '../../widgets/minHeight.dart';
+import '../../widgets/min_height.dart';
 
 import '../../utils.dart';
 
 import 'color_palette_picker.dart';
 
 class PalettePickerHome extends StatefulWidget {
-  PalettePickerHome({Key? key}) : super(key: key);
+  const PalettePickerHome({Key? key}) : super(key: key);
 
   @override
   _PalettePickerHomeState createState() => _PalettePickerHomeState();
@@ -26,7 +26,7 @@ class _PalettePickerHomeState extends State<PalettePickerHome>
     return MinHeight(
       minScreenHeight: 350,
       child: Container(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 6),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 6),
         height: double.infinity,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -40,7 +40,7 @@ class _PalettePickerHomeState extends State<PalettePickerHome>
                 onChanged: (c) => setState(() => color = c),
               ),
             ),
-            Divider(height: 16),
+            const Divider(height: 16),
             LimitedBox(
               child: ColorInfo(
                 color: color.toColor(),

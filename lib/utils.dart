@@ -16,7 +16,7 @@ Color _initialColor([String? iColorMap]) {
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-extension colorEncode on Color {
+extension ColorEncode on Color {
   String get encoded => json.encode({
         'red': red,
         'green': green,
@@ -37,6 +37,6 @@ Widget buildCompactIconButton({
     padding: EdgeInsets.zero,
     visualDensity: VisualDensity.compact,
     splashRadius: 25,
-    constraints: BoxConstraints(maxWidth: 28),
+    constraints: const BoxConstraints(maxWidth: 28),
   );
 }

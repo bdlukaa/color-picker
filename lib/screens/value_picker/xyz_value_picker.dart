@@ -7,7 +7,7 @@ import '../../theme_manager.dart';
 import '../color_info/color_info.dart';
 
 class XYZValuePicker extends StatefulWidget {
-  XYZValuePicker({Key? key}) : super(key: key);
+  const XYZValuePicker({Key? key}) : super(key: key);
 
   @override
   _XYZValuePickerState createState() => _XYZValuePickerState();
@@ -16,9 +16,9 @@ class XYZValuePicker extends StatefulWidget {
 class _XYZValuePickerState extends State<XYZValuePicker>
     with AutomaticKeepAliveClientMixin {
   double opacity = 1;
-  TextEditingController _xController = TextEditingController(text: '0');
-  TextEditingController _yController = TextEditingController(text: '0');
-  TextEditingController _zController = TextEditingController(text: '0');
+  final TextEditingController _xController = TextEditingController(text: '0');
+  final TextEditingController _yController = TextEditingController(text: '0');
+  final TextEditingController _zController = TextEditingController(text: '0');
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _XYZValuePickerState extends State<XYZValuePicker>
       children: <Widget>[
         ListView(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             Field(
               controller: _xController,
@@ -72,13 +72,12 @@ class _XYZValuePickerState extends State<XYZValuePicker>
               color: Colors.blue,
               label: 'Z',
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
           ],
         ),
-        MediaQuery.of(context).orientation == Orientation.portrait
-            ? Spacer()
-            : Container(),
-        Divider(),
+        if (MediaQuery.of(context).orientation == Orientation.portrait)
+          const Spacer(),
+        const Divider(),
         ColorInfo(
           color: color,
           initial: 4,
@@ -110,32 +109,30 @@ class Field extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var border = UnderlineInputBorder(borderSide: BorderSide(color: color));
-    return Container(
-      padding: EdgeInsets.only(left: 25),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              controller: controller,
-              style: TextStyle(color: color),
-              decoration: InputDecoration(
-                enabledBorder: border,
-                disabledBorder: border,
-                labelText: label,
-                labelStyle: TextStyle(color: color),
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 25),
+      child: Row(children: <Widget>[
+        Expanded(
+          child: TextFormField(
+            controller: controller,
+            style: TextStyle(color: color),
+            decoration: InputDecoration(
+              enabledBorder: border,
+              disabledBorder: border,
+              labelText: label,
+              labelStyle: TextStyle(color: color),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.close,
-              color: ThemeManager.isBright(context) ? null : Colors.black,
-            ),
-            tooltip: 'Clear',
-            onPressed: () => controller.clear(),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.close,
+            color: ThemeManager.isBright(context) ? null : Colors.black,
           ),
-        ],
-      ),
+          tooltip: 'Clear',
+          onPressed: () => controller.clear(),
+        ),
+      ]),
     );
   }
 }

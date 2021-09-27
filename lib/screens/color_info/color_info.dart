@@ -30,11 +30,11 @@ showColorInfoDialog(
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       title: Center(child: Text(title)),
-      contentPadding: EdgeInsets.only(top: 20),
+      contentPadding: const EdgeInsets.only(top: 20),
       content: ColorInfo(
         color: color,
         background: background,
@@ -83,7 +83,7 @@ class _ColorInfoState extends State<ColorInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final radius = BorderRadius.vertical(top: Radius.circular(25));
+    const radius = BorderRadius.vertical(top: Radius.circular(25));
     final lang = Language.of(context);
     Widget w = Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       LimitedBox(
@@ -102,10 +102,7 @@ class _ColorInfoState extends State<ColorInfo> {
               XYZColorInfo(color: widget.color),
               CielabColorInfo(color: widget.color),
             ].map<Widget>((child) {
-              return Padding(
-                padding: EdgeInsets.all(8),
-                child: child,
-              );
+              return Padding(padding: const EdgeInsets.all(8), child: child);
             }).toList(),
           ),
         ),
@@ -115,7 +112,7 @@ class _ColorInfoState extends State<ColorInfo> {
     TabBar tabBar = TabBar(
       isScrollable: true,
       labelColor: ThemeManager.isBright(context) ? Colors.black : Colors.white,
-      tabs: <Widget>[
+      tabs: const <Widget>[
         Tab(text: 'RGB'),
         Tab(text: 'HEX'),
         Tab(text: 'HSL'),
@@ -124,7 +121,7 @@ class _ColorInfoState extends State<ColorInfo> {
         Tab(text: 'Lab'),
       ],
     );
-    if (widget.shrinkable)
+    if (widget.shrinkable) {
       w = DefaultTabController(
         length: 6,
         initialIndex: widget.initial,
@@ -132,15 +129,15 @@ class _ColorInfoState extends State<ColorInfo> {
           radius: radius,
           initiallyExpanded: true,
           backgroundColor: Colors.transparent,
-          title: Container(
+          title: SizedBox(
             height: 46,
             child: Row(children: [
-              widget.leading ?? SizedBox(),
+              widget.leading ?? const SizedBox(),
               Expanded(child: tabBar),
             ]),
           ),
           trailing: buildCompactIconButton(
-            icon: Icon(Icons.expand_less),
+            icon: const Icon(Icons.expand_less),
             tooltip: shrinked ? lang.open : lang.close,
             onPressed: () {
               (shrinked ? controller.open : controller.close)();
@@ -154,32 +151,28 @@ class _ColorInfoState extends State<ColorInfo> {
           },
         ),
       );
-    else
+    } else {
       w = DefaultTabController(
         length: 6,
         initialIndex: widget.initial,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              height: 46,
-              child: ListTile(
-                title: Row(
-                  children: [
-                    if (widget.leading != null)
-                      Padding(
-                        padding: EdgeInsets.only(right: 6),
-                        child: widget.leading,
-                      ),
-                    Expanded(child: tabBar),
-                  ],
-                ),
-              ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          SizedBox(
+            height: 46,
+            child: ListTile(
+              title: Row(children: [
+                if (widget.leading != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: widget.leading,
+                  ),
+                Expanded(child: tabBar),
+              ]),
             ),
-            w,
-          ],
-        ),
+          ),
+          w,
+        ]),
       );
+    }
     w = Material(
       borderRadius: radius,
       elevation: 8,
@@ -221,24 +214,24 @@ Future showCopiedToClipboard(BuildContext context, String text) async {
   final lang = Language.of(context);
   await FlutterClipboard.copy(text);
   final content = lang.copiedToClipboard(text);
-  if (ScaffoldMessenger.maybeOf(context) != null)
+  if (ScaffoldMessenger.maybeOf(context) != null) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: content,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     ));
-  else {
+  } else {
     showToast(
       // interactive: true,
       padding: EdgeInsets.zero,
-      alignment: Alignment(0, 1),
-      duration: Duration(seconds: 4),
-      animationDuration: Duration(milliseconds: 200),
+      alignment: const Alignment(0, 1),
+      duration: const Duration(seconds: 4),
+      animationDuration: const Duration(milliseconds: 200),
       animationBuilder: (context, animation, child) {
         return SlideTransition(
           child: child,
           position: Tween<Offset>(
-            begin: Offset(0, 1),
-            end: Offset(0, 0),
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
           ).animate(animation),
         );
       },

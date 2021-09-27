@@ -30,9 +30,9 @@ class ColorIndicator extends StatelessWidget {
             left: -(kIndicatorPreviewSize / 3),
             right: -(kIndicatorPreviewSize / 3),
             child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               child: !show
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Container(
                       height: kIndicatorPreviewSize,
                       width: kIndicatorPreviewSize,

@@ -7,11 +7,11 @@ import 'local_selector.dart';
 import 'network_selector.dart';
 
 class ImageSelector extends StatelessWidget {
-  ImageSelector({Key? key}) : super(key: key);
+  const ImageSelector({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double tabBarSize = 46;
+    const double tabBarSize = 46;
     final lang = Language.of(context);
     return DefaultTabController(
       length: 2,
@@ -33,8 +33,8 @@ class ImageSelector extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: Container(
+          const Expanded(
+            child: Padding(
               padding: EdgeInsets.only(top: 4),
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
@@ -50,7 +50,7 @@ class ImageSelector extends StatelessWidget {
 
 DecorationImage buildDecorationImage(BuildContext context) {
   return DecorationImage(
-    image: AssetImage('assets/checkerboard.png'),
+    image: const AssetImage('assets/checkerboard.png'),
     fit: BoxFit.fill,
     colorFilter: ThemeManager.isBright(context)
         ? null

@@ -105,7 +105,8 @@ class _PalettePickerState extends State<PalettePicker> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: _kBorderWidth),
-            borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
+            borderRadius:
+                const BorderRadius.all(Radius.circular(_kBorderRadius)),
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
@@ -116,7 +117,7 @@ class _PalettePickerState extends State<PalettePicker> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: _kBorderWidth),
-            borderRadius: BorderRadius.all(Radius.circular(_kBorderRadius)),
+            borderRadius: const BorderRadius.all(Radius.circular(_kBorderRadius)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -164,7 +165,7 @@ class SliderPicker extends StatefulWidget {
   final HSVColor color;
   final ValueChanged<bool> onShowIndicatorChanged;
 
-  SliderPicker({
+  const SliderPicker({
     Key? key,
     this.min = 0.0,
     this.max = 1.0,
@@ -212,11 +213,11 @@ class _SliderPickerState extends State<SliderPicker> {
   double getWidth(double value, double maxWidth) =>
       (maxWidth - trackWidth - trackWidth) * value + trackWidth;
 
-  BorderRadius radius = BorderRadius.all(Radius.circular(20.0));
+  BorderRadius radius = const BorderRadius.all(Radius.circular(20.0));
 
   @override
   Widget build(BuildContext context) {
-    final double kIndicatorSize = kSliderHeight * 2.4;
+    const double kIndicatorSize = kSliderHeight * 2.4;
     return LayoutBuilder(
       builder: (context, box) {
         Widget gestureDetector = GestureDetector(
@@ -232,7 +233,7 @@ class _SliderPickerState extends State<SliderPicker> {
           alignment: Alignment.centerLeft,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Material(
                 type: MaterialType.transparency,
                 elevation: 8,
@@ -312,40 +313,37 @@ class PaletteHuePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(7),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: Material(
-              elevation: 8,
-              child: PalettePicker(
-                position: Offset(color.saturation, color.value),
-                onChanged: (value) => onChanged(
-                  HSVColor.fromAHSV(color.alpha, color.hue, value.dx, value.dy),
-                ),
-                color: color,
-                topPosition: 1.0,
-                bottomPosition: 0.0,
-                leftRightColors: saturationColors,
-                topBottomColors: valueColors,
-                showIndicator: showIndicator,
-                onShowIndicatorChanged: onShowIndicatorChanged,
+      padding: const EdgeInsets.all(7),
+      child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        Expanded(
+          child: Material(
+            elevation: 8,
+            child: PalettePicker(
+              position: Offset(color.saturation, color.value),
+              onChanged: (value) => onChanged(
+                HSVColor.fromAHSV(color.alpha, color.hue, value.dx, value.dy),
               ),
+              color: color,
+              topPosition: 1.0,
+              bottomPosition: 0.0,
+              leftRightColors: saturationColors,
+              topBottomColors: valueColors,
+              showIndicator: showIndicator,
+              onShowIndicatorChanged: onShowIndicatorChanged,
             ),
           ),
-          SizedBox(height: 14),
-          SliderPicker(
-            min: 0.0,
-            max: 360.0,
-            value: color.hue,
-            onChanged: (value) => onChanged(color.withHue(value)),
-            colors: hueColors,
-            color: color,
-            onShowIndicatorChanged: onShowIndicatorChanged,
-          )
-        ],
-      ),
+        ),
+        const SizedBox(height: 14),
+        SliderPicker(
+          min: 0.0,
+          max: 360.0,
+          value: color.hue,
+          onChanged: (value) => onChanged(color.withHue(value)),
+          colors: hueColors,
+          color: color,
+          onShowIndicatorChanged: onShowIndicatorChanged,
+        )
+      ]),
     );
   }
 }

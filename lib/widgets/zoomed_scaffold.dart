@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class ZoomScaffold extends StatefulWidget {
   final bool returnWhenPressBack;
 
   const ZoomScaffold({
+    Key? key,
     required this.contentScreen,
     required this.menuScreen,
     required this.endMenuScreen,
@@ -22,7 +25,7 @@ class ZoomScaffold extends StatefulWidget {
     required this.menuColor,
     required this.controller,
     this.returnWhenPressBack = true,
-  });
+  }) : super(key: key);
 
   @override
   _ZoomScaffoldState createState() => _ZoomScaffoldState();
@@ -30,10 +33,10 @@ class ZoomScaffold extends StatefulWidget {
 
 class _ZoomScaffoldState extends State<ZoomScaffold>
     with TickerProviderStateMixin {
-  Curve scaleDownCurve = Interval(0.0, 0.3, curve: Curves.easeOut);
-  Curve scaleUpCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
-  Curve slideOutCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
-  Curve slideInCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
+  Curve scaleDownCurve = const Interval(0.0, 0.3, curve: Curves.easeOut);
+  Curve scaleUpCurve = const Interval(0.0, 1.0, curve: Curves.easeOut);
+  Curve slideOutCurve = const Interval(0.0, 1.0, curve: Curves.easeOut);
+  Curve slideInCurve = const Interval(0.0, 1.0, curve: Curves.easeOut);
 
   late MenuController provider;
 
@@ -91,11 +94,11 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
         ..scale(contentScale),
       alignment: alignment,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              offset: const Offset(0.0, 5.0),
+              offset: Offset(0.0, 5.0),
               blurRadius: 15.0,
               spreadRadius: 10.0,
             ),
@@ -127,7 +130,9 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
             print(realPosition);
           } else {
             List<int> ints = [];
-            for (var i = mq.size.width.round(); i > 1; i--) ints.add(i);
+            for (var i = mq.size.width.round(); i > 1; i--) {
+              ints.add(i);
+            }
             var realPosition =
                 ints[details.globalPosition.dx.toInt()] / mq.size.width;
             if (provider.isStartMenu) provider.currentMenu = CurrentMenu.end;
@@ -149,34 +154,38 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
       onHorizontalDragEnd: (detail) {
         // Is End menu AND is closing
         if (dragFromLeft && provider.isEndMenu && provider.isOpen) {
-          if (globalPosition >= mq.size.width * 0.6)
+          if (globalPosition >= mq.size.width * 0.6) {
             provider.closeEnd();
-          else
+          } else {
             provider.openEnd();
+          }
         }
 
         // IS Start menu and is closing
         if (!dragFromLeft && provider.isStartMenu && provider.isOpen) {
-          if (globalPosition <= 130)
+          if (globalPosition <= 130) {
             provider.close();
-          else
+          } else {
             provider.open();
+          }
         }
 
         // Is start menu and is opening
         if (dragFromLeft && provider.isStartMenu && !provider.isOpen) {
-          if (globalPosition <= 50)
+          if (globalPosition <= 50) {
             provider.close();
-          else
+          } else {
             provider.open();
+          }
         }
 
         // Is end menu and is opening
         if (!dragFromLeft && provider.isEndMenu && !provider.isOpen) {
-          if (globalPosition >= mq.size.width * 0.6)
+          if (globalPosition >= mq.size.width * 0.6) {
             provider.closeEnd();
-          else
+          } else {
             provider.openEnd();
+          }
         }
         // print(globalPosition);
 
@@ -211,8 +220,7 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
       },
       child: LayoutBuilder(builder: (context, consts) {
         final width = consts.biggest.width;
-        Widget Function(Color color, Widget screen, EdgeInsets? p) buildMenu =
-            (color, screen, p) {
+        Widget buildMenu(Color color, Widget screen, EdgeInsets? p) {
           return Container(
             padding: (p ?? padding) + mq.viewPadding,
             color: color,
@@ -221,8 +229,9 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
               child: screen,
             ),
           );
-        };
-        Widget w;
+        }
+
+        late Widget w;
         if (width >= 950) {
           provider.expanded = true;
           contentPadding = width / 3;
@@ -258,11 +267,11 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
                   padding: EdgeInsets.symmetric(horizontal: contentPadding),
                   // width: contentSize,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
-                          offset: const Offset(0.0, 5.0),
+                          offset: Offset(0.0, 5.0),
                           blurRadius: 15.0,
                           spreadRadius: 10.0,
                         ),
@@ -307,23 +316,21 @@ class _ZoomScaffoldState extends State<ZoomScaffold>
                   left: 0,
                   right: 0,
                   child: SafeArea(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          color: gestureColor,
-                          height: appBar,
-                          width: gestureWidth,
-                          child: _buildGestures(true),
-                        ),
-                        Spacer(),
-                        Container(
-                          color: gestureColor,
-                          height: appBar,
-                          width: gestureWidth,
-                          child: _buildGestures(false),
-                        ),
-                      ],
-                    ),
+                    child: Row(children: <Widget>[
+                      Container(
+                        color: gestureColor,
+                        height: appBar,
+                        width: gestureWidth,
+                        child: _buildGestures(true),
+                      ),
+                      const Spacer(),
+                      Container(
+                        color: gestureColor,
+                        height: appBar,
+                        width: gestureWidth,
+                        child: _buildGestures(false),
+                      ),
+                    ]),
                   ),
                 ),
               if (provider.isOpen)
@@ -445,10 +452,13 @@ class MenuController {
   Future<void> toggleEnd() async => isOpen ? await closeEnd() : await openEnd();
 
   Future<void> closeOpened() async {
-    if (isOpen) if (isStartMenu)
-      await close();
-    else
-      await closeEnd();
+    if (isOpen) {
+      if (isStartMenu) {
+        await close();
+      } else {
+        await closeEnd();
+      }
+    }
   }
 }
 
