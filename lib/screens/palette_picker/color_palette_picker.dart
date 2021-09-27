@@ -117,7 +117,8 @@ class _PalettePickerState extends State<PalettePicker> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: _kBorderWidth),
-            borderRadius: const BorderRadius.all(Radius.circular(_kBorderRadius)),
+            borderRadius:
+                const BorderRadius.all(Radius.circular(_kBorderRadius)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
