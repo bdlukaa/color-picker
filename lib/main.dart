@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import './screens/root.dart';
 import 'lang/lang.dart';
@@ -26,6 +27,14 @@ void main() async {
 
   if (kIsWeb) setPathUrlStrategy();
   runApp(const MyApp());
+
+  doWhenWindowReady(() {
+    const initialSize = Size(600, 450);
+    appWindow.minSize = initialSize;
+    appWindow.size = initialSize;
+    appWindow.alignment = Alignment.center;
+    appWindow.show();
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -47,10 +56,28 @@ class MyApp extends StatelessWidget {
             themeMode: theme.mode,
             darkTheme: ThemeManager.darkTheme,
             theme: ThemeManager.lightTheme,
-            builder: (_, child) => ScrollConfiguration(
-              child: child!,
-              behavior: NoGlowBehavior(),
-            ),
+            builder: (_, child) {
+              child = ScrollConfiguration(
+                child: ClipRect(child: child!),
+                behavior: NoGlowBehavior(),
+              );
+              if (isDesktop) {
+                return Scaffold(
+                  body: Column(children: [
+                    WindowTitleBarBox(
+                      child: Row(children: [
+                        Expanded(child: MoveWindow()),
+                        const WindowButtons(),
+                      ]),
+                    ),
+                    Expanded(
+                      child: child,
+                    ),
+                  ]),
+                );
+              }
+              return child;
+            },
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

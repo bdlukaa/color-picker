@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -122,4 +126,70 @@ class _RootState extends State<Root> with TickerProviderStateMixin {
       ],
     );
   }
+}
+
+final bool isDesktop = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+
+class WindowButtons extends StatefulWidget {
+  const WindowButtons({Key? key}) : super(key: key);
+
+  @override
+  _WindowButtonsState createState() => _WindowButtonsState();
+}
+
+class _WindowButtonsState extends State<WindowButtons> {
+  void maximizeOrRestore() {
+    setState(() {
+      appWindow.maximizeOrRestore();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isLight = Theme.of(context).brightness == Brightness.light;
+    final buttonColors = WindowButtonColors(
+      mouseOver: isLight ? Colors.orangeAccent : Colors.grey.shade800,
+      mouseDown: isLight ? Colors.orangeAccent.shade400 : Colors.grey.shade800,
+      iconNormal: Colors.white,
+    );
+
+    final closeButtonColors = WindowButtonColors(
+      mouseOver: const Color(0xFFD32F2F),
+      mouseDown: const Color(0xFFB71C1C),
+      iconNormal: isLight ? Colors.white : Colors.grey,
+      iconMouseOver: Colors.white,
+    );
+
+    return Row(
+      children: [
+        MinimizeWindowButton(colors: buttonColors),
+        appWindow.isMaximized
+            ? RestoreWindowButton(
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              )
+            : MaximizeWindowButton(
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              ),
+        CloseWindowButton(colors: closeButtonColors),
+      ],
+    );
+  }
+}
+
+class RestoreWindowButton extends WindowButton {
+  RestoreWindowButton({
+    Key? key,
+    WindowButtonColors? colors,
+    VoidCallback? onPressed,
+    bool? animate,
+  }) : super(
+          key: key,
+          colors: colors,
+          animate: animate ?? false,
+          iconBuilder: (buttonContext) =>
+              RestoreIcon(color: buttonContext.iconColor),
+          onPressed: onPressed ?? () => appWindow.maximizeOrRestore(),
+        );
 }
