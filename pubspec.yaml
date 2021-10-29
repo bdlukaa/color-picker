@@ -15,17 +15,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   color: ^3.0.0
-  flutter_colorpicker: ^0.5.0
+  flutter_colorpicker: ^0.6.0
   fl_toast: ^3.1.0
-  font_awesome_flutter: ^9.1.0
-  image_picker: 0.8.3+2
+  font_awesome_flutter: ^9.2.0
+  image_picker: 0.8.4+4
   path: ^1.8.0
-  provider: ^5.0.0
-  shared_preferences: ^2.0.6
+  provider: ^6.0.1
+  shared_preferences: ^2.0.8
   hive: ^2.0.4
   hive_flutter: ^1.1.0
-  url_launcher: ^6.0.9
+  url_launcher: ^6.0.12
   url_strategy: ^0.2.0
+  bitsdojo_window: ^0.1.1+1
 
 dev_dependencies:
   flutter_test:
