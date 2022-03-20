@@ -162,7 +162,7 @@ class ControllableExpansionTileState extends State<ControllableExpansionTile>
     _borderColor.end = theme.dividerColor;
     _headerColor
       ..begin = theme.textTheme.subtitle1?.color
-      ..end = theme.accentColor;
+      ..end = theme.colorScheme.primary;
     _iconColor
       ..begin = theme.unselectedWidgetColor
       ..end = theme.unselectedWidgetColor;

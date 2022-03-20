@@ -22,7 +22,7 @@ class MinHeight extends StatelessWidget {
         final lang = Language.of(context);
         return Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Text(
             lang.minHeight(minScreenHeight.toInt()),
             textAlign: TextAlign.center,
