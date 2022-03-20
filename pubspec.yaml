@@ -31,7 +31,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.9.2
+  flutter_native_splash: ^2.1.1
+  flutter_launcher_icons_maker: ^0.10.1
   flutter_lints: ^1.0.4
 
 flutter:
@@ -39,8 +40,12 @@ flutter:
   # assets:
   #   - assets/
 
+# To generate the icons, run `flutter pub run flutter_launcher_icons_maker:main` under
+# the root directory
 flutter_icons:
   android: true
   ios: true
+  macos: true
+  windows: true
   web: true
   image_path: "assets/icon.png"
