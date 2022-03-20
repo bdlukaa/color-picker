@@ -40,6 +40,13 @@ flutter:
   # assets:
   #   - assets/
 
+# To generate the splash screen, run `flutter pub run flutter_native_splash:create` under
+# the root directory
+flutter_native_splash:
+  # FF9800
+  color: "#FF9800"
+  image: assets/icon.png
+
 # To generate the icons, run `flutter pub run flutter_launcher_icons_maker:main` under
 # the root directory
 flutter_icons:
