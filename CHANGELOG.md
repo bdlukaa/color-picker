@@ -1,5 +1,13 @@
 Date format: DD/MM/YYYY
 
+## [20/03/2022] - 3.0.0
+
+- Recreated all the native projects with the latest templates
+- Upgrade all dependencies
+- Replaced `bitsdojo_window` with `window_manager`
+- Generated new splash screen and new icons
+- Cleaned up code to match latest Flutter version (3.10.1)
+
 ## [16/08/2021] - 2.0.0
 
 - Migrate to null-safety

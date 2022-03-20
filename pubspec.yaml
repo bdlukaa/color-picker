@@ -56,3 +56,6 @@ flutter_icons:
   windows: true
   web: true
   image_path: "assets/icon.png"
+
+dependency_overrides:
+  platform: ^3.1.0
