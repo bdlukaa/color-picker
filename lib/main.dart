@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:window_manager/window_manager.dart';
 
 import './screens/root.dart';
 import 'lang/lang.dart';
@@ -17,6 +17,16 @@ part 'app_builder.dart';
 
 var _appBuilderKey = GlobalKey<AppBuilderState>();
 
+/// Checks if the current environment is a desktop environment.
+bool get isDesktop {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.windows,
+    TargetPlatform.linux,
+    TargetPlatform.macOS,
+  ].contains(defaultTargetPlatform);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,15 +36,22 @@ void main() async {
   await db.favorites();
 
   if (kIsWeb) setPathUrlStrategy();
-  runApp(const MyApp());
 
-  doWhenWindowReady(() {
-    const initialSize = Size(600, 450);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.show();
-  });
+  if (isDesktop) {
+    await WindowManager.instance.ensureInitialized();
+    windowManager.waitUntilReadyToShow().then((_) async {
+      await windowManager.setTitleBarStyle('hidden',
+          windowButtonVisibility: false);
+      await windowManager.setSize(const Size(755, 545));
+      await windowManager.setMinimumSize(const Size(755, 545));
+      await windowManager.center();
+      await windowManager.show();
+      await windowManager.setPreventClose(true);
+      await windowManager.setSkipTaskbar(false);
+    });
+  }
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -64,11 +81,11 @@ class MyApp extends StatelessWidget {
               if (isDesktop) {
                 return Scaffold(
                   body: Column(children: [
-                    WindowTitleBarBox(
-                      child: Row(children: [
-                        Expanded(child: MoveWindow()),
-                        const WindowButtons(),
-                      ]),
+                    DragToMoveArea(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [Spacer(), WindowButtons()],
+                      ),
                     ),
                     Expanded(
                       child: child,
@@ -103,4 +120,22 @@ class NoGlowBehavior extends ScrollBehavior {
     AxisDirection axisDirection,
   ) =>
       child;
+}
+
+class WindowButtons extends StatelessWidget {
+  const WindowButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return SizedBox(
+      width: 138,
+      height: 50,
+      child: WindowCaption(
+        brightness: theme.brightness,
+        backgroundColor: Colors.transparent,
+      ),
+    );
+  }
 }
