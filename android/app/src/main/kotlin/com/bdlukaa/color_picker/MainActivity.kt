@@ -1,4 +1,4 @@
-package com.bruno.color_picker
+package com.bdlukaa.color_picker
 
 import io.flutter.embedding.android.FlutterActivity
 
